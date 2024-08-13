@@ -1,3 +1,4 @@
+
 import { Metadata } from "next"
 import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
@@ -8,10 +9,13 @@ import Wrapper from "@modules/checkout/components/payment-wrapper"
 import CheckoutForm from "@modules/checkout/templates/checkout-form"
 import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
 import { getCart } from "@lib/data"
+import initTranslations from "@/app/i18n"
+import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
 
 export const metadata: Metadata = {
   title: "Checkout",
 }
+const i18nNamespaces = ["common"]
 
 const fetchCart = async () => {
   const cartId = cookies().get("_medusa_cart_id")?.value
@@ -30,7 +34,13 @@ const fetchCart = async () => {
   return cart
 }
 
-export default async function Checkout() {
+export default async function Checkout({
+  params: { countryCode },
+}: {
+  params: { countryCode: string }
+}) {
+  const { t, resources } = await initTranslations(countryCode, i18nNamespaces)
+
   const cart = await fetchCart()
 
   if (!cart) {
@@ -38,11 +48,17 @@ export default async function Checkout() {
   }
 
   return (
-    <div className="grid grid-cols-1 small:grid-cols-[1fr_416px] content-container gap-x-40 py-12">
-      <Wrapper cart={cart}>
-        <CheckoutForm />
-      </Wrapper>
-      <CheckoutSummary />
-    </div>
+    <TranslationsProvider
+      locale={countryCode}
+      namespaces={i18nNamespaces}
+      resources={resources}
+    >
+      <div className="grid grid-cols-1 small:grid-cols-[1fr_416px] content-container gap-x-40 py-12">
+        <Wrapper cart={cart}>
+          <CheckoutForm />
+        </Wrapper>
+        <CheckoutSummary />
+      </div>
+    </TranslationsProvider>
   )
 }

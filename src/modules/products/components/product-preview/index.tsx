@@ -8,6 +8,8 @@ import { Region } from "@medusajs/medusa"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "../thumbnail"
 import PreviewPrice from "./price"
+import ProductCard from "./ProductCard"
+import { transformMedusaProduct } from "@/utils/data-mappers"
 
 export default async function ProductPreview({
   productPreview,
@@ -18,38 +20,45 @@ export default async function ProductPreview({
   isFeatured?: boolean
   region: Region
 }) {
-  const pricedProduct = await retrievePricedProductById({
-    id: productPreview.id,
-    regionId: region.id,
-  }).then((product) => product)
+  // const pricedProduct = await retrievePricedProductById({
+  //   id: productPreview.id,
+  //   regionId: region.id,
+  // }).then((product) => product)
 
-  if (!pricedProduct) {
-    return null
-  }
+  // if (!pricedProduct) {
+  //   return null
+  // }
 
-  const { cheapestPrice } = getProductPrice({
-    product: pricedProduct,
-    region,
-  })
+  // const { cheapestPrice } = getProductPrice({
+  //   product: pricedProduct,
+  //   region,
+  // })
+
+  // const data = transformMedusaProduct(
+  //   pricedProduct,
+  //   region
+  // )
+  // console.log(data)
 
   return (
-    <LocalizedClientLink
-      href={`/products/${productPreview.handle}`}
-      className="group"
-    >
-      <div data-testid="product-wrapper">
-        <Thumbnail
-          thumbnail={productPreview.thumbnail}
-          size="full"
-          isFeatured={isFeatured}
-        />
-        <div className="flex txt-compact-medium mt-4 justify-between">
-          <Text className="text-ui-fg-subtle" data-testid="product-title">{productPreview.title}</Text>
-          <div className="flex items-center gap-x-2">
-            {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
-          </div>
-        </div>
-      </div>
-    </LocalizedClientLink>
+    // <LocalizedClientLink
+    //   href={`/products/${productPreview.handle}`}
+    //   className="group"
+    // >
+    //   <div data-testid="product-wrapper">
+    //     <Thumbnail
+    //       thumbnail={productPreview.thumbnail}
+    //       size="full"
+    //       isFeatured={isFeatured}
+    //     />
+    //     <div className="flex txt-compact-medium mt-4 justify-between">
+    //       <Text className="text-ui-fg-subtle" data-testid="product-title">{productPreview.title}</Text>
+    //       <div className="flex items-center gap-x-2">
+    //         {cheapestPrice && <PreviewPrice price={cheapestPrice} />}
+    //       </div>
+    //     </div>
+    //   </div>
+    // </LocalizedClientLink>
+    <ProductCard productPreview={productPreview} region={region} />
   )
 }

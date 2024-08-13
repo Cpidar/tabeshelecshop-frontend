@@ -8,6 +8,7 @@ import {
   getToken,
   updateCustomer,
   updateShippingAddress,
+  customerResetPassword
 } from "@lib/data"
 import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
@@ -54,6 +55,53 @@ export async function logCustomerIn(
     })
   } catch (error: any) {
     return error.toString()
+  }
+}
+
+export async function resetPassword(
+  currentState: {
+    email: string
+    token: string
+    success: boolean
+    error: string | null
+  },
+  formData: FormData) {
+  const email = currentState.email as string
+  const token = currentState.token
+
+  const new_password = formData.get("new_password") as string
+  const confirm_password = formData.get("confirm_password") as string
+
+
+  if (new_password !== confirm_password) {
+    return {
+      email,
+      token,
+      success: false,
+      error: "Passwords do not match",
+    }
+  }
+
+  try {
+    await customerResetPassword({ token: currentState.token, email: currentState.email, password: new_password })
+      .then(() => getToken({ email, password: new_password }))
+      .then(() => {
+        revalidateTag("customer")
+      })
+
+    return {
+      email,
+      token,
+      success: true,
+      error: null,
+    }
+  } catch (error: any) {
+    return {
+      email,
+      token,
+      success: false,
+      error: error.toString(),
+    }
   }
 }
 

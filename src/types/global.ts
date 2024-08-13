@@ -12,9 +12,12 @@ export type FeaturedProduct = {
 export type ProductPreviewType = {
   id: string
   title: string
+  subtitle: string | null;
+  description?: string
   handle: string | null
   thumbnail: string | null
   created_at?: Date
+  inStock: number
   price?: {
     calculated_price: string
     original_price: string
@@ -55,4 +58,5 @@ export type ProductCategoryWithChildren = Omit<
 > & {
   category_children: ProductCategory[]
   category_parent?: ProductCategory
+  icon: any
 }

@@ -1,8 +1,11 @@
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
 import { ProductPreviewType } from "types/global"
 
+const p2e = (s) => s.replace(/[۰-۹]/g, d => '۰۱۲۳۴۵۶۷۸۹'.indexOf(d))
+
 const stripCurrency = (price: string) => {
-  return parseFloat(price.replace(/[^0-9.]/g, ""))
+  const convertedToEngNo = p2e(price)
+  return parseFloat(convertedToEngNo.replace(/[^0-9.]/g, ""))
 }
 
 const sortProducts = (products: ProductPreviewType[], sortBy: SortOptions) => {

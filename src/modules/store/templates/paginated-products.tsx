@@ -2,6 +2,7 @@ import { getProductsListWithSort, getRegion } from "@lib/data"
 import ProductPreview from "@modules/products/components/product-preview"
 import { Pagination } from "@modules/store/components/pagination"
 import { SortOptions } from "@modules/store/components/refinement-list/sort-products"
+import { isArray } from "lodash"
 
 const PRODUCT_LIMIT = 12
 
@@ -23,7 +24,7 @@ export default async function PaginatedProducts({
   sortBy?: SortOptions
   page: number
   collectionId?: string
-  categoryId?: string
+  categoryId?: string[]
   productsIds?: string[]
   countryCode: string
 }) {
@@ -42,7 +43,7 @@ export default async function PaginatedProducts({
   }
 
   if (categoryId) {
-    queryParams["category_id"] = [categoryId]
+    queryParams["category_id"] = categoryId
   }
 
   if (productsIds) {
@@ -59,6 +60,7 @@ export default async function PaginatedProducts({
   })
 
   const totalPages = Math.ceil(count / PRODUCT_LIMIT)
+
 
   return (
     <>

@@ -13,6 +13,7 @@ const transformProductPreview = (
   const variants = product.variants as unknown as CalculatedVariant[]
 
   let cheapestVariant = undefined
+  let inStock = 0
 
   if (variants?.length > 0) {
     cheapestVariant = variants.reduce((acc, curr) => {
@@ -21,6 +22,8 @@ const transformProductPreview = (
       }
       return acc
     }, variants[0])
+
+    inStock = variants.reduce((acc, curr) => acc + curr.inventory_quantity, 0 )
   }
 
   return {
@@ -29,6 +32,7 @@ const transformProductPreview = (
     handle: product.handle!,
     thumbnail: product.thumbnail!,
     created_at: product.created_at,
+    inStock,
     price: cheapestVariant
       ? {
           calculated_price: formatAmount({

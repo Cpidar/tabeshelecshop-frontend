@@ -90,6 +90,7 @@ export async function middleware(request: NextRequest) {
   const checkoutStep = searchParams.get("step")
   const onboardingCookie = request.cookies.get("_medusa_onboarding")
   const cartIdCookie = request.cookies.get("_medusa_cart_id")
+  // I18nMiddleware (request)
 
   const regionMap = await getRegionMap()
 

@@ -9,6 +9,7 @@ import { placeOrder } from "@modules/checkout/actions"
 import React, { useState } from "react"
 import ErrorMessage from "../error-message"
 import Spinner from "@modules/common/icons/spinner"
+import { BehpardakhtPaymentButton } from "./behpardakht-button"
 
 type PaymentButtonProps = {
   cart: Omit<Cart, "refundable_amount" | "refunded_total">
@@ -49,6 +50,14 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({
     case "manual":
       return (
         <ManualTestPaymentButton notReady={notReady} data-testid={dataTestId} />
+      )
+    case "behpardakht":
+      return (
+        <BehpardakhtPaymentButton
+          cart={cart}
+          notReady={notReady}
+          data-testid={dataTestId}
+        />
       )
     case "paypal":
       return (

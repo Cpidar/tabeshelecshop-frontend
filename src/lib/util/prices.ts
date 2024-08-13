@@ -213,10 +213,10 @@ export const formatAmount = ({
   })
 
   return convertToLocale({
-    amount: taxAwareAmount,
-    currency_code: region.currency_code,
-    ...rest,
-  })
+      amount,
+      currency_code: region.currency_code,
+      ...rest,
+    })
 }
 
 const convertToDecimal = (amount: number, region: RegionInfo) => {
@@ -238,16 +238,15 @@ const convertToLocale = ({
   currency_code,
   minimumFractionDigits,
   maximumFractionDigits,
-  locale = "en-US",
+  locale = "fa-IR",
 }: ConvertToLocaleParams) => {
   return currency_code && !isEmpty(currency_code)
     ? new Intl.NumberFormat(locale, {
-        style: "currency",
-        currency: currency_code,
-        minimumFractionDigits,
-        maximumFractionDigits,
-      }).format(amount)
-    : amount.toString()
+      minimumFractionDigits,
+      maximumFractionDigits,
+      maximumSignificantDigits: 3
+    }).format(amount) + ' ' + (process.env.CURRENCY || "تومان")
+    : `${amount.toString()} ${process.env.CURRENCY}`
 }
 
 type ConvertToLocaleParams = {

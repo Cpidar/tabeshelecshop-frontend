@@ -295,6 +295,21 @@ export async function updateCustomer(data: StorePostCustomersCustomerReq) {
     .catch((err) => medusaError(err))
 }
 
+export async function customerResetPassword({ email, token, password }: {
+  email: string
+  token: string
+  password: string
+}) {
+  return medusaClient.customers
+    .resetPassword({
+      email,
+      password,
+      token,
+    })
+    .then(({ customer }) => customer)
+    .catch((err) => medusaError(err))
+}
+
 export async function addShippingAddress(
   data: StorePostCustomersCustomerAddressesReq
 ) {
@@ -662,6 +677,22 @@ export const listCategories = cache(async function () {
 
   return medusaClient.productCategories
     .list({ expand: "category_children" }, headers)
+    .then(({ product_categories }) => product_categories)
+    .catch((err) => {
+      throw err
+    })
+})
+
+export const listMainCategories = cache(async function (mainCategoryHandle: string) {
+  const headers = {
+    next: {
+      tags: ["collections"],
+    },
+  } as Record<string, any>
+
+  const mainCategoryId = getCategoryByHandle([mainCategoryHandle])[0]?.id
+  return medusaClient.productCategories
+    .list({ expand: "category_children", parent_category_id: mainCategoryId }, headers)
     .then(({ product_categories }) => product_categories)
     .catch((err) => {
       throw err
