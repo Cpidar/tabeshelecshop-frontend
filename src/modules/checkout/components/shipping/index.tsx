@@ -26,6 +26,9 @@ const Shipping: React.FC<ShippingProps> = ({
 }) => {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [optionId, setOptionId] = useState(
+    cart.shipping_methods[0]?.shipping_option_id
+  )
 
   const searchParams = useSearchParams()
   const router = useRouter()
@@ -39,6 +42,7 @@ const Shipping: React.FC<ShippingProps> = ({
 
   const handleSubmit = () => {
     setIsLoading(true)
+
     router.push(pathname + "?step=payment", { scroll: false })
   }
 
@@ -61,7 +65,8 @@ const Shipping: React.FC<ShippingProps> = ({
   useEffect(() => {
     setIsLoading(false)
     setError(null)
-  }, [isOpen])
+    set(optionId)
+  }, [isOpen, optionId])
 
   return (
     <div className="bg-white">
@@ -98,11 +103,11 @@ const Shipping: React.FC<ShippingProps> = ({
         <div data-testid="delivery-options-container">
           <div className="pb-8">
             <RadioGroup
-              value={cart.shipping_methods[0]?.shipping_option_id}
-              onChange={(value: string) => handleChange(value)}
+              value={optionId}
+              onChange={(value: string) => setOptionId(value)}
             >
               {availableShippingMethods ? (
-                availableShippingMethods.map((option) => {
+                availableShippingMethods.map((option, index) => {
                   return (
                     <RadioGroup.Option
                       key={option.id}
@@ -127,11 +132,17 @@ const Shipping: React.FC<ShippingProps> = ({
                         <span className="text-base-regular">{option.name}</span>
                       </div>
                       <span className="justify-self-end text-ui-fg-base">
-                        {formatAmount({
-                          amount: option.amount!,
-                          region: cart?.region,
-                          includeTaxes: false,
-                        })}
+                        {option.price_type === "calculated"
+                          ? formatAmount({
+                              amount: cart.shipping_methods[index].price!,
+                              region: cart?.region,
+                              includeTaxes: false,
+                            })
+                          : formatAmount({
+                              amount: option.amount!,
+                              region: cart?.region,
+                              includeTaxes: false,
+                            })}
                       </span>
                     </RadioGroup.Option>
                   )

@@ -1,0 +1,5 @@
+{
+    "platform": "next",
+    "app": "tabeshelecshop-storefront",
+    "port": 8000
+}

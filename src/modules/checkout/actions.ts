@@ -8,6 +8,7 @@ import {
   deleteDiscount,
   setPaymentSession,
   updateCart,
+  updatePaymentSession,
 } from "@lib/data"
 import { GiftCard, StorePostCartsCartReq } from "@medusajs/medusa"
 import { revalidateTag } from "next/cache"
@@ -177,6 +178,20 @@ export async function setPaymentMethod(providerId: string) {
 
   try {
     const cart = await setPaymentSession({ cartId, providerId })
+    revalidateTag("cart")
+    return cart
+  } catch (error: any) {
+    throw error
+  }
+}
+
+export async function updatePaymentSessionStatus(providerId: string, resCode: string) {
+  const cartId = cookies().get("_medusa_cart_id")?.value
+
+  if (!cartId) throw new Error("No cartId cookie found")
+
+  try {
+    const cart = await updatePaymentSession({ cartId, providerId, data: { data: { resCode } } })
     revalidateTag("cart")
     return cart
   } catch (error: any) {

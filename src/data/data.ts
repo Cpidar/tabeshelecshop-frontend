@@ -62,7 +62,7 @@ export const HERO1_DEMO_DATA: Hero2DataType = {
 //
 
 export interface ProductVariant {
-  id?: string | number;
+  id?: string;
   name?: string;
   thumbnail?: StaticImageData | string;
   color?: string;

@@ -4,7 +4,7 @@ import ns1 from '@/locales/en/common.json'
 declare module "i18next" {
   interface CustomTypeOptions {
     // defaultNS: typeof defaultNS;
-    defaultNS: "ns1";
-    resources: typeof ns1;
+    defaultNS: typeof defaultNS;
+    resources: typeof resources;
   }
 }

@@ -19,6 +19,7 @@ const i18nNamespaces = ["common"]
 
 const fetchCart = async () => {
   const cartId = cookies().get("_medusa_cart_id")?.value
+  console.log(cartId)
 
   if (!cartId) {
     return notFound()
