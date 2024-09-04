@@ -14,6 +14,8 @@ import OptionSelect from "@modules/products/components/option-select"
 
 import MobileActions from "../mobile-actions"
 import ProductPrice from "../product-price"
+import NcInputNumber from "./NcInputNumber"
+import BagIcon from "@/shared/Icons/BagIcon"
 
 type ProductActionsProps = {
   product: PricedProduct
@@ -35,6 +37,7 @@ export default function ProductActions({
 }: ProductActionsProps) {
   const [options, setOptions] = useState<Record<string, string>>({})
   const [isAdding, setIsAdding] = useState(false)
+  const [qualitySelected, setQualitySelected] = useState(1)
 
   const countryCode = useParams().countryCode as string
 
@@ -83,6 +86,8 @@ export default function ProductActions({
     return variants.find((v) => v.id === variantId)
   }, [options, variantRecord, variants])
 
+  const inStockQty = variant?.inventory_quantity
+
   // if product only has one variant, then select it
   useEffect(() => {
     if (variants.length === 1 && variants[0].id) {
@@ -128,7 +133,7 @@ export default function ProductActions({
 
     await addToCart({
       variantId: variant.id,
-      quantity: 1,
+      quantity: qualitySelected,
       countryCode,
     })
 
@@ -161,21 +166,33 @@ export default function ProductActions({
         </div>
 
         <ProductPrice product={product} variant={variant} region={region} />
-
-        <Button
-          onClick={handleAddToCart}
-          disabled={!inStock || !variant || !!disabled || isAdding}
-          variant="primary"
-          className="w-full h-10"
-          isLoading={isAdding}
-          data-testid="add-product-button"
-        >
-          {!variant
-            ? "Select variant"
-            : !inStock
-            ? "Out of stock"
-            : "Add to cart"}
-        </Button>
+        <div className="flex space-x-3.5">
+          <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
+            <NcInputNumber
+              max={inStockQty}
+              defaultValue={qualitySelected}
+              onChange={setQualitySelected}
+            />
+          </div>
+          <span className="w-1"></span>
+          <Button
+            onClick={handleAddToCart}
+            disabled={!inStock || !variant || !!disabled || isAdding}
+            variant="primary"
+            className="flex-1 flex-shrink-0 rounded-full"
+            isLoading={isAdding}
+            data-testid="add-product-button"
+          >
+            <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
+            <span className="ml-3">
+              {!variant
+                ? "Select variant"
+                : !inStock
+                ? "Out of stock"
+                : "Add to cart"}
+            </span>
+          </Button>
+        </div>
         <MobileActions
           product={product}
           variant={variant}

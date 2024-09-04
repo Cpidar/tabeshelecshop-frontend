@@ -1,12 +1,16 @@
 import { Image as MedusaImage } from "@medusajs/medusa"
 import { Container } from "@medusajs/ui"
-import Image from "next/image"
+import Image, { StaticImageData } from "next/image"
+import PlaceholderImage from "@/images/placeholders/product-placeholder.png"
 
 type ImageGalleryProps = {
-  images: MedusaImage[]
+  images: MedusaImage[] | StaticImageData[]
 }
 
 const ImageGallery = ({ images }: ImageGalleryProps) => {
+  if(images.length === 0) {
+    images.push(PlaceholderImage)
+  }
   return (
     <div className="flex items-start relative">
       <div className="flex flex-col flex-1 small:mx-16 gap-y-4">
@@ -18,7 +22,7 @@ const ImageGallery = ({ images }: ImageGalleryProps) => {
               id={image.id}
             >
               <Image
-                src={image.url}
+                src={image.url ? image.url : image}
                 priority={index <= 2 ? true : false}
                 className="absolute inset-0 rounded-rounded"
                 alt={`Product image ${index + 1}`}
