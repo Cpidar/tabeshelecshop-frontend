@@ -577,12 +577,13 @@ export const getProductsListWithSort = cache(
     })
 
     const sortedProducts = sortProducts(products, sortBy)
+    const inStockProduct = sortedProducts.filter(p => p.inStock > 0)
 
     const pageParam = (page - 1) * limit
 
     const nextPage = count > pageParam + limit ? pageParam + limit : null
 
-    const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
+    const paginatedProducts = inStockProduct.slice(pageParam, pageParam + limit)
 
     return {
       response: {
@@ -727,13 +728,13 @@ export const listCategories = cache(async function () {
 export const listMainCategories = cache(async function (mainCategoryHandle: string) {
   const headers = {
     next: {
-      tags: ["collections"],
+      tags: ["categories"],
     },
   } as Record<string, any>
 
-  const mainCategoryId = getCategoryByHandle([mainCategoryHandle])[0]?.id
+  const mainCategory = await getCategoryByHandle([mainCategoryHandle])
   return medusaClient.productCategories
-    .list({ expand: "category_children", parent_category_id: mainCategoryId }, headers)
+    .list({ expand: "category_children", parent_category_id: mainCategory['product_categories'][0].id }, headers)
     .then(({ product_categories }) => product_categories)
     .catch((err) => {
       throw err
@@ -786,8 +787,9 @@ export const getCategoryByHandle = cache(async function (
       .catch((err) => {
         return {} as ProductCategory
       })
-
-    product_categories.push(category)
+    if (category) {
+      product_categories.push(category)
+    }
   }
 
   return {

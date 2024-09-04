@@ -79,7 +79,7 @@ const ShippingAddress = ({
       ...formData,
       [e.target.name]: e.target.value,
     })
-    if(e.target.name === 'shipping_address.province') {
+    if (e.target.name === "shipping_address.province") {
       setProvinceId(e.target.value)
     }
   }
@@ -139,7 +139,7 @@ const ShippingAddress = ({
           required
           data-testid="shipping-postal-code-input"
         />
-                <CountrySelect
+        <CountrySelect
           placeholder={t("text-country")}
           name="shipping_address.country_code"
           autoComplete="country"
@@ -155,6 +155,7 @@ const ShippingAddress = ({
           autoComplete="address-level1"
           value={formData["shipping_address.province"]}
           onChange={handleChange}
+          required
           data-testid="shipping-province-input"
         />
         <CitySelect

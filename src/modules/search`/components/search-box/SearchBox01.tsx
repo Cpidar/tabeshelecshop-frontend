@@ -1,12 +1,11 @@
 "use client"
 import { XMark, MagnifyingGlass } from "@medusajs/icons"
-import { FormEvent, RefObject, useState } from "react"
+import { FormEvent, useState } from "react"
 import { useRouter } from "next/navigation"
 
 import SearchBoxWrapper, {
   ControlledSearchBoxProps,
 } from "../search-box-wrapper"
-import useOnClickOutside from "@/utils/use-click-outside"
 
 const ControlledSearchBox = ({
   inputRef,

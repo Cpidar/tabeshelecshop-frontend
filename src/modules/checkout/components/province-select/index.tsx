@@ -31,8 +31,6 @@ const ProvinceSelect = forwardRef<
       })
   }, [])
 
-  console.log(data)
-
   const provinceOptions = useMemo(() => {
     if (!data) {
       return []

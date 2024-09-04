@@ -1,5 +1,43 @@
 {
   "features": {
-    "search": true
+    "search": true,
+    "highlightBar": true
+  },
+  "homePageShopByCategory": [
+    {
+      "name": "سیم و کابل",
+      "href": "",
+      "description": "",
+      "icon": ""
+    },
+    {
+      "name": "روشنایی",
+      "href": "",
+      "description": "",
+      "icon": ""
+    },
+    {
+      "name": "کلیدهای حفاظتی",
+      "href": "",
+      "description": "",
+      "icon": ""
+    },
+        {
+      "name": "برق صنعتی",
+      "href": "",
+      "description": "",
+      "icon": ""
+    },
+    {
+      "name": "ابزارآلات",
+      "href": "",
+      "description": "",
+      "icon": ""
+    }
+  ],
+  "highlightBar": {
+    "text": "",
+    "linkText": "",
+    "href": ""
   }
 }

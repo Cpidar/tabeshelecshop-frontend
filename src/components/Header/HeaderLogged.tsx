@@ -4,6 +4,10 @@ import HighlightedBar from "./highlighted-bar";
 import Link from "next/link";
 export interface HeaderLoggedProps {}
 
+const contentText = "10% تخفیف ویژه کالاهای گروه لامپ، روشنایی وریسه تا آخر تابستان"
+const link = '#'
+const lintText = "همین الان سفارش دهید"
+
 const HeaderLogged: FC<HeaderLoggedProps> = () => {
   return (
     <div className="nc-HeaderLogged top-0 w-full z-40 ">
@@ -13,15 +17,13 @@ const HeaderLogged: FC<HeaderLoggedProps> = () => {
       >
         <div className="text-sm font-medium py-0.5 ltr:pr-6 rtl:pl-6">
           <span>
-            {
-              "35% Exclusive discount plus free next day delivery, excludes sale"
-            }
+            { contentText }
             <Link
-              href="#"
+              href={link}
               className="inline-flex text-xs uppercase font-bold ltr:pl-1.5 rtl:pr-1.5 items-center relative transition-all top-[1px] hover:opacity-80"
             >
               <span className="border-b border-[#460135] inline-block pb-0.5">
-                Learn More
+                { lintText }
               </span>
             </Link>
           </span>

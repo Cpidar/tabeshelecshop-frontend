@@ -1,22 +1,10 @@
 import DropdownCategories from "@/components/Header/DropdownCategories"
-// import { LineItem } from "@medusajs/medusa"
-
-// import { enrichLineItems, retrieveCart } from "@modules/cart/actions"
-
-// const fetchCart = async () => {
-//     const cart = await retrieveCart()
-
-//     if (cart?.items.length) {
-//         const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id)
-//         cart.items = enrichedItems as LineItem[]
-//     }
-
-//     return cart
-// }
+import { listMainCategories } from "@/lib/data"
 
 
 export default async function CategoriesButton() {
-    // const cart = await fetchCart()
+    const product_categories = await listMainCategories('main')
 
-    return (<DropdownCategories categories={[]} />)
+
+    return (<DropdownCategories items={product_categories} />)
 }

@@ -31,7 +31,7 @@ type SearchBoxProps = {
 
 const SearchBoxWrapper = ({
   children,
-  placeholder = "جستجو",
+  placeholder = "Search products...",
   ...rest
 }: SearchBoxProps) => {
   const { query, refine } = useSearchBox(rest)
@@ -72,11 +72,11 @@ const SearchBoxWrapper = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query])
 
-  // useEffect(() => {
-  //   if (inputRef.current) {
-  //     inputRef.current.focus()
-  //   }
-  // }, [])
+  useEffect(() => {
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
+  }, [])
 
   const state = {
     value,
