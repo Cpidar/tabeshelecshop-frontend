@@ -1,3 +1,4 @@
+import { stripHtmlTag } from "@/utils/StripHtmlTag"
 import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { Heading, Text } from "@medusajs/ui"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
@@ -7,6 +8,7 @@ type ProductInfoProps = {
 }
 
 const ProductInfo = ({ product }: ProductInfoProps) => {
+  const description = stripHtmlTag(product.description!)
   return (
     <div id="product-info">
       <div className="flex flex-col gap-y-4 lg:max-w-[500px]">
@@ -23,7 +25,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         </Heading>
 
         <Text className="text-medium text-ui-fg-subtle" data-testid="product-description">
-          {product.description}
+          {description}
         </Text>
       </div>
     </div>
