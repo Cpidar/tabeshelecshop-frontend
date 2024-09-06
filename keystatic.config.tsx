@@ -3,16 +3,8 @@ import {
   collection,
   singleton,
   fields,
-  component,
-  NotEditable,
 } from "@keystatic/core"
-import { block, inline, mark } from "@keystatic/core/content-components"
-import { highlighterIcon } from "@keystar/ui/icon/icons/highlighterIcon"
-import { NoteToolbar, Note } from "./note"
-import { listMainCategories } from "@/lib/data"
 import { ProductCategory } from "@medusajs/medusa"
-import { medusaClient } from "@/lib/config"
-import ncNanoId from "@/utils/ncNanoId"
 
 let categoryies: ProductCategory[] = []
 const getCategories = async (parentCategoryHandle: string) => {
@@ -70,7 +62,7 @@ export default config({
   singletons: {
     settings: singleton({
       label: "Settings",
-      path: "store-config/setting",
+      path: "content/store-config/setting",
       schema: {
         logo: fields.image({ label: "Logo" }),
         topBar: fields.conditional(
@@ -91,7 +83,7 @@ export default config({
     }),
     homepage: singleton({
       label: "HomePage",
-      path: "store-config/homepage",
+      path: "content/store-config/homepage",
       schema: {
         homePageHeroSlider: fields.array(
           fields.object({
@@ -136,7 +128,7 @@ export default config({
     }),
     menu: singleton({
       label: 'Menu',
-      path: 'store-config/menu',
+      path: 'content/store-config/menu',
       schema: {
         navigationMenu: fields.array(
           fields.object({
