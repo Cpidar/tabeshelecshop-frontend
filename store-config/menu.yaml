@@ -1,0 +1,18 @@
+navigationMenu:
+  - name: خانه
+    href: /
+    type: simple
+  - name: فروشگاه
+    href: /store
+    type: simple
+  - name: مجله
+    href: /blog
+    type: simple
+  - name: درباره تابش الکتریک
+    href: /about
+    type: simple
+  - name: تماس با ما
+    href: /contact-us
+    type: simple
+footerMenu01: []
+footerMenu02: []
