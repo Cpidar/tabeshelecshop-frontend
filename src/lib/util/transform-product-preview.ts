@@ -32,6 +32,7 @@ const transformProductPreview = (
     handle: product.handle!,
     thumbnail: product.thumbnail!,
     created_at: product.created_at,
+    updated_at: product.updated_at,
     inStock,
     price: cheapestVariant
       ? {
