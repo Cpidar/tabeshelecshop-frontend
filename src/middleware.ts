@@ -1,4 +1,5 @@
 import { Region } from "@medusajs/medusa"
+import { intersection } from "lodash"
 import { notFound } from "next/navigation"
 import { NextRequest, NextResponse } from "next/server"
 
@@ -90,6 +91,7 @@ export async function middleware(request: NextRequest) {
   const checkoutStep = searchParams.get("step")
   const onboardingCookie = request.cookies.get("_medusa_onboarding")
   const cartIdCookie = request.cookies.get("_medusa_cart_id")
+  const excludedUrl = ['keystatic', 'sitemap.xml', 'robots.txt']
   // I18nMiddleware (request)
 
   const regionMap = await getRegionMap()
@@ -98,6 +100,17 @@ export async function middleware(request: NextRequest) {
 
   const urlHasCountryCode =
     countryCode && request.nextUrl.pathname.split("/")[1].includes(countryCode)
+
+  // keystatic in url
+  const urlHasKeystatic = request.nextUrl.pathname.split("/")[1].includes('keystatic')
+
+  // exclude sitemap
+  const urlHasExcluded = excludedUrl.some(exurl => request.nextUrl.pathname.split("/")[1].includes(exurl))
+
+  // in case keystatic, no middleware is needed.
+  if (!urlHasCountryCode && urlHasExcluded) {
+    return NextResponse.next()
+  }
 
   // check if one of the country codes is in the url
   if (
