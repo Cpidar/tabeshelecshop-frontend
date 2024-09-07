@@ -1,9 +1,4 @@
-import {
-  config,
-  collection,
-  singleton,
-  fields,
-} from "@keystatic/core"
+import { config, collection, singleton, fields } from "@keystatic/core"
 import { ProductCategory } from "@medusajs/medusa"
 
 let categoryies: ProductCategory[] = []
@@ -36,9 +31,8 @@ export default config({
       name: "Dev: Next.js (app)",
     },
     navigation: {
-      'Contents': ["singlefileposts"],
-      'Store Config': [ "settings", "menu", "homepage" ]
-
+      Contents: ["singlefileposts"],
+      "Store Config": ["settings", "menu", "homepage"],
     },
   },
   storage: {
@@ -47,7 +41,7 @@ export default config({
   collections: {
     singlefileposts: collection({
       label: "Posts",
-      path: "content/posts/*/",
+      path: "public/content/posts/*/",
       slugField: "slug",
       format: { contentField: "content" },
       schema: {
@@ -62,7 +56,7 @@ export default config({
   singletons: {
     settings: singleton({
       label: "Settings",
-      path: "content/store-config/setting",
+      path: "public/content/store-config/setting",
       schema: {
         logo: fields.image({ label: "Logo" }),
         topBar: fields.conditional(
@@ -79,56 +73,73 @@ export default config({
             false: fields.empty(),
           }
         ),
-      }
+      },
     }),
     homepage: singleton({
       label: "HomePage",
-      path: "content/store-config/homepage",
+      path: "public/content/store-config/homepage",
       schema: {
         homePageHeroSlider: fields.array(
           fields.object({
-            Image: fields.image({ label: "Background Image" }),
+            image: fields.image({
+              label: "Backgroun Image",
+              directory: "public/assets/images",
+              publicPath: "/assets/images/",
+            }),
             title: fields.text({ label: "Title" }),
             subtitle: fields.text({ label: "Subtitle" }),
             buttonText: fields.text({ label: "Button Text" }),
             buttonLink: fields.url({ label: "Link" }),
           }),
           {
-            label: 'Home Page Hero Slider (Left Hero)',
-            itemLabel: (props) => props.fields.title.value
+            label: "Home Page Hero Slider (Left Hero)",
+            itemLabel: (props) => props.fields.title.value,
           }
         ),
-        homePageHeroRight: fields.object({
-          Image: fields.image({ label: "Background Image" }),
-          title: fields.text({ label: "Title" }),
-          subtitle: fields.text({ label: "Subtitle" }),
-          buttonText: fields.text({ label: "Button Text" }),
-          buttonLink: fields.url({ label: "Link" }),
-        },
-        {
-          label: 'Home Page Right Hero',
-          layout: [12, 6, 6, 6, 6]
-        }),
+        homePageHeroRight: fields.object(
+          {
+            image: fields.image({
+              label: "Backgroun Image",
+              directory: "public/assets/images",
+              publicPath: "/assets/images/",
+            }),
+            title: fields.text({ label: "Title" }),
+            subtitle: fields.text({ label: "Subtitle" }),
+            buttonText: fields.text({ label: "Button Text" }),
+            buttonLink: fields.url({ label: "Link" }),
+          },
+          {
+            label: "Home Page Right Hero",
+            layout: [12, 6, 6, 6, 6],
+          }
+        ),
         homePageCategories: fields.array(
-          fields.select({
-            label: "Role",
-            description: "The person's role at the company",
-            options: [
-              { label: "Test", value: "test" },
-              ...categoryies.map((c) => ({ label: c.name, value: c.handle })),
-            ],
-            defaultValue: categoryies[0]?.handle || "test",
+          fields.object({
+            name: fields.select({
+              label: "Role",
+              description: "The person's role at the company",
+              options: [
+                { label: "Test", value: "test" },
+                ...categoryies.map((c) => ({ label: c.name, value: c.handle })),
+              ],
+              defaultValue: categoryies[0]?.handle || "test",
+            }),
+            icon: fields.image({
+              label: "Icon",
+              directory: "public/assets/images",
+              publicPath: "/assets/images/",
+            }),
           }),
           {
-            label: 'Home Page Category Section',
-            itemLabel: (props) => props.value
+            label: "Home Page Category Section",
+            itemLabel: (props) => props.fields.name.value,
           }
         ),
       },
     }),
     menu: singleton({
-      label: 'Menu',
-      path: 'content/store-config/menu',
+      label: "Menu",
+      path: "public/content/store-config/menu",
       schema: {
         navigationMenu: fields.array(
           fields.object({
@@ -138,16 +149,16 @@ export default config({
               label: "Type",
               description: "The person's role at the company",
               options: [
-                { label: "Simple", value: "simple" },
+                { label: "None", value: "none" },
                 { label: "Mega Menu", value: "megaMenu" },
                 { label: "Dropdown", value: "dropdown" },
               ],
-              defaultValue: "simple",
+              defaultValue: "none",
             }),
           }),
           {
-            label: 'Navigation Menu Items',
-            itemLabel: (props) => props.fields.name.value
+            label: "Navigation Menu Items",
+            itemLabel: (props) => props.fields.name.value,
           }
         ),
         footerMenu01: fields.array(
@@ -156,8 +167,8 @@ export default config({
             href: fields.url({ label: "Link" }),
           }),
           {
-            label: 'Footer Menu No.1',
-            itemLabel: (props) => props.fields.name.value
+            label: "Footer Menu No.1",
+            itemLabel: (props) => props.fields.name.value,
           }
         ),
         footerMenu02: fields.array(
@@ -166,11 +177,11 @@ export default config({
             href: fields.url({ label: "Link" }),
           }),
           {
-            label: 'Footer Menu No.2',
-            itemLabel: (props) => props.fields.name.value
+            label: "Footer Menu No.2",
+            itemLabel: (props) => props.fields.name.value,
           }
-        )
-      }
-    })
+        ),
+      },
+    }),
   },
 })

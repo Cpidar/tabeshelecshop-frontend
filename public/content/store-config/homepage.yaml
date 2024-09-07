@@ -1,0 +1,18 @@
+homePageHeroSlider:
+  - image: /assets/images/homePageHeroSlider/0/image.png
+    title: فروش ویژه
+    subtitle: تخفیفات داغ تا آخر فصل تابستان
+    buttonText: همین الان خرید کنید
+    buttonLink: /stor
+  - image: /assets/images/homePageHeroSlider/1/image.png
+    title: تخفیف شگفت انگیز
+    subtitle: فروش ویژه کالاهای الکتریکی
+    buttonText: خرید کنید
+    buttonLink: /store
+homePageHeroRight:
+  image: /assets/images/homePageHeroRight/image.png
+  title: فرصتی استثنایی
+  subtitle: تا 20% تخفیف در فروش ویژه محصولات گروه روشنایی
+  buttonText: سفارش دهید
+  buttonLink: /store
+homePageCategories: []

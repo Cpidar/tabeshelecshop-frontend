@@ -3,7 +3,7 @@ import { Metadata } from "next"
 
 import { getCollectionsList, getProductsList, getRegion } from "@lib/data"
 import { ProductCollectionWithPreviews } from "types/global"
-import {cache} from 'react';
+import { cache } from "react"
 import React from "react"
 import SectionHowItWork from "@/modules/home/components/SectionHowItWork/SectionHowItWork"
 import BackgroundSection from "@/modules/home/components/BackgroundSection/BackgroundSection"
@@ -16,9 +16,15 @@ import Heading from "@/components/Heading/Heading"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
 import SectionMagazine5 from "@/modules/blog/SectionMagazine5"
 import ProductCard from "@modules/products/components/product-preview/ProductCard"
-import SectionHero4 from "@/modules/home/components/SectionHero/SectionHero4"
+import SectionHero4, {
+  SectionHeroProps,
+} from "@/modules/home/components/SectionHero/SectionHero4"
 import initTranslations from "@/app/i18n"
 import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
+import { createReader } from "@keystatic/core/reader"
+import keystaticConfig from "../../../../keystatic.config"
+
+const reader = createReader(process.cwd(), keystaticConfig)
 
 export const metadata: Metadata = {
   title: "Medusa Next.js Starter Template",
@@ -74,6 +80,9 @@ export default async function Home({
 }: {
   params: { countryCode: string }
 }) {
+  // from keystatic cms
+  const homepageContent = await reader.singletons.homepage.read()
+
   const collections = await getCollectionsWithProducts(countryCode)
   const region = await getRegion(countryCode)
   const { t, resources } = await initTranslations(countryCode, i18nNamespaces)
@@ -90,7 +99,14 @@ export default async function Home({
     >
       <div className="nc-PageHome2 relative overflow-hidden">
         {/* <div className="container px-4"> */}
-          <SectionHero4 />
+        <SectionHero4
+          sliderHero={
+            homepageContent?.homePageHeroSlider as unknown as SectionHeroProps[]
+          }
+          rightHero={
+            homepageContent?.homePageHeroRight as unknown as SectionHeroProps
+          }
+        />
         {/* </div> */}
 
         <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
@@ -123,9 +139,7 @@ export default async function Home({
             ))}
           </SectionSliderProductCard>
 
-          <SectionSliderProductCard
-            heading={collections[2].title}
-          >
+          <SectionSliderProductCard heading={collections[2].title}>
             {collections[2].products.map((item, index) => (
               <li key={index} className="glide__slide">
                 <ProductCard productPreview={item} region={region} />
@@ -133,9 +147,7 @@ export default async function Home({
             ))}
           </SectionSliderProductCard>
 
-          <SectionSliderProductCard
-            heading={collections[3].title}
-          >
+          <SectionSliderProductCard heading={collections[3].title}>
             {collections[3].products.map((item, index) => (
               <li key={index} className="glide__slide">
                 <ProductCard productPreview={item} region={region} />
@@ -149,9 +161,7 @@ export default async function Home({
 
           {/* <SectionGridFeatureItems /> */}
 
-          <SectionSliderProductCard
-            heading={collections[3].title}
-          >
+          <SectionSliderProductCard heading={collections[3].title}>
             {collections[3].products.map((item, index) => (
               <li key={index} className="glide__slide">
                 <ProductCard productPreview={item} region={region} />

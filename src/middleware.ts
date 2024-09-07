@@ -91,7 +91,7 @@ export async function middleware(request: NextRequest) {
   const checkoutStep = searchParams.get("step")
   const onboardingCookie = request.cookies.get("_medusa_onboarding")
   const cartIdCookie = request.cookies.get("_medusa_cart_id")
-  const excludedUrl = ['keystatic', 'sitemap.xml', 'robots.txt']
+  const excludedUrl = ['keystatic', 'sitemap.xml', 'robots.txt', 'assets']
   // I18nMiddleware (request)
 
   const regionMap = await getRegionMap()
