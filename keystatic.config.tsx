@@ -120,9 +120,8 @@ export default config({
               description: "The person's role at the company",
               options: [
                 { label: "Test", value: "test" },
-                ...categoryies.map((c) => ({ label: c.name, value: c.handle })),
               ],
-              defaultValue: categoryies[0]?.handle || "test",
+              defaultValue: "test",
             }),
             icon: fields.image({
               label: "Icon",

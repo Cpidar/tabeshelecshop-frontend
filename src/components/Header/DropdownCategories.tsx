@@ -72,7 +72,7 @@ export default function DropdownCategories({
       menuButton={
         <MenuButton className="bg-yellow-400 hover:bg-gray-700 font-bold uppercase px-4 xl:px-6 py-2 xl:py-3 rounded flex-shrink-0 flex items-center">
           <Bars3Icon className="h-8 p-1" />
-          <span className="ml-4">shop by category</span>
+          <span className="ml-4">دسته بندی محصولات</span>
         </MenuButton>
       }
     >
