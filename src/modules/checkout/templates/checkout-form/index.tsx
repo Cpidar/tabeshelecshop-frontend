@@ -5,6 +5,7 @@ import Review from "@modules/checkout/components/review"
 import {
   createPaymentSessions,
   getCustomer,
+  listCartShippingMethods,
   listShippingMethods,
 } from "@lib/data"
 import { cookies } from "next/headers"
@@ -52,10 +53,19 @@ export default async function CheckoutForm() {
 
   cart.checkout_step = cart && getCheckoutStep(cart)
 
+    // get available shipping methods
+    // const availableShippingMethods = await listCartShippingMethods(cart.id).then(
+    //   (methods) => methods?.filter((m) => !m.is_return)
+    // )
+    // console.log(availableShippingMethods)
+  console.log(cart.region_id)
+
   // get available shipping methods
   const availableShippingMethods = await listShippingMethods(
     cart.region_id
   ).then((methods) => methods?.filter((m) => !m.is_return))
+
+  console.log(availableShippingMethods)
 
   if (!availableShippingMethods) {
     return null

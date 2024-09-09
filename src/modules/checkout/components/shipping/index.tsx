@@ -134,7 +134,7 @@ const Shipping: React.FC<ShippingProps> = ({
                       <span className="justify-self-end text-ui-fg-base">
                         {option.price_type === "calculated"
                           ? formatAmount({
-                              amount: cart.shipping_methods[index].price!,
+                              amount: cart.shipping_methods[index]?.price! || option.amount!,
                               region: cart?.region,
                               includeTaxes: false,
                             })
