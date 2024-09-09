@@ -17,8 +17,6 @@ const getCategories = async (parentCategoryHandle: string) => {
     .then((res) => (categoryies = res.product_categories))
 }
 
-console.log(categoryies)
-
 getCategories("main")
 
 export default config({

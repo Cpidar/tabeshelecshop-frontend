@@ -57,15 +57,12 @@ export default async function CheckoutForm() {
     // const availableShippingMethods = await listCartShippingMethods(cart.id).then(
     //   (methods) => methods?.filter((m) => !m.is_return)
     // )
-    // console.log(availableShippingMethods)
-  console.log(cart.region_id)
 
   // get available shipping methods
   const availableShippingMethods = await listShippingMethods(
     cart.region_id
   ).then((methods) => methods?.filter((m) => !m.is_return))
 
-  console.log(availableShippingMethods)
 
   if (!availableShippingMethods) {
     return null

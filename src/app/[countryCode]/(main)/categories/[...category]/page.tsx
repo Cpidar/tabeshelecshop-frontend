@@ -39,7 +39,6 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  console.log(params.category)
   const decodedCatParams = params.category.map((c) => decodeURI(c))
 
   try {

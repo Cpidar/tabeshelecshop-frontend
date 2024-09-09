@@ -43,7 +43,6 @@ export default function CartDropdown({
         lineId: id,
         quantity,
       })
-      .then(console.log)
         .catch((err) => {
           console.log(err.message)
           return err.message

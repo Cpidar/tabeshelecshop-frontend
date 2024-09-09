@@ -17,7 +17,6 @@ const fetchCart = async () => {
 export async function POST(request: Request) {
   const res = await request.json()
   const cartId = cookies().get("_medusa_cart_id")?.value
-  console.log(cartId)
   // const { orderId } = res.body
   
   // const cart = await fetchCart()

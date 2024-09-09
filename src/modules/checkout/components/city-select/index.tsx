@@ -41,7 +41,6 @@ const CitySelect = forwardRef<
         })
     }
   }, [provinceId])
-  console.log(data)
   const citiesOptions = useMemo(() => {
     if (!data) {
       return []

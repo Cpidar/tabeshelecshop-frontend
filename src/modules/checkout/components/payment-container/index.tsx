@@ -2,6 +2,8 @@ import { RadioGroup } from "@headlessui/react"
 import { InformationCircleSolid } from "@medusajs/icons"
 import { PaymentSession } from "@medusajs/medusa"
 import { Text, Tooltip, clx } from "@medusajs/ui"
+import BehpardakhtIcon from '@/shared/Icons/BehpardakhtIcon'
+
 import React from "react"
 
 import Radio from "@modules/common/components/radio"
@@ -52,7 +54,8 @@ const PaymentContainer: React.FC<PaymentContainerProps> = ({
                   content="You can add a user-friendly name and icon for this payment provider in 'src/modules/checkout/components/payment/index.tsx'"
                   className="min-w-fit"
                 >
-                  <InformationCircleSolid color="var(--fg-muted)" />
+                  <BehpardakhtIcon />
+
                 </Tooltip>
               )}
 

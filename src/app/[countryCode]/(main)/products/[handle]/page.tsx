@@ -71,7 +71,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 const getPricedProductByHandle = async (slug: string, region: Region) => {
   const handle = decodeURI(slug)
-  console.log(handle)
   const { product } = await getProductByHandle(handle).then(
     (product) => product
   )

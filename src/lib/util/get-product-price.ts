@@ -16,7 +16,6 @@ export function getProductPrice({
   if (!product || !product.id) {
     throw new Error("No product provided")
   }
-console.log(product.variants.map(v => v.calculated_price))
   const getPercentageDiff = (original: number, calculated: number) => {
     const diff = original - calculated
     const decrease = (diff / original) * 100

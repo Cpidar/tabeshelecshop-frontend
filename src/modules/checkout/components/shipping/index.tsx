@@ -27,7 +27,7 @@ const Shipping: React.FC<ShippingProps> = ({
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [optionId, setOptionId] = useState(
-    cart.shipping_methods[0]?.shipping_option_id
+    availableShippingMethods ? availableShippingMethods[0]?.id : ''
   )
 
   const searchParams = useSearchParams()

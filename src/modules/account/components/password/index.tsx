@@ -57,7 +57,6 @@ const PageLogin = ({ setCurrentView, email, phone }: Props) => {
     "use client"
 
     if (!formData.get("email")) formData.append("email", email)
-    console.log(formData)
 
     logCustomerIn(_currentState, formData)
   }

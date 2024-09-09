@@ -13,7 +13,6 @@ export const FilteredItem = ({ itemKey, itemValue, itemName }: Props) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  console.log(itemKey, itemValue)
   function handleClose() {
     const params = new URLSearchParams(Array.from(searchParams.entries())); // -> has to use this form
     params.delete(itemKey, itemValue)

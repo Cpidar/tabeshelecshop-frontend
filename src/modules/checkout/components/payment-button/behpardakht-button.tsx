@@ -7,7 +7,7 @@ import { Button } from "@medusajs/ui"
 import { notFound } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
-
+import BehpardakhtIcon from '@/shared/Icons/BehpardakhtIcon'
 export const BehpardakhtPaymentButton = ({
   cart,
   notReady,
@@ -50,10 +50,11 @@ export const BehpardakhtPaymentButton = ({
   }
 
   const ipgUrl = process.env.BEHPARDAKHT_GATEWAY_URL
+  console.log(ipgUrl)
 
   return (
     <>
-      <form action={ipgUrl}>
+      <form action="https://bpm.shaparak.ir/pgwchannel/startpay.mellat">
         <input type="hidden" value={refId} id="RefId" name="RefId" />
 
         <Button
@@ -62,8 +63,10 @@ export const BehpardakhtPaymentButton = ({
           isLoading={submitting}
           size="large"
           data-testid="submit-order-button"
+          className="w-full flex items-center justify-center min-h-[50px] px-5 py-[10px] border transition-colors duration-200 disabled:opacity-50 text-white bg-[#e01132] hover:bg-white hover:text-[#a5a5a5] disabled:hover:bg-gray-900 disabled:hover:text-white"
         >
-          {t("text-place-order")}
+          <BehpardakhtIcon />
+          پرداخت از طریق درگاه به پرداخت بانک ملت
         </Button>
         {/* <ErrorMessage error={errorMessage} data-testid="manual-payment-error-message" /> */}
       </form>
