@@ -1,10 +1,7 @@
 "use client"
 
-import { updatePaymentSession } from "@/lib/data"
-import { CartWithCheckoutStep } from "@/types/global"
 import { Cart, PaymentSession } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
-import { notFound } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import BehpardakhtIcon from "@/shared/Icons/BehpardakhtIcon"
@@ -40,11 +37,6 @@ export const BehpardakhtPaymentButton = ({
           console.log(res)
           setData(res)
           setLoading(false)
-          return updatePaymentSession({
-            cartId: cart.id,
-            providerId: "behpardakht",
-            data: { data: { refrenceId: res.refId, orderId } },
-          })
         })
     }
   }, [])

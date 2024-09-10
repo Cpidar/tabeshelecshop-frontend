@@ -1,6 +1,8 @@
 import MellatCheckout from 'mellat-checkout'
 import type { NextApiRequest, NextApiResponse } from 'next';
-
+import { medusaClient } from '@/lib/config';
+import medusaError from '@/lib/util/medusa-error';
+import cookie from "cookie";
 export const behpardakht = new MellatCheckout({
     terminalId: process.env.BEHPARDAKHT_TERMINALID || "7517617",
     username: process.env.BEHPARDAKHT_USERNAME || "7517617",
@@ -22,6 +24,24 @@ behpardakht
     })
 
 
+const getMedusaHeaders = (req: NextApiRequest, tags: string[] = []) => {
+    const headers = {
+        next: {
+            tags,
+        },
+    } as Record<string, any>
+
+    const token = req.cookies["_medusa_jwt"]
+
+    if (token) {
+        headers.authorization = `Bearer ${token}`
+    } else {
+        headers.authorization = ""
+    }
+
+    return headers
+}
+
 const bpRequest = async (req: NextApiRequest, res: NextApiResponse) => {
     const { amount, payerId, orderId } = JSON.parse(req.body)
     try {
@@ -32,9 +52,24 @@ const bpRequest = async (req: NextApiRequest, res: NextApiResponse) => {
             payerId: payerId || "0", // Optional
         })
 
+        console.log(response)
         if (response.resCode === 0) {
-            console.log(amount, payerId)
-            res.json(response)
+            const headers = getMedusaHeaders(req, ['carts'])
+
+            const cartId = req.cookies["_medusa_cart_id"]
+
+            if (!cartId) {
+                return null
+            }
+
+            // save saleReferenceId into payment session
+            await medusaClient.carts
+                .updatePaymentSession(cartId, 'behpardakht', { data: { referenceId: response.refId, orderId } })
+                // .then(({ cart }) => cart)
+                .catch((err) => medusaError(err))
+
+            
+            res.status(200).json(response)
         } else {
             console.warn("Gateway Error: ", response.resCode)
             res.status(400).json({ error: '', resCode: response.resCode })
