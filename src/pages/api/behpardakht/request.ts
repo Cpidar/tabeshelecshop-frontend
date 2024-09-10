@@ -28,7 +28,7 @@ const bpRequest = async (req: NextApiRequest, res: NextApiResponse) => {
         const response = await behpardakht.paymentRequest({
             amount,
             orderId: Date.now(),
-            callbackUrl: process.env.BEHPARDAKHT_TIMEOUT || `${process.env.NEXT_PUBLIC_BASE_URL}/api/behpardakht/verify`,
+            callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/api/behpardakht/verify`,
             payerId: payerId || "0", // Optional
         })
 

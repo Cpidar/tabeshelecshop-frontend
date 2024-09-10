@@ -185,13 +185,13 @@ export async function setPaymentMethod(providerId: string) {
   }
 }
 
-export async function updatePaymentSessionStatus(providerId: string, resCode: string) {
+export async function updatePaymentSessionStatus(providerId: string, data: any ) {
   const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) throw new Error("No cartId cookie found")
 
   try {
-    const cart = await updatePaymentSession({ cartId, providerId, data: { data: { resCode } } })
+    const cart = await updatePaymentSession({ cartId, providerId, data: { data } })
     revalidateTag("cart")
     return cart
   } catch (error: any) {

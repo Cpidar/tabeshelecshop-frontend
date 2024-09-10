@@ -7,7 +7,7 @@ import { Button } from "@medusajs/ui"
 import { notFound } from "next/navigation"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
-import BehpardakhtIcon from '@/shared/Icons/BehpardakhtIcon'
+import BehpardakhtIcon from "@/shared/Icons/BehpardakhtIcon"
 export const BehpardakhtPaymentButton = ({
   cart,
   notReady,
@@ -21,6 +21,7 @@ export const BehpardakhtPaymentButton = ({
   const [data, setData] = useState({} as any)
   const [isLoading, setLoading] = useState(false)
   const initialized = useRef(false)
+  const orderId = Date.now()
 
   useEffect(() => {
     if (!initialized.current) {
@@ -34,10 +35,14 @@ export const BehpardakhtPaymentButton = ({
         }),
       })
         .then((res) => res.json())
-        .then(console.log)
-        .then((data) => {
-          setData(data)
+        .then((res) => {
+          setData(res)
           setLoading(false)
+          return updatePaymentSession({
+            cartId: cart.id,
+            providerId: "behpardakht",
+            data: { data: { refrenceId: res.refId, orderId } },
+          })
         })
     }
   }, [])
