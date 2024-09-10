@@ -54,7 +54,6 @@ const bpRequest = async (req: NextApiRequest, res: NextApiResponse) => {
 
         console.log(response)
         if (response.resCode === 0) {
-            const headers = getMedusaHeaders(req, ['carts'])
 
             const cartId = req.cookies["_medusa_cart_id"]
 
