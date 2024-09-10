@@ -48,8 +48,8 @@ const retryVerify = async (res: NextApiResponse, {
 }
 
 const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { orderId, saleOrderId, saleReferenceId } = JSON.parse(req.body)
-    console.log(JSON.parse(req.body))
+    const { orderId, saleOrderId, saleReferenceId } = req.body
+    console.log(req.body)
 
     // const headers = getMedusaHeaders(req, ['carts'])
 
