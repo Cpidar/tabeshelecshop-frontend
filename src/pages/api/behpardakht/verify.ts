@@ -92,7 +92,7 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
                 saleReferenceId,
             })
             // updatePaymentSession({ cartId, providerId: 'behpardakht', data: { data: { resCode: settleRes.resCode } } })
-            if (settleRes.resCode === 0) {
+            if (settleRes.resCode === 0 || response.resCode === 45) {
                 const headers = getMedusaHeaders(req, ['carts'])
 
                 const cartId = req.cookies["_medusa_cart_id"]
@@ -116,7 +116,7 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
                     const countryCode = cart.data.shipping_address?.country_code?.toLowerCase()
 
                     res.setHeader('Set-Cookie', cookie.serialize("_medusa_cart_id", "", { maxAge: -1 }))
-                    res.redirect(307, `/${countryCode}/order/confirmed/${cart?.data.id}?saleReferenceId=${saleReferenceId}`)
+                    res.redirect(307, `${process.env.NEXT_PUBLIC_BASE_URL}/${countryCode}/order/confirmed/${cart?.data.id}?saleReferenceId=${saleReferenceId}`)
                 }
             } else {
                 console.log(settleRes)
@@ -124,11 +124,12 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
             }
 
         } else {
-            return retryVerify(res, {
-                orderId,
-                saleOrderId,
-                saleReferenceId
-            })
+            // return retryVerify(res, {
+            //     orderId,
+            //     saleOrderId,
+            //     saleReferenceId
+            // })
+            res.status(400).json({ error: '', resCode: response.resCode })
         }
 
     } catch (e) {
