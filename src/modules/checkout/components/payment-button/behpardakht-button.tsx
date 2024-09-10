@@ -30,12 +30,14 @@ export const BehpardakhtPaymentButton = ({
       fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/behpardakht/request`, {
         method: "POST",
         body: JSON.stringify({
+          orderId,
           amount: cart.total,
           payerId: cart.shipping_address?.phone || cart.email,
         }),
       })
         .then((res) => res.json())
         .then((res) => {
+          console.log(res)
           setData(res)
           setLoading(false)
           return updatePaymentSession({

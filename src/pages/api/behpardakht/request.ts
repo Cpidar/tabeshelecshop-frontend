@@ -23,11 +23,11 @@ behpardakht
 
 
 const bpRequest = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { amount, payerId } = JSON.parse(req.body)
+    const { amount, payerId, orderId } = JSON.parse(req.body)
     try {
         const response = await behpardakht.paymentRequest({
             amount,
-            orderId: Date.now(),
+            orderId,
             callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/api/behpardakht/verify`,
             payerId: payerId || "0", // Optional
         })
