@@ -34,6 +34,7 @@ export const BehpardakhtPaymentButton = ({
         }),
       })
         .then((res) => res.json())
+        .then(console.log)
         .then((data) => {
           setData(data)
           setLoading(false)
@@ -48,9 +49,6 @@ export const BehpardakhtPaymentButton = ({
   const handlePayment = () => {
     submitting = true
   }
-
-  const ipgUrl = process.env.BEHPARDAKHT_GATEWAY_URL
-  console.log(ipgUrl)
 
   return (
     <>

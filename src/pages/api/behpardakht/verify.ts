@@ -49,6 +49,7 @@ const retryVerify = async (res: NextApiResponse, {
 
 const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
     const { orderId, saleOrderId, saleReferenceId } = JSON.parse(req.body)
+    console.log(JSON.parse(req.body))
 
     // const headers = getMedusaHeaders(req, ['carts'])
 
@@ -80,6 +81,8 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
             saleOrderId,
             saleReferenceId
         })
+
+        console.log(response)
 
         if (response.resCode === 0) {
             const settleRes = await behpardakht.settlePayment({
@@ -115,6 +118,7 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
                     res.redirect(307, `/${countryCode}/order/confirmed/${cart?.data.id}?saleReferenceId=${saleReferenceId}`)
                 }
             } else {
+                console.log(settleRes)
                 res.status(400).json({ error: '', resCode: settleRes.resCode })
             }
 
