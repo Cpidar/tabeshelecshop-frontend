@@ -85,7 +85,7 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
 
         console.log(response)
 
-        if (response.resCode === 0) {
+        if (response.resCode === 0 || response.resCode === 43) {
             const settleRes = await behpardakht.settlePayment({
                 orderId,
                 saleOrderId,
