@@ -125,20 +125,20 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
             res.status(400).json({ error: '', resCode: response.resCode })
         }
 
-    } else {
-        // return retryVerify(res, {
-        //     orderId,
-        //     saleOrderId,
-        //     saleReferenceId
-        // })
-        res.status(400).json({ error: '', resCode: response.resCode })
-    }
+        // } else {
+        //     // return retryVerify(res, {
+        //     //     orderId,
+        //     //     saleOrderId,
+        //     //     saleReferenceId
+        //     // })
+        //     res.status(400).json({ error: '', resCode: response.resCode })
+        // }
 
-} catch (e) {
-    console.log('Error, something went wrong.', e);
-    res.setHeader('Cache-Control', 'no-store');
-    res.status(400).json({ error: 'Unexpected error', code: 400 });
-}
+    } catch (e) {
+        console.log('Error, something went wrong.', e);
+        res.setHeader('Cache-Control', 'no-store');
+        res.status(400).json({ error: 'Unexpected error', code: 400 });
+    }
 };
 
 
