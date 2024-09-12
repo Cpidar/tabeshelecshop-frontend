@@ -2,7 +2,6 @@ import { completeCart, updatePaymentSession } from '@/lib/data';
 import { behpardakht } from './request'
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { updatePaymentSessionStatus } from '@/modules/checkout/actions';
-import { redirect } from 'next/navigation';
 import { medusaClient } from '@/lib/config';
 import medusaError from '@/lib/util/medusa-error';
 import cookie from "cookie";
@@ -94,32 +93,32 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
             // })
             // updatePaymentSession({ cartId, providerId: 'behpardakht', data: { data: { resCode: settleRes.resCode } } })
             // if (settleRes.resCode === 0 || response.resCode === 45) {
-            const headers = getMedusaHeaders(req, ['carts'])
+            // const headers = getMedusaHeaders(req, ['carts'])
 
-            const cartId = req.cookies["_medusa_cart_id"]
-            console.log(cartId)
+            // const cartId = req.cookies["_medusa_cart_id"]
+            // console.log(cartId)
 
-            if (!cartId) {
-                return null
-            }
+            // if (!cartId) {
+            //     return null
+            // }
 
-            // save saleReferenceId into payment session
-            await medusaClient.carts
-                .updatePaymentSession(cartId, 'behpardakht', { data: { saleReferenceId } })
-                // .then(({ cart }) => cart)
-                .catch((err) => medusaError(err))
+            // // save saleReferenceId into payment session
+            // await medusaClient.carts
+            //     .updatePaymentSession(cartId, 'behpardakht', { data: { saleReferenceId } })
+            //     // .then(({ cart }) => cart)
+            //     .catch((err) => medusaError(err))
 
-            const cart = await medusaClient.carts
-                .complete(cartId, headers)
-                .then((res) => res)
-                .catch((err) => medusaError(err))
+            // const cart = await medusaClient.carts
+            //     .complete(cartId, headers)
+            //     .then((res) => res)
+            //     .catch((err) => medusaError(err))
 
-            if (cart?.type === "order") {
-                const countryCode = cart.data.shipping_address?.country_code?.toLowerCase()
+            // if (cart?.type === "order") {
+            // const countryCode = cart.data.shipping_address?.country_code?.toLowerCase()
 
-                res.setHeader('Set-Cookie', cookie.serialize("_medusa_cart_id", "", { maxAge: -1 }))
-                res.redirect(307, `https://tabeshelecshop-frontend.liara.run/ir/order/confirmed/${cart?.data.id}?saleReferenceId=${saleReferenceId}`)
-            }
+            // res.setHeader('Set-Cookie', cookie.serialize("_medusa_cart_id", "", { maxAge: -1 }))
+            res.redirect(307, `https://tabeshelecshop-frontend.liara.run/callback/saleReferenceId=${saleReferenceId}`)
+            // }
         } else {
             console.log(response)
             res.status(400).json({ error: '', resCode: response.resCode })
