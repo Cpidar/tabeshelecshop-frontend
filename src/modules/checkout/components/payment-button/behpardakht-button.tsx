@@ -5,6 +5,7 @@ import { Button } from "@medusajs/ui"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import BehpardakhtIcon from "@/shared/Icons/BehpardakhtIcon"
+import ErrorMessage from "../error-message"
 export const BehpardakhtPaymentButton = ({
   cart,
   notReady,
@@ -21,6 +22,7 @@ export const BehpardakhtPaymentButton = ({
   const orderId = Date.now()
 
   useEffect(() => {
+    setLoading(true)
     if (!initialized.current) {
       initialized.current = true
       setLoading(true)
@@ -34,14 +36,21 @@ export const BehpardakhtPaymentButton = ({
       })
         .then((res) => res.json())
         .then((res) => {
-          console.log(res)
-          setData(res)
-          setLoading(false)
+          if (res.resCode === 0) {
+            console.log(res)
+            setData(res)
+            setLoading(false)
+          } else {
+            setData({
+              errorMessage:
+                "مشکلی در اتصال به درگاه پرداخت بوجود آمده است لطفا مجددا تلاش نمایید",
+            })
+          }
         })
     }
   }, [])
 
-  const { refId, resCode } = data
+  const { refId, resCode, errorMessage } = data
   const session = cart.payment_session as PaymentSession
   let submitting = false
 
@@ -53,19 +62,24 @@ export const BehpardakhtPaymentButton = ({
     <>
       <form action="https://bpm.shaparak.ir/pgwchannel/startpay.mellat">
         <input type="hidden" value={refId} id="RefId" name="RefId" />
-
-        <Button
-          onClick={handlePayment}
-          disabled={notReady}
-          isLoading={submitting}
-          size="large"
-          data-testid="submit-order-button"
-          className="w-full flex items-center justify-center min-h-[50px] px-5 py-[10px] border transition-colors duration-200 disabled:opacity-50 text-white bg-[#e01132] hover:bg-white hover:text-[#a5a5a5] disabled:hover:bg-gray-900 disabled:hover:text-white"
-        >
-          <BehpardakhtIcon />
-          پرداخت از طریق درگاه به پرداخت بانک ملت
-        </Button>
-        {/* <ErrorMessage error={errorMessage} data-testid="manual-payment-error-message" /> */}
+        {!errorMessage ? (
+          <Button
+            variant="danger"
+            onClick={handlePayment}
+            disabled={notReady}
+            isLoading={isLoading}
+            size="xlarge"
+            data-testid="submit-order-button"
+          >
+            <BehpardakhtIcon />
+            پرداخت
+          </Button>
+        ) : (
+          <ErrorMessage
+            error={errorMessage}
+            data-testid="manual-payment-error-message"
+          />
+        )}
       </form>
     </>
   )

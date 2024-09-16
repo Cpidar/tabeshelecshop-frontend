@@ -1,5 +1,5 @@
 import { completeCart, updatePaymentSession } from '@/lib/data';
-import { behpardakht } from './request'
+import { behpardakht, errors } from './request'
 import type { NextApiRequest, NextApiResponse } from 'next';
 import { updatePaymentSessionStatus } from '@/modules/checkout/actions';
 import { medusaClient } from '@/lib/config';
@@ -117,11 +117,12 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
             // const countryCode = cart.data.shipping_address?.country_code?.toLowerCase()
 
             // res.setHeader('Set-Cookie', cookie.serialize("_medusa_cart_id", "", { maxAge: -1 }))
-            res.redirect(307, `https://tabeshelecshop-frontend.liara.run/callback/saleReferenceId=${saleReferenceId}`)
+            // res.redirect(307, `https://tabeshelecshop-frontend.liara.run/callback/saleReferenceId=${saleReferenceId}`)
+            res.status(200).json(response)
             // }
         } else {
-            console.log(response)
-            res.status(400).json({ error: '', resCode: response.resCode })
+            console.warn("Gateway Error: ", response.resCode)
+            res.status(400).json({ errorMessage: errors[response.resCode], resCode: response.resCode })
         }
 
         // } else {
