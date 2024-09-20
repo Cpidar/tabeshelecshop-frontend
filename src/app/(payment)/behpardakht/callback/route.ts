@@ -3,9 +3,9 @@ import { cookies } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 
 export async function POST(request: Request) {
+  console.log(request.body)
   const res = await request.json()
-  console.log(res)
-  const { SaleOrderId, SaleReferenceId, RefId } = JSON.parse(res)
+  const { SaleOrderId, SaleReferenceId, RefId } = res
 
   if (!SaleReferenceId) {
     return notFound()
