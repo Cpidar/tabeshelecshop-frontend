@@ -28,7 +28,7 @@ export default async function sitemap() {
         //     priority: 0.8,
         // },
         ...products.map(p => ({
-            url: `${baseUrl}/ir/product/${p.handle}`,
+            url: `${baseUrl}/ir/products/${p.handle}`,
             lastModified: p.updated_at,
             changeFrequency: 'weekly',
             priority: 0.5
