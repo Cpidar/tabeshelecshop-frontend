@@ -4,7 +4,7 @@ import { notFound } from "next/navigation"
 
 const handleOrder = async ({ params }: Props) => {
   let errorMessage = ""
-  const verifyRes = await fetch("/api/verify", {
+  const verifyRes = await fetch("/api/behpardakht/verify", {
     method: "POST",
     body: JSON.stringify(params),
   }).then((res) => res.json())
