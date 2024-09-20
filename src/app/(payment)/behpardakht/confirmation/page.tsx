@@ -2,12 +2,12 @@ import PaymentConfirmation from "@/modules/checkout/templates/payment-confirmati
 import { placeOrder } from "@modules/checkout/actions"
 import { notFound } from "next/navigation"
 
-const handleOrder = async ({ params }: Props) => {
+const handleOrder = async ({ searchParams }: Props) => {
   let errorMessage = ""
 
-  const verifyRes = await fetch("/api/behpardakht/verify", {
+  const verifyRes = await fetch(`http://localhost:8000/api/behpardakht/verify`, {
     method: "POST",
-    body: JSON.stringify(params),
+    body: JSON.stringify(searchParams),
   }).then((res) => res.json())
 
   if (verifyRes.resCode !== (0 || 43)) return verifyRes
@@ -19,19 +19,19 @@ const handleOrder = async ({ params }: Props) => {
 }
 
 type Props = {
-  params: {
+  searchParams: {
     orderId: string
     saleOrderId: string
     saleReferenceId: string
   }
 }
 
-export default async function OrderConfirmedPage({ params }: Props) {
-  const { errorMessage } = await handleOrder({ params })
+export default async function OrderConfirmedPage({ searchParams }: Props) {
+  const { errorMessage } = await handleOrder({ searchParams })
 
   return (
     <PaymentConfirmation
-      transactionId={params.saleReferenceId}
+      transactionId={searchParams.saleReferenceId}
       errorMessage={errorMessage}
     />
   )
