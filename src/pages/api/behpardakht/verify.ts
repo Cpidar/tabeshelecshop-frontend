@@ -47,7 +47,7 @@ const retryVerify = async (res: NextApiResponse, {
 }
 
 const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { SaleOrderId: orderId, SaleOrderId: saleOrderId, SaleReferenceId: saleReferenceId, RefId } = req.body
+    const { SaleOrderId: orderId, SaleOrderId: saleOrderId, SaleReferenceId: saleReferenceId, RefId } = JSON.parse(req.body)
     console.log(req.body)
     console.log(orderId, saleOrderId, saleReferenceId)
 

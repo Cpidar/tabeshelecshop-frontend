@@ -43,7 +43,8 @@ const getMedusaHeaders = (req: NextApiRequest, tags: string[] = []) => {
 }
 
 const bpRequest = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { amount, payerId, orderId } = req.body
+    console.log(JSON.parse(req.body))
+    const { amount, payerId, orderId } = JSON.parse(req.body)
     try {
         const response = await behpardakht.paymentRequest({
             amount,
