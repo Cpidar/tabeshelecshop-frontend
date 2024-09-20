@@ -5,6 +5,7 @@ const store = require("./store.config.json")
  * @type {import('next').NextConfig}
  */
 const nextConfig = withStoreConfig({
+  staticPageGenerationTimeout: 1000,
   eslint: {
     ignoreDuringBuilds: true,
   },
