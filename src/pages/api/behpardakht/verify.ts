@@ -5,6 +5,7 @@ import { updatePaymentSessionStatus } from '@/modules/checkout/actions';
 import { medusaClient } from '@/lib/config';
 import medusaError from '@/lib/util/medusa-error';
 import cookie from "cookie";
+import { isObject } from 'lodash'
 
 
 const getMedusaHeaders = (req: NextApiRequest, tags: string[] = []) => {
@@ -47,9 +48,8 @@ const retryVerify = async (res: NextApiResponse, {
 }
 
 const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
-    const { SaleOrderId: orderId, SaleOrderId: saleOrderId, SaleReferenceId: saleReferenceId, RefId } = JSON.parse(req.body)
     console.log(req.body)
-    console.log(orderId, saleOrderId, saleReferenceId)
+    const { SaleOrderId, SaleReferenceId, RefId } = JSON.parse(req.body)
 
     // const headers = getMedusaHeaders(req, ['carts'])
 
@@ -77,9 +77,9 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
 
     try {
         const response = await behpardakht.verifyPayment({
-            orderId,
-            saleOrderId,
-            saleReferenceId
+            orderId: SaleOrderId,
+            saleOrderId: SaleOrderId,
+            saleReferenceId: SaleReferenceId
         })
 
         console.log(response)

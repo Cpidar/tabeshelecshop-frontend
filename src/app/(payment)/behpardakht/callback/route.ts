@@ -3,24 +3,9 @@ import { cookies } from "next/headers"
 import { notFound, redirect } from "next/navigation"
 
 export async function POST(request: Request) {
-  console.log(request)
-  // const resJson = await request.json()
   const resText = await request.text()
-  // console.log(resJson)
+  // sample response: "RefId=923C8C729C825473&ResCode=0&SaleOrderId=1726894760637&SaleReferenceId=285303460370&CardHolderInfo=4C4098D60630906B77453B7F681F58F107A675EC339A5DE5E465D1AE2C4FB46A&CardHolderPan=610433******5978&FinalAmount=68000"
+
   console.log(resText)
-  return Response.json({ resText })
-  // const { SaleOrderId, SaleReferenceId, RefId } = res
-
-  // if (!SaleReferenceId) {
-  //   return notFound()
-  // }
-
-  // const providerId = 'behpardakht'
-  // const cartId = cookies().get("_medusa_cart_id")?.value
-
-  // if (cartId) {
-  //   await updatePaymentSession({ cartId, providerId, data: { data: { SaleOrderId, SaleReferenceId, RefId } } })
-  // }
-
-  // redirect(`/behpardakht/confirmation?orderId=${SaleOrderId}&saleOrderId=${SaleOrderId}&saleReferenceId=${SaleReferenceId}`)
+  redirect(`/behpardakht/confirmation?${resText}`)
 }

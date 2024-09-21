@@ -1,16 +1,28 @@
+import { updatePaymentSession } from "@/lib/data"
 import PaymentConfirmation from "@/modules/checkout/templates/payment-confirmation"
 import { placeOrder } from "@modules/checkout/actions"
+import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
 
-const handleOrder = async ({ searchParams }: Props) => {
+const handleOrder = async ({
+  SaleOrderId,
+  SaleReferenceId,
+  RefId,
+}: Props["searchParams"]) => {
   let errorMessage = ""
-
-  const verifyRes = await fetch(`http://localhost:8000/api/behpardakht/verify`, {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
+  const res = await fetch(`${baseUrl}/api/behpardakht/verify`, {
     method: "POST",
-    body: JSON.stringify(searchParams),
-  }).then((res) => res.json())
+    body: JSON.stringify({
+      RefId,
+      SaleOrderId,
+      SaleReferenceId,
+    }),
+  })
 
-  if (verifyRes.resCode !== (0 || 43)) return verifyRes
+  const data = await res.json()
+
+  if (res.status === 400) return data
 
   await placeOrder().catch(
     () => (errorMessage = "متاسفانه مشکلی در ثبت سفارش شما پدید آمده است")
@@ -20,18 +32,39 @@ const handleOrder = async ({ searchParams }: Props) => {
 
 type Props = {
   searchParams: {
-    orderId: string
-    saleOrderId: string
-    saleReferenceId: string
+    ResCode?: string
+    RefId: string
+    SaleOrderId: string
+    SaleReferenceId: string
   }
 }
 
 export default async function OrderConfirmedPage({ searchParams }: Props) {
-  const { errorMessage } = await handleOrder({ searchParams })
+  const { SaleOrderId, SaleReferenceId, RefId, ResCode } = searchParams
 
+  if (ResCode && +ResCode !== 0) {
+    return notFound()
+  }
+
+  const providerId = "behpardakht"
+  const cartId = cookies().get("_medusa_cart_id")?.value
+
+  if (!cartId) return notFound()
+
+  await updatePaymentSession({
+    cartId,
+    providerId,
+    data: { data: { SaleReferenceId, RefId } },
+  }).catch(() => notFound())
+
+  const { errorMessage } = await handleOrder({
+    SaleOrderId,
+    SaleReferenceId,
+    RefId,
+  })
   return (
     <PaymentConfirmation
-      transactionId={searchParams.saleReferenceId}
+      transactionId={searchParams.SaleReferenceId}
       errorMessage={errorMessage}
     />
   )
