@@ -24,9 +24,11 @@ const handleOrder = async ({
 
   if (res.status === 400) return data
 
-  await placeOrder().catch(
-    () => (errorMessage = "متاسفانه مشکلی در ثبت سفارش شما پدید آمده است")
-  )
+  await placeOrder().catch((e) => {
+    console.error(e)
+    errorMessage = "متاسفانه مشکلی در ثبت سفارش شما پدید آمده است"
+    throw new Error("Place Order Error")
+  })
   return { errorMessage }
 }
 
@@ -43,19 +45,23 @@ export default async function OrderConfirmedPage({ searchParams }: Props) {
   const { SaleOrderId, SaleReferenceId, RefId, ResCode } = searchParams
 
   if (ResCode && +ResCode !== 0) {
-    return notFound()
+    console.log(ResCode)
+    throw new Error('ResCode error')
   }
 
   const providerId = "behpardakht"
   const cartId = cookies().get("_medusa_cart_id")?.value
 
-  if (!cartId) return notFound()
+  if (!cartId) throw new Error("No cartId cookie found")
 
   await updatePaymentSession({
     cartId,
     providerId,
     data: { data: { SaleReferenceId, RefId } },
-  }).catch(() => notFound())
+  }).catch((e) => {
+    console.error(e)
+    throw new Error("Payment Session not Updated")
+  })
 
   const { errorMessage } = await handleOrder({
     SaleOrderId,
