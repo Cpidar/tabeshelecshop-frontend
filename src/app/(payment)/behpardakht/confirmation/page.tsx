@@ -51,6 +51,7 @@ export default async function OrderConfirmedPage({ searchParams }: Props) {
 
   const providerId = "behpardakht"
   const cartId = cookies().get("_medusa_cart_id")?.value
+  console.log(cookies().getAll())
 
   if (!cartId) throw new Error("No cartId cookie found")
 
@@ -70,7 +71,7 @@ export default async function OrderConfirmedPage({ searchParams }: Props) {
   })
 
   console.log(cart)
-  
+
   return (
     <PaymentConfirmation
       transactionId={searchParams.SaleReferenceId}
