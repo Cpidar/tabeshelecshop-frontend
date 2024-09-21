@@ -24,12 +24,12 @@ const handleOrder = async ({
 
   if (res.status === 400) return data
 
-  await placeOrder().catch((e) => {
+  const cart = await placeOrder().catch((e) => {
     console.error(e)
     errorMessage = "متاسفانه مشکلی در ثبت سفارش شما پدید آمده است"
     throw new Error("Place Order Error")
   })
-  return { errorMessage }
+  return { errorMessage, cart }
 }
 
 type Props = {
@@ -46,7 +46,7 @@ export default async function OrderConfirmedPage({ searchParams }: Props) {
 
   if (ResCode && +ResCode !== 0) {
     console.log(ResCode)
-    throw new Error('ResCode error')
+    throw new Error("ResCode error")
   }
 
   const providerId = "behpardakht"
@@ -63,11 +63,14 @@ export default async function OrderConfirmedPage({ searchParams }: Props) {
     throw new Error("Payment Session not Updated")
   })
 
-  const { errorMessage } = await handleOrder({
+  const { errorMessage, cart } = await handleOrder({
     SaleOrderId,
     SaleReferenceId,
     RefId,
   })
+
+  console.log(cart)
+  
   return (
     <PaymentConfirmation
       transactionId={searchParams.SaleReferenceId}
