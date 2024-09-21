@@ -34,6 +34,7 @@ const handleOrder = async ({
 
 type Props = {
   searchParams: {
+    cartId?: string
     ResCode?: string
     RefId: string
     SaleOrderId: string
@@ -43,6 +44,12 @@ type Props = {
 
 export default async function OrderConfirmedPage({ searchParams }: Props) {
   const { SaleOrderId, SaleReferenceId, RefId, ResCode } = searchParams
+  
+  let { cartId } = searchParams
+  if (!cartId) {
+    cartId = cookies().get("_medusa_cart_id")?.value
+    if (!cartId) throw new Error("No cartId cookie found")
+  }
 
   if (ResCode && +ResCode !== 0) {
     console.log(ResCode)
@@ -50,10 +57,7 @@ export default async function OrderConfirmedPage({ searchParams }: Props) {
   }
 
   const providerId = "behpardakht"
-  const cartId = cookies().get("_medusa_cart_id")?.value
-  console.log(cookies().getAll())
-
-  if (!cartId) throw new Error("No cartId cookie found")
+  // console.log(cookies().getAll())
 
   await updatePaymentSession({
     cartId,

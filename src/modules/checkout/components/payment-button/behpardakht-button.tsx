@@ -30,7 +30,7 @@ export const BehpardakhtPaymentButton = ({
         method: "POST",
         body: JSON.stringify({
           orderId,
-          amount: cart.total,
+          amount: cart.total!*10,
           payerId: cart.shipping_address?.phone || cart.email,
         }),
       })
