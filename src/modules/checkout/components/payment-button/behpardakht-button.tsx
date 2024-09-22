@@ -23,6 +23,9 @@ export const BehpardakhtPaymentButton = ({
 
   useEffect(() => {
     setLoading(true)
+    if(typeof window !== 'undefined') {
+      localStorage.setItem('_medusa_cart_id', cart.id)
+    }
     if (!initialized.current) {
       initialized.current = true
       setLoading(true)

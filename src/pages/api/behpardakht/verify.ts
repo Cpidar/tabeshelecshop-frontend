@@ -137,7 +137,7 @@ const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
     } catch (e) {
         console.log('Error, something went wrong.', e);
         res.setHeader('Cache-Control', 'no-store');
-        res.status(400).json({ error: 'Unexpected error', code: 400 });
+        res.status(400).json({ errorMessage: 'Unexpected error', code: 400 });
     }
 };
 

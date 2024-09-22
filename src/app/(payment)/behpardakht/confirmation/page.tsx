@@ -44,12 +44,10 @@ type Props = {
 
 export default async function OrderConfirmedPage({ searchParams }: Props) {
   const { SaleOrderId, SaleReferenceId, RefId, ResCode } = searchParams
-  
-  let { cartId } = searchParams
-  if (!cartId) {
-    cartId = cookies().get("_medusa_cart_id")?.value
-    if (!cartId) throw new Error("No cartId cookie found")
-  }
+
+  const cartId = cookies().get("_medusa_cart_id")?.value
+  // if cookie is unaccessible in redirect create a client component (e.g. PaymentConfiramtion) get cartId from localStorage an run function plceOrder and updatePaymentSession in useEffect
+  if (!cartId) throw new Error("No cartId cookie found")
 
   if (ResCode && +ResCode !== 0) {
     console.log(ResCode)
