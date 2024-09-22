@@ -1,7 +1,7 @@
 "use client"
 
 import { InstantSearch } from "react-instantsearch-hooks-web"
-import { useRouter } from "next/navigation"
+import { useRouter, usePathname } from "next/navigation"
 import { MagnifyingGlassMini } from "@medusajs/icons"
 
 import { SEARCH_INDEX_NAME, searchClient } from "@lib/search-client"
@@ -13,9 +13,16 @@ import useOnClickOutside from "@/utils/use-click-outside"
 
 export default function SearchModal() {
   const router = useRouter()
+  const pathname = usePathname()
   const [showBackdrop, setShowBackdrop] = useState(false)
+
   const searchRef = useRef(null)
   useOnClickOutside(searchRef, (e) => setShowBackdrop(false))
+
+  useEffect(() => {
+    console.log(pathname)
+    setShowBackdrop(false)
+  }, [pathname])
 
   // disable scroll on body when modal is open
   // useEffect(() => {

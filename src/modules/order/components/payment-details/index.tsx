@@ -10,6 +10,7 @@ type PaymentDetailsProps = {
 }
 
 const PaymentDetails = ({ order }: PaymentDetailsProps) => {
+  console.log(order)
   const payment = order.payments[0]
   return (
     <div>

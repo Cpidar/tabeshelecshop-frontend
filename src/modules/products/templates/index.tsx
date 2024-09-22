@@ -23,7 +23,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
   region,
   countryCode,
 }) => {
-  console.log(product)
   if (!product || !product.id) {
     return notFound()
   }

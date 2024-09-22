@@ -30,6 +30,10 @@ export const paymentInfoMap: Record<
     title: "Test payment",
     icon: <CreditCard />,
   },
+  behpardakht: {
+    title: "به پرداخت ملت",
+    icon: <CreditCard />,
+  },
   // Add more payment providers here
 }
 

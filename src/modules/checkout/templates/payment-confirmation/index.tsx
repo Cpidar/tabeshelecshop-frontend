@@ -7,18 +7,75 @@ import ButtonPrimary from "@/shared/Button/ButtonPrimary"
 import { useEffect, useState } from "react"
 import { error } from "console"
 import ErrorMessage from "../../components/error-message"
+import { placeOrder, updatePaymentSessionStatus } from "../../actions"
+import { updatePaymentSession } from "@/lib/data"
 
 type Props = {
-  transactionId: string
-  errorMessage: string
+  providerId: string
+  errorMessage?: string
+  cartId: string | undefined
+  RefId: string
+  SaleOrderId: string
+  SaleReferenceId: string
 }
 
-const PaymentConfirmation = ({ transactionId, errorMessage }: Props) => {
+const PaymentConfirmation = ({
+  providerId,
+  cartId,
+  RefId,
+  SaleOrderId,
+  SaleReferenceId,
+}: Props) => {
   const [counter, setCounter] = useState(10)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000)
   }, [counter])
+
+  useEffect(() => {
+    const handleOrder = async () => {
+      let localCartId
+      if (typeof window !== "undefined") {
+        localCartId = localStorage.getItem("_medusa_cart_id")!
+      }
+      const baseUrl =
+        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
+
+      const res = await fetch(`${baseUrl}/api/behpardakht/verify`, {
+        method: "POST",
+        body: JSON.stringify({
+          RefId,
+          SaleOrderId,
+          SaleReferenceId,
+        }),
+      })
+
+      const { errorMessage } = await res.json()
+
+      if (res.status === 400) {
+        setErrorMessage(errorMessage)
+        throw new Error(errorMessage)
+      }
+
+      await placeOrder().catch((e) => {
+        console.error(e)
+        setErrorMessage("متاسفانه مشکلی در ثبت سفارش شما پدید آمده است")
+        throw new Error("Place Order Error")
+      })
+
+      await updatePaymentSessionStatus(providerId, {
+        SaleReferenceId,
+        RefId,
+      }).catch((e) => {
+        console.error(e)
+        setErrorMessage("Payment Session not Updated")
+        throw new Error("Payment Session not Updated")
+      })
+    }
+
+    handleOrder()
+  }, [])
 
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
@@ -40,7 +97,7 @@ const PaymentConfirmation = ({ transactionId, errorMessage }: Props) => {
             با تشکر از خرید شما
           </h1>
           <p className="text-lg text-neutral-700 mb-4 text-center w-full">
-            شماره پیگیری: {transactionId}
+            شماره پیگیری: {SaleReferenceId}
           </p>
           {!errorMessage ? (
             <form className="">
