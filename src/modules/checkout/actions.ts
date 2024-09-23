@@ -185,8 +185,11 @@ export async function setPaymentMethod(providerId: string) {
   }
 }
 
-export async function updatePaymentSessionStatus(providerId: string, data: any ) {
-  const cartId = cookies().get("_medusa_cart_id")?.value
+export async function updatePaymentSessionStatus(cart_id: string | undefined, providerId: string, data: any) {
+  let cartId = cart_id
+  if (!cartId) {
+    cartId = cookies().get("_medusa_cart_id")?.value
+  }
 
   if (!cartId) throw new Error("No cartId cookie found")
 
@@ -199,8 +202,11 @@ export async function updatePaymentSessionStatus(providerId: string, data: any )
   }
 }
 
-export async function placeOrder() {
-  const cartId = cookies().get("_medusa_cart_id")?.value
+export async function placeOrder(cart_id: string | undefined) {
+  let cartId = cart_id
+  if (!cartId) {
+    cartId = cookies().get("_medusa_cart_id")?.value
+  }
 
   if (!cartId) throw new Error("No cartId cookie found")
 

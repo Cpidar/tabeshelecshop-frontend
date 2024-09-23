@@ -35,9 +35,9 @@ const PaymentConfirmation = ({
 
   useEffect(() => {
     const handleOrder = async () => {
-      let localCartId
-      if (typeof window !== "undefined") {
-        localCartId = localStorage.getItem("_medusa_cart_id")!
+      let localOrCookieCartId = cartId
+      if (!cartId && typeof window !== "undefined") {
+        localOrCookieCartId = localStorage.getItem("_medusa_cart_id")!
       }
       const baseUrl =
         process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
@@ -58,13 +58,13 @@ const PaymentConfirmation = ({
         throw new Error(errorMessage)
       }
 
-      await placeOrder().catch((e) => {
+      await placeOrder(localOrCookieCartId).catch((e) => {
         console.error(e)
         setErrorMessage("متاسفانه مشکلی در ثبت سفارش شما پدید آمده است")
         throw new Error("Place Order Error")
       })
 
-      await updatePaymentSessionStatus(providerId, {
+      await updatePaymentSessionStatus(localOrCookieCartId, providerId, {
         SaleReferenceId,
         RefId,
       }).catch((e) => {
