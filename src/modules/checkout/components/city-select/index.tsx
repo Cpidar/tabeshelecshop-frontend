@@ -14,7 +14,7 @@ import NativeSelect, {
 const CitySelect = forwardRef<
   HTMLSelectElement,
   NativeSelectProps & {
-    provinceId?: string
+    provinceId?: string | null
   }
 >(({ placeholder = "City", provinceId, defaultValue, ...props }, ref) => {
   const innerRef = useRef<HTMLSelectElement>(null)

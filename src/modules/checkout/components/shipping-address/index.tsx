@@ -179,6 +179,16 @@ const ShippingAddress = ({
         />
       </div>
       <div className="grid grid-cols-2 gap-4 mb-4">
+      <Input
+          label={t("text-phone")}
+          name="shipping_address.phone"
+          title="Enter a valid phone number."
+          autoComplete="09123456789"
+          value={formData["shipping_address.phone"]}
+          onChange={handleChange}
+          required
+          data-testid="shipping-phone-input"
+        />
         <Input
           label={t("text-email")}
           name="email"
@@ -189,14 +199,6 @@ const ShippingAddress = ({
           onChange={handleChange}
           required
           data-testid="shipping-email-input"
-        />
-        <Input
-          label={t("text-phone")}
-          name="shipping_address.phone"
-          autoComplete="tel"
-          value={formData["shipping_address.phone"]}
-          onChange={handleChange}
-          data-testid="shipping-phone-input"
         />
       </div>
     </>
