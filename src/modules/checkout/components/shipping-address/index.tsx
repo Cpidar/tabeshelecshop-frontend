@@ -188,7 +188,6 @@ const ShippingAddress = ({
           onChange={handleChange}
           required
           data-testid="shipping-phone-input"
-          pattern="/((0?9)|(\+?989))\d{9}/g"
         />
         <Input
           label={t("text-email")}
