@@ -7,6 +7,7 @@ import CommonClient from "./CommonClient"
 import HeaderLogged from "@/components/Header/HeaderLogged"
 import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
 import initTranslations from "@/app/i18n"
+import { getCustomer } from "@/lib/data"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
 
@@ -24,6 +25,7 @@ export default async function PageLayout({
   const i18nNamespaces = ["common"]
 
   const { t, resources } = await initTranslations(countryCode, ["common"])
+
 
   return (
     <TranslationsProvider

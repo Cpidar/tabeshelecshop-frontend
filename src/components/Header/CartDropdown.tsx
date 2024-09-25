@@ -28,7 +28,7 @@ export default function CartDropdown({
       return acc + item.quantity
     }, 0) || 0
 
-  const totol = cartState?.total || 0
+  const totol = cartState?.subtotal || 0
 
 
   const renderProduct = (item: LineItem, index: number, close: () => void) => {
@@ -247,20 +247,27 @@ export default function CartDropdown({
                             </span>
                           </p>
                           <div className="flex justify-around space-x-1 mt-5">
-                            <ButtonSecondary
+                            {/* <ButtonSecondary
                               href="/cart"
                               className="flex-1 border border-slate-200 dark:border-slate-700"
                               onClick={close}
                             >
                               مشاهده سبد خرید
                             </ButtonSecondary>
-                            <div className="mx-1"></div>
-                            <ButtonPrimary
+                            <div className="mx-1"></div> */}
+                            {/* <ButtonPrimary
                               href="/checkout"
                               onClick={close}
                               className="flex-1"
                             >
                               تسویه حساب
+                            </ButtonPrimary> */}
+                            <ButtonPrimary
+                              href="/cart"
+                              onClick={close}
+                              className="flex-1"
+                            >
+                              مشاهده سبد خرید
                             </ButtonPrimary>
                           </div>
                         </div>

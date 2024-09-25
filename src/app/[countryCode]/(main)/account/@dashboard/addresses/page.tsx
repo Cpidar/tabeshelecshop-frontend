@@ -12,12 +12,15 @@ export const metadata: Metadata = {
   description: "View your addresses",
 }
 
-export default async function Addresses() {
-  const nextHeaders = headers()
-  const countryCode = nextHeaders.get("next-url")?.split("/")[1] || ""
+export default async function Addresses({
+  params: { countryCode },
+}: {
+  params: { countryCode: string },
+}) {
+  // const nextHeaders = headers()
+  // const countryCode = nextHeaders.get("Next-Url")?.split("/")[1] || ""
   const customer = await getCustomer()
   const region = await getRegion(countryCode)
-
   if (!customer || !region) {
     notFound()
   }

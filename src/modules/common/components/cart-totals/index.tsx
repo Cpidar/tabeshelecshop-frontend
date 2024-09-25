@@ -33,7 +33,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
       <div className="flex flex-col gap-y-2 txt-medium text-ui-fg-subtle ">
         <div className="flex items-center justify-between">
           <span className="flex gap-x-1 items-center">
-            Subtotal
+            قیمت کالاها
             <Tooltip content="Cart total excluding shipping and taxes.">
               <InformationCircleSolid color="var(--fg-muted)" />
             </Tooltip>
@@ -44,7 +44,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
         </div>
         {!!discount_total && (
           <div className="flex items-center justify-between">
-            <span>Discount</span>
+            <span>تخفیف</span>
             <span
               className="text-ui-fg-interactive"
               data-testid="cart-discount"
@@ -55,20 +55,20 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
           </div>
         )}
         <div className="flex items-center justify-between">
-          <span>Shipping</span>
+          <span>هزینه ارسال</span>
           <span data-testid="cart-shipping" data-value={shipping_total || 0}>
             {getAmount(shipping_total)}
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="flex gap-x-1 items-center ">Taxes</span>
+          <span className="flex gap-x-1 items-center ">مالیات</span>
           <span data-testid="cart-taxes" data-value={tax_total || 0}>
             {getAmount(tax_total)}
           </span>
         </div>
         {!!gift_card_total && (
           <div className="flex items-center justify-between">
-            <span>Gift card</span>
+            <span>کارت هدیه</span>
             <span
               className="text-ui-fg-interactive"
               data-testid="cart-gift-card-amount"
@@ -81,7 +81,7 @@ const CartTotals: React.FC<CartTotalsProps> = ({ data }) => {
       </div>
       <div className="h-px w-full border-b border-gray-200 my-4" />
       <div className="flex items-center justify-between text-ui-fg-base mb-2 txt-medium ">
-        <span>Total</span>
+        <span>جمع سبد خرید</span>
         <span
           className="txt-xlarge-plus"
           data-testid="cart-total"

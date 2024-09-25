@@ -140,7 +140,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                 className="txt-medium text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
                 data-testid="add-discount-button"
               >
-                Add gift card or discount code
+                کد تخفیفتان را اینجا اضافه کنید
               </button>
               <Tooltip content="You can add multiple gift cards, but only one discount code.">
                 <InformationCircleSolid color="var(--fg-muted)" />
@@ -150,7 +150,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
               <>
                 <div className="flex w-full gap-x-2 items-center">
                   <Input
-                    label="Please enter code"
+                    label="کد تخفیف"
                     name="code"
                     type="text"
                     autoFocus={false}
@@ -160,7 +160,7 @@ const DiscountCode: React.FC<DiscountCodeProps> = ({ cart }) => {
                     variant="secondary"
                     data-testid="discount-apply-button"
                   >
-                    Apply
+                    اعمال
                   </SubmitButton>
                 </div>
                 <ErrorMessage

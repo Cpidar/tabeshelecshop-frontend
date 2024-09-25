@@ -2,13 +2,16 @@ import React, { FC } from "react";
 import MainNav5 from "./MainNav5";
 import HighlightedBar from "./highlighted-bar";
 import Link from "next/link";
-export interface HeaderLoggedProps {}
+import { Customer } from "@medusajs/medusa"
+
+export interface HeaderLoggedProps {
+}
 
 const contentText = "10% تخفیف ویژه کالاهای گروه لامپ، روشنایی وریسه تا آخر تابستان"
 const link = '#'
 const lintText = "همین الان سفارش دهید"
 
-const HeaderLogged: FC<HeaderLoggedProps> = () => {
+const HeaderLogged: FC<HeaderLoggedProps> = async () => {
   return (
     <div className="nc-HeaderLogged top-0 w-full z-40 ">
       <HighlightedBar

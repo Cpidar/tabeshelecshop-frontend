@@ -280,7 +280,7 @@ export async function getToken(credentials: StorePostAuthReq) {
         cookies().set("_medusa_jwt", access_token, {
           maxAge: 60 * 60 * 24 * 7,
           httpOnly: true,
-          sameSite: "strict",
+          sameSite: "lax",
           secure: process.env.NODE_ENV === "production",
         })
       return access_token
@@ -536,7 +536,7 @@ export const getProductsList = cache(async function ({
 
   const transformedProducts = products.map((product) => {
     return transformProductPreview(product, region!)
-  })
+  }).filter(p => p.inStock > 0)
 
   const nextPage = count > pageParam + 1 ? pageParam + 1 : null
 
@@ -577,13 +577,12 @@ export const getProductsListWithSort = cache(
     })
 
     const sortedProducts = sortProducts(products, sortBy)
-    const inStockProduct = sortedProducts.filter(p => p.inStock > 0)
 
     const pageParam = (page - 1) * limit
 
     const nextPage = count > pageParam + limit ? pageParam + limit : null
 
-    const paginatedProducts = inStockProduct.slice(pageParam, pageParam + limit)
+    const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
 
     return {
       response: {

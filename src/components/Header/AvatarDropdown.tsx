@@ -6,8 +6,15 @@ import { Fragment } from "react"
 import Avatar from "@/shared/Avatar/Avatar"
 import SwitchDarkMode2 from "@/shared/SwitchDarkMode/SwitchDarkMode2"
 import Link from "next/link"
+import { Customer } from "@medusajs/medusa"
+import { signOut } from "@/modules/account/actions"
 
-export default function AvatarDropdown() {
+interface AvatarDropdownProps {
+  customer: Omit<Customer, "password_hash"> | null
+}
+
+export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
+
   return (
     <div className="AvatarDropdown ">
       <Popover className="relative">
@@ -38,8 +45,8 @@ export default function AvatarDropdown() {
                 />
               </svg>
             </Popover.Button> */}
-            <Popover.Button className="mr-2 lg:mr-4 relative inline-block">
-              <a className="" href="">
+            <Popover.Button className="flex items-center">
+              <div className="mr-2 lg:mr-4 relative inline-block">
                 <svg
                   className="h-9 lg:h-10 p-2 text-gray-500"
                   aria-hidden="true"
@@ -55,7 +62,8 @@ export default function AvatarDropdown() {
                     d="M313.6 304c-28.7 0-42.5 16-89.6 16-47.1 0-60.8-16-89.6-16C60.2 304 0 364.2 0 438.4V464c0 26.5 21.5 48 48 48h352c26.5 0 48-21.5 48-48v-25.6c0-74.2-60.2-134.4-134.4-134.4zM400 464H48v-25.6c0-47.6 38.8-86.4 86.4-86.4 14.6 0 38.3 16 89.6 16 51.7 0 74.9-16 89.6-16 47.6 0 86.4 38.8 86.4 86.4V464zM224 288c79.5 0 144-64.5 144-144S303.5 0 224 0 80 64.5 80 144s64.5 144 144 144zm0-240c52.9 0 96 43.1 96 96s-43.1 96-96 96-96-43.1-96-96 43.1-96 96-96z"
                   ></path>
                 </svg>
-              </a>
+              </div>
+              <div className="text-xs">زهرا یوسفی</div>
             </Popover.Button>
             <Transition
               as={Fragment}
@@ -73,8 +81,8 @@ export default function AvatarDropdown() {
                       <Avatar imgUrl={avatarImgs[7]} sizeClass="w-12 h-12" />
 
                       <div className="flex-grow">
-                        <h4 className="font-semibold">Eden Smith</h4>
-                        <p className="text-xs mt-0.5">Los Angeles, CA</p>
+                        <h4 className="font-semibold">{`${customer?.first_name} ${customer?.last_name}`}</h4>
+                        <p className="text-xs mt-0.5">{customer?.phone}</p>
                       </div>
                     </div>
 
@@ -110,14 +118,14 @@ export default function AvatarDropdown() {
                           />
                         </svg>
                       </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium ">{"My Account"}</p>
+                      <div className="mr-4">
+                        <p className="text-sm font-medium ">{"پروفایل"}</p>
                       </div>
                     </Link>
 
                     {/* ------------------ 2 --------------------- */}
                     <Link
-                      href={"/checkout"}
+                      href={"/account/orders"}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
@@ -162,14 +170,16 @@ export default function AvatarDropdown() {
                           />
                         </svg>
                       </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium ">{"My Order"}</p>
+                      <div className="mr-4">
+                        <p className="text-sm font-medium ">
+                          {"سوابق سفارشات من"}
+                        </p>
                       </div>
                     </Link>
 
                     {/* ------------------ 2 --------------------- */}
                     <Link
-                      href={"/account-savelists"}
+                      href={"/account/addresses"}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
@@ -189,15 +199,17 @@ export default function AvatarDropdown() {
                           />
                         </svg>
                       </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium ">{"Wishlist"}</p>
+                      <div className="mr-4">
+                        <p className="text-sm font-medium ">
+                          {"لیست آدرسهای من"}
+                        </p>
                       </div>
                     </Link>
 
                     <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
 
                     {/* ------------------ 2 --------------------- */}
-                    <div className="flex items-center justify-between p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
+                    {/* <div className="flex items-center justify-between p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                       <div className="flex items-center">
                         <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
                           <svg
@@ -235,10 +247,10 @@ export default function AvatarDropdown() {
                         </div>
                       </div>
                       <SwitchDarkMode2 />
-                    </div>
+                    </div> */}
 
                     {/* ------------------ 2 --------------------- */}
-                    <Link
+                    {/* <Link
                       href={"/"}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
@@ -298,13 +310,15 @@ export default function AvatarDropdown() {
                       <div className="ml-4">
                         <p className="text-sm font-medium ">{"Help"}</p>
                       </div>
-                    </Link>
+                    </Link> */}
 
                     {/* ------------------ 2 --------------------- */}
-                    <Link
-                      href={"/#"}
+                    <button
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
-                      onClick={() => close()}
+                      onClick={() => {
+                        signOut("ir")
+                        close()
+                      }}
                     >
                       <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
                         <svg
@@ -337,10 +351,12 @@ export default function AvatarDropdown() {
                           />
                         </svg>
                       </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium ">{"Log out"}</p>
+                      <div className="mr-4">
+                        <p className="text-sm font-medium ">
+                          {"خروج از حساب کاربری"}
+                        </p>
                       </div>
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </Popover.Panel>

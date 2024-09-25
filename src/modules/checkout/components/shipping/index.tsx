@@ -81,7 +81,7 @@ const Shipping: React.FC<ShippingProps> = ({
             }
           )}
         >
-          Delivery
+          ارسال
           {!isOpen && cart.shipping_methods.length > 0 && <CheckCircleSolid />}
         </Heading>
         {!isOpen &&
@@ -94,7 +94,7 @@ const Shipping: React.FC<ShippingProps> = ({
                 className="text-ui-fg-interactive hover:text-ui-fg-interactive-hover"
                 data-testid="edit-delivery-button"
               >
-                Edit
+                ویرایش روش ارسال
               </button>
             </Text>
           )}
@@ -168,7 +168,7 @@ const Shipping: React.FC<ShippingProps> = ({
             disabled={!cart.shipping_methods[0]}
             data-testid="submit-delivery-option-button"
           >
-            Continue to payment
+            انتقال به مرحله بعد
           </Button>
         </div>
       ) : (
@@ -177,7 +177,7 @@ const Shipping: React.FC<ShippingProps> = ({
             {cart && cart.shipping_methods.length > 0 && (
               <div className="flex flex-col w-1/3">
                 <Text className="txt-medium-plus text-ui-fg-base mb-1">
-                  Method
+                  روش ارسال:
                 </Text>
                 <Text className="txt-medium text-ui-fg-subtle">
                   {cart.shipping_methods[0].shipping_option.name} (

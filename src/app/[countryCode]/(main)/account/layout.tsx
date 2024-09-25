@@ -12,7 +12,9 @@ export default async function AccountPageLayout({
 
   return (
     <AccountLayout customer={customer}>
-      {customer ? dashboard : login}
+      { /*  accomplished with middleware */ }
+      {/* {customer ? dashboard : login} */}
+      { dashboard }
     </AccountLayout>
   )
 }

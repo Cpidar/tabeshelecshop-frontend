@@ -6,12 +6,18 @@ import Navigation from "@/shared/Navigation/Navigation"
 import CartButton from "@/modules/layout/components/cart-button"
 import SearchModal from "@/modules/search/templates/search-modal"
 import CategoriesButton from "@/modules/layout/components/categories-button"
+import { getCustomer } from "@/lib/data"
+import Button from "@/shared/Button/Button"
+import Link from "next/link"
+import ButtonPrimary from "@/shared/Button/ButtonPrimary"
+import ButtonSecondary from "@/shared/Button/ButtonSecondary"
 
 export interface MainNav2LoggedProps {}
 
-const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
+const MainNav2Logged: FC<MainNav2LoggedProps> = async () => {
   // const inputRef = createRef<HTMLInputElement>()
   // const router = useRouter()
+  const customer = await getCustomer()
 
   const renderMagnifyingGlassIcon = () => {
     return (
@@ -97,7 +103,15 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = () => {
                   {renderMagnifyingGlassIcon()}
                 </button>
               )} */}
-              <AvatarDropdown />
+              {customer ? (
+                <AvatarDropdown customer={customer} />
+              ) : (
+                <Link href={"/auth"}>
+                  <ButtonSecondary>
+                    <span className="text-xs">ورود | ثبت نام</span>
+                  </ButtonSecondary>
+                </Link>
+              )}
 
               <CartButton />
             </div>

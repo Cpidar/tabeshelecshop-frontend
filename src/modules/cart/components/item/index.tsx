@@ -47,7 +47,7 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
 
   return (
     <Table.Row className="w-full" data-testid="product-row">
-      <Table.Cell className="!pl-0 p-4 w-24">
+      <Table.Cell className="!pr-0 p-4 w-24">
         <LocalizedClientLink
           href={`/products/${handle}`}
           className={clx("flex", {
@@ -59,7 +59,7 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
         </LocalizedClientLink>
       </Table.Cell>
 
-      <Table.Cell className="text-left">
+      <Table.Cell className="text-right">
         <Text className="txt-medium-plus text-ui-fg-base" data-testid="product-title">{item.title}</Text>
         <LineItemOptions variant={item.variant} data-testid="product-variant" />
       </Table.Cell>
@@ -102,9 +102,9 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
         </Table.Cell>
       )}
 
-      <Table.Cell className="!pr-0">
+      <Table.Cell className="!pl-0">
         <span
-          className={clx("!pr-0", {
+          className={clx("!pl-0", {
             "flex flex-col items-end h-full justify-center": type === "preview",
           })}
         >

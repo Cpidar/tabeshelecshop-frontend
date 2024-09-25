@@ -43,6 +43,25 @@ async function getRegionMap() {
   return regionMapCache.regionMap
 }
 
+async function getCustomer(request: NextRequest,) {
+  const token = request.cookies.get("_medusa_jwt")?.value
+
+  const headers = {
+    'Content-type': 'application/json',
+    next: {
+      tags: ["customer"],
+    },
+    Authorization: token ? `Bearer ${token}` : ''
+  } as Record<string, any>
+
+  const customer = await fetch(`${BACKEND_URL}/store/customers/me`, { headers })
+    .then(res => res.json())
+    .then(({ customer }) => customer)
+    .catch((err) => console.log(err))
+
+  return customer
+}
+
 /**
  * Fetches regions from Medusa and sets the region cookie.
  * @param request
@@ -91,9 +110,11 @@ export async function middleware(request: NextRequest) {
   const checkoutStep = searchParams.get("step")
   const onboardingCookie = request.cookies.get("_medusa_onboarding")
   const cartIdCookie = request.cookies.get("_medusa_cart_id")
-  const excludedUrl = ['keystatic', 'sitemap.xml', 'robots.txt', 'assets', 'behpardakht', 'api' ]
+  const excludedUrl = ['keystatic', 'sitemap.xml', 'robots.txt', 'assets', 'behpardakht', 'api']
+  const protectedUrl = ['checkout']
   // I18nMiddleware (request)
 
+  const customer = await getCustomer(request)
   const regionMap = await getRegionMap()
 
   const countryCode = regionMap && (await getCountryCode(request, regionMap))
@@ -106,6 +127,11 @@ export async function middleware(request: NextRequest) {
 
   // exclude sitemap
   const urlHasExcluded = excludedUrl.some(exurl => request.nextUrl.pathname.split("/")[1].includes(exurl))
+  const isUrlProtected = protectedUrl.some(prurl => request.nextUrl.pathname.split("/").includes(prurl))
+
+  if (!customer && isUrlProtected) {
+    return NextResponse.redirect(`${request.nextUrl.origin}/${countryCode}/auth`, 307)
+  }
 
   // in case keystatic, no middleware is needed.
   if (!urlHasCountryCode && urlHasExcluded) {
