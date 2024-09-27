@@ -5,7 +5,7 @@
     "disks": [
         {
             "name": "cache",
-            "mountTo": "/tmp"
+            "mountTo": "/app/.next"
         }
     ]
 }
