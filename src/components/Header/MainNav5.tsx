@@ -11,6 +11,8 @@ import Button from "@/shared/Button/Button"
 import Link from "next/link"
 import ButtonPrimary from "@/shared/Button/ButtonPrimary"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
+import MobileSearchHeader from "../../modules/layout/components/mobile-header"
+import { PhoneIcon, PhoneArrowUpRightIcon } from "@heroicons/react/24/solid"
 
 export interface MainNav2LoggedProps {}
 
@@ -78,12 +80,8 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async () => {
     return (
       <>
         {/* upper part */}
-        <div className="w-full border-b">
+        <div className="w-full border-b hidden lg:block">
           <div className="container h-20 flex justify-between">
-            <div className="flex items-center lg:hidden flex-1">
-              <MenuBar />
-            </div>
-
             <div className="lg:flex-1 flex items-center">
               <Logo className="flex-shrink-0" />
             </div>
@@ -103,17 +101,20 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async () => {
                   {renderMagnifyingGlassIcon()}
                 </button>
               )} */}
-              {customer ? (
-                <AvatarDropdown customer={customer} />
-              ) : (
-                <Link href={"/auth"}>
-                  <ButtonSecondary>
-                    <span className="text-xs">ورود | ثبت نام</span>
-                  </ButtonSecondary>
-                </Link>
-              )}
-
-              <CartButton />
+              <div className="hidden lg:block">
+                {customer ? (
+                  <AvatarDropdown customer={customer} />
+                ) : (
+                  <Link href={"/auth"}>
+                    <ButtonSecondary>
+                      <span className="text-xs">ورود | ثبت نام</span>
+                    </ButtonSecondary>
+                  </Link>
+                )}
+              </div>
+              <div className="hidden lg:block">
+                <CartButton />
+              </div>
             </div>
           </div>
         </div>
@@ -121,10 +122,6 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async () => {
         {/* lower part */}
         <div className="w-full">
           <div className="container h-20 hidden lg:flex justify-between">
-            <div className="flex items-center lg:hidden flex-1">
-              <MenuBar />
-            </div>
-
             {/* <div className="lg:flex-1 flex items-center">
             <Logo className="flex-shrink-0" />
           </div> */}
@@ -134,6 +131,12 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async () => {
 
             <div className="flex-1 hidden lg:flex justify-end mx-4">
               <Navigation />
+            </div>
+            <div className="flex items-center">
+              <ButtonPrimary className=" font-bold px-4 xl:px-6 py-2 xl:py-3 rounded flex-shrink-0 flex items-center">
+                <span className="ml-2">09139201435</span>
+                <PhoneArrowUpRightIcon className="w-8 h-8 p-2" />
+              </ButtonPrimary>
             </div>
           </div>
         </div>

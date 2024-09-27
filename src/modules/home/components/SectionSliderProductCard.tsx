@@ -38,6 +38,7 @@ const SectionSliderProductCard: FC<SectionSliderProductCardProps> = ({
       perView: 4,
       gap: 32,
       bound: true,
+      direction: "rtl",
       breakpoints: {
         1280: {
           perView: 4 - 1,

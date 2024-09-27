@@ -8,11 +8,5 @@ navigationMenu:
   - name: مجله
     href: /blog
     type: none
-  - name: درباره تابش الکتریک
-    href: /about
-    type: none
-  - name: تماس با ما
-    href: /contact-us
-    type: none
 footerMenu01: []
 footerMenu02: []

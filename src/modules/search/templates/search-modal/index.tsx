@@ -11,7 +11,11 @@ import SearchBox from "@modules/search/components/search-box/SearchBox01"
 import { useEffect, useRef, useState } from "react"
 import useOnClickOutside from "@/utils/use-click-outside"
 
-export default function SearchModal() {
+export default function SearchModal({
+  onClickClose,
+}: {
+  onClickClose?: () => void
+}) {
   const router = useRouter()
   const pathname = usePathname()
   const [showBackdrop, setShowBackdrop] = useState(false)
@@ -49,9 +53,9 @@ export default function SearchModal() {
   // }, [])
 
   return (
-    <div className="relative z-30 flex-[2] hidden lg:flex justify-center mx-4 transition-all duration-200 ease-in-out">
+    <div className="relative z-30 flex-[2] flex justify-center mx-4 transition-all duration-200 ease-in-out">
       {showBackdrop && (
-        <div className="fixed inset-0 bg-opacity-75 backdrop-blur-md opacity-100 h-screen w-screen" />
+        <div className="hidden lg:block fixed inset-0 bg-opacity-75 backdrop-blur-md opacity-100 h-screen w-screen" />
       )}
       {/* <div className="fixed inset-0 px-5 sm:p-0" ref={searchRef}> */}
       {/* <div className="flex flex-col w-full mx-auto"> */}
@@ -61,8 +65,9 @@ export default function SearchModal() {
           <div className="w-full absolute top-[56px] mt-6">
             {showBackdrop && (
               <Hits
-                className="rtl:translate-x-[12.5%] ltr:translate-x-[-12.5%]"
+                className="lg:rtl:translate-x-[12.5%] lg:ltr:translate-x-[-12.5%]"
                 hitComponent={Hit}
+                onClickClose={onClickClose}
               />
             )}
           </div>

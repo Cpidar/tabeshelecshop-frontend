@@ -30,9 +30,6 @@ const Register = ({ setCurrentView, phone }: Props) => {
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
       <div className="w-full relative flex items-center justify-center">
-        <div className="flex right-0 text-neutral-700 transition-all duration-300 ease-out cursor-pointer fixed lg:absolute">
-          <ArrowRightIcon />
-        </div>
         <Image
           className="mx-auto h-10 w-auto"
           src={logo}

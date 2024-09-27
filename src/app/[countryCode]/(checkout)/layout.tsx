@@ -2,6 +2,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import ChevronDown from "@modules/common/icons/chevron-down"
 import MedusaCTA from "@modules/layout/components/medusa-cta"
 import initTranslations from "@/app/i18n"
+import Logo from "@/shared/Logo/Logo"
 
 export default async function CheckoutLayout({
   params: { countryCode },
@@ -23,7 +24,7 @@ export default async function CheckoutLayout({
           >
             <ChevronDown className="rotate-90" size={16} />
             <span className="mt-px hidden small:block txt-compact-plus text-ui-fg-subtle hover:text-ui-fg-base ">
-             {t('back-to-shopping-cart')}
+             بازگشت به سبد خرید
             </span>
             <span className="mt-px block small:hidden txt-compact-plus text-ui-fg-subtle hover:text-ui-fg-base">
               {t('back')}
@@ -34,7 +35,7 @@ export default async function CheckoutLayout({
             className="txt-compact-xlarge-plus text-ui-fg-subtle hover:text-ui-fg-base uppercase"
             data-testid="store-link"
           >
-            {t('home')}
+            <Logo />
           </LocalizedClientLink>
           <div className="flex-1 basis-0" />
         </nav>

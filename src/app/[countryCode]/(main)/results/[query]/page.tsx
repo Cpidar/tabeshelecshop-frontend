@@ -20,9 +20,10 @@ type Params = {
 
 export default async function SearchResults({ params, searchParams }: Params) {
   const { query } = params
+  const decodedQuery = decodeURI(query)
   const { sortBy, page } = searchParams
 
-  const hits = await search(query).then((data) => data)
+  const hits = await search(decodedQuery).then((data) => data)
 
   const ids = hits
     .map((h) => h.objectID || h.id)
@@ -32,7 +33,7 @@ export default async function SearchResults({ params, searchParams }: Params) {
 
   return (
     <SearchResultsTemplate
-      query={query}
+      query={decodedQuery}
       ids={ids}
       sortBy={sortBy}
       page={page}

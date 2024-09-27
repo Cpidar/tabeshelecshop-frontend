@@ -111,7 +111,7 @@ export async function middleware(request: NextRequest) {
   const onboardingCookie = request.cookies.get("_medusa_onboarding")
   const cartIdCookie = request.cookies.get("_medusa_cart_id")
   const excludedUrl = ['keystatic', 'sitemap.xml', 'robots.txt', 'assets', 'behpardakht', 'api']
-  const protectedUrl = ['checkout']
+  const protectedUrl = ['checkout', 'account']
   // I18nMiddleware (request)
 
   const customer = await getCustomer(request)

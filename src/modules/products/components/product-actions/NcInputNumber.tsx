@@ -14,7 +14,7 @@ export interface NcInputNumberProps {
 }
 
 const NcInputNumber: FC<NcInputNumberProps> = ({
-  className = "w-full",
+  className,
   defaultValue = 1,
   min = 1,
   max = 99,

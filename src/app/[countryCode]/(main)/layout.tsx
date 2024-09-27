@@ -8,6 +8,8 @@ import HeaderLogged from "@/components/Header/HeaderLogged"
 import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
 import initTranslations from "@/app/i18n"
 import { getCustomer } from "@/lib/data"
+import MobileHeader from "@/modules/layout/components/mobile-header"
+import MobileNavigation from "@/modules/layout/components/mobile-navigation"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
 
@@ -26,18 +28,20 @@ export default async function PageLayout({
 
   const { t, resources } = await initTranslations(countryCode, ["common"])
 
-
   return (
     <TranslationsProvider
       locale={countryCode}
       namespaces={i18nNamespaces}
       resources={resources}
     >
-        <HeaderLogged />
-        {/* <SecondNav2 /> */}
-        {children}
-        <CommonClient />
-        <Footer />
+      <HeaderLogged />
+      <MobileHeader />
+      {/* <SecondNav2 /> */}
+      {children}
+      <CommonClient />
+      <Footer />
+      <MobileNavigation />
+
     </TranslationsProvider>
   )
 }

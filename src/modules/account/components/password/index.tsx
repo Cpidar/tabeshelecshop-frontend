@@ -19,7 +19,7 @@ type Props = {
 }
 
 const PageLogin = ({ setCurrentView, email, phone }: Props) => {
-const router = useRouter()
+  const router = useRouter()
 
   const forgetPassword = async () => {
     const rawFormData = {
@@ -59,19 +59,21 @@ const router = useRouter()
     }
   }
   const onSubmit = (_currentState: unknown, formData: FormData) => {
-
     if (!formData.get("email")) formData.append("email", email)
 
     logCustomerIn(_currentState, formData)
-    router.replace('/')
+    router.replace("/")
   }
   const [message, formAction] = useFormState(onSubmit, null)
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
       <div className="w-full relative flex items-center justify-center">
-        <div className="flex right-0 text-neutral-700 transition-all duration-300 ease-out cursor-pointer fixed lg:absolute">
+        <button
+          onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
+          className="flex right-0 w-6 text-neutral-700 transition-all duration-300 ease-out cursor-pointer fixed lg:absolute"
+        >
           <ArrowRightIcon />
-        </div>
+        </button>
         <Image
           className="mx-auto h-10 w-auto"
           src={logo}

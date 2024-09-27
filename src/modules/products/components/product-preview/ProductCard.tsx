@@ -91,14 +91,14 @@ const ProductCard = async ({
             <h2 className="nc-ProductCard__title text-base font-semibold transition-colors">
               {name}
             </h2>
-            <p className={`text-sm text-slate-500 dark:text-slate-400 mt-1 `}>
+            <p className={`hidden lg:block text-sm text-slate-500 dark:text-slate-400 mt-1 `}>
               {StripOffDesc}
             </p>
           </div>
 
           <div className="flex justify-between items-end ">
             <Prices price={price} />
-            <div className="flex items-center mb-0.5">
+            <div className="hidden lg:flex items-center mb-0.5">
               <StarIcon className="w-5 h-5 pb-[1px] text-amber-400" />
               <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">
                 {rating || ""} ({numberOfReviews || 0} reviews)

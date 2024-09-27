@@ -75,7 +75,7 @@ export const BehpardakhtPaymentButton = ({
             data-testid="submit-order-button"
           >
             <BehpardakhtIcon />
-            پرداخت
+            ثبت سفارش
           </Button>
         ) : (
           <ErrorMessage

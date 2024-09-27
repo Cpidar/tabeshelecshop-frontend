@@ -150,7 +150,7 @@ const Footer: React.FC = () => {
   }
 
   return (
-    <div className="nc-Footer relative pt-20 lg:pt-28 pb-8 border-t border-neutral-200 dark:border-neutral-700">
+    <footer className="nc-Footer pt-20 lg:pt-28 pb-8 border-t border-neutral-200 dark:border-neutral-700">
       <div className="mx-auto px-6 lg:px-64">
         <div className="xl:grid xl:grid-cols-4 xl:gap-8">
           <div className="space-y-4 grid grid-cols-1 gap-8 xl:col-span-2">
@@ -210,13 +210,13 @@ const Footer: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="mt-16 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
+        <div className="mt-16 mb-[54px] lg:mb-0 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
           <p className="text-xs leading-5 text-gray-500">
             &copy; 2020 Your Company, Inc. All rights reserved.
           </p>
         </div>
       </div>
-    </div>
+    </footer>
   )
 }
 

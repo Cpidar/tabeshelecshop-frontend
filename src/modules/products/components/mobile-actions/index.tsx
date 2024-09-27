@@ -13,6 +13,7 @@ import X from "@modules/common/icons/x"
 import { getProductPrice } from "@lib/util/get-product-price"
 import { Region } from "@medusajs/medusa"
 import OptionSelect from "../option-select"
+import NcInputNumber from "../product-actions/NcInputNumber"
 
 type MobileActionsProps = {
   product: PricedProduct
@@ -25,6 +26,9 @@ type MobileActionsProps = {
   isAdding?: boolean
   show: boolean
   optionsDisabled: boolean
+  inStockQty: number
+  quantitySelected: number
+  setQualitySelected: () => void
 }
 
 const MobileActions: React.FC<MobileActionsProps> = ({
@@ -38,6 +42,9 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   isAdding,
   show,
   optionsDisabled,
+  inStockQty,
+  quantitySelected,
+  setQualitySelected
 }) => {
   const { state, open, close } = useToggleState()
 
@@ -59,7 +66,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
   return (
     <>
       <div
-        className={clx("lg:hidden inset-x-0 bottom-0 fixed", {
+        className={clx("lg:hidden inset-x-0 bottom-[54px] fixed", {
           "pointer-events-none": !show,
         })}
       >
@@ -74,7 +81,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
           leaveTo="opacity-0"
         >
           <div
-            className="bg-white flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200"
+            className="bg-white z-9999 flex flex-col gap-y-3 justify-center items-center text-large-regular p-4 h-full w-full border-t border-gray-200"
             data-testid="mobile-actions"
           >
             <div className="flex items-center gap-x-2">
@@ -103,7 +110,8 @@ const MobileActions: React.FC<MobileActionsProps> = ({
               )}
             </div>
             <div className="grid grid-cols-2 w-full gap-x-4">
-              <Button
+              {product.variants.length > 1 ?
+              (<Button
                 onClick={open}
                 variant="secondary"
                 className="w-full"
@@ -117,11 +125,21 @@ const MobileActions: React.FC<MobileActionsProps> = ({
                   </span>
                   <ChevronDown />
                 </div>
-              </Button>
+              </Button>)
+              : (
+                <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-1.5 sm:p-3.5 rounded-full">
+                <NcInputNumber
+                max={inStockQty}
+                defaultValue={quantitySelected}
+                onChange={setQualitySelected}
+              />
+              </div>
+              )
+}
               <Button
                 onClick={handleAddToCart}
                 disabled={!inStock || !variant}
-                className="w-full"
+                className="w-full rounded-full"
                 isLoading={isAdding}
                 data-testid="mobile-cart-button"
               >

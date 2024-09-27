@@ -37,7 +37,7 @@ export default function ProductActions({
 }: ProductActionsProps) {
   const [options, setOptions] = useState<Record<string, string>>({})
   const [isAdding, setIsAdding] = useState(false)
-  const [qualitySelected, setQualitySelected] = useState(1)
+  const [quantitySelected, setQualitySelected] = useState(1)
 
   const countryCode = useParams().countryCode as string
 
@@ -133,7 +133,7 @@ export default function ProductActions({
 
     await addToCart({
       variantId: variant.id,
-      quantity: qualitySelected,
+      quantity: quantitySelected,
       countryCode,
     })
 
@@ -169,8 +169,9 @@ export default function ProductActions({
         <div className="flex space-x-3.5">
           <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
             <NcInputNumber
+            className="w-full"
               max={inStockQty}
-              defaultValue={qualitySelected}
+              defaultValue={quantitySelected}
               onChange={setQualitySelected}
             />
           </div>
@@ -204,6 +205,9 @@ export default function ProductActions({
           isAdding={isAdding}
           show={!inView}
           optionsDisabled={!!disabled || isAdding}
+          inStockQty={inStockQty}
+          quantitySelected={quantitySelected}
+          setQualitySelected={setQualitySelected}
         />
       </div>
     </>

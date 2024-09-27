@@ -9,6 +9,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "@/images/logo.svg"
 import { ArrowRightIcon } from "@heroicons/react/24/solid"
+import ButtonSecondary from "@/shared/Button/ButtonSecondary"
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
   setToken: (token: string) => void
@@ -37,8 +38,8 @@ const PageLogin = ({
       otp: "",
     },
   })
-  const [minutes, setMinutes] = useState(0)
-  const [seconds, setSeconds] = useState(10)
+  const [minutes, setMinutes] = useState(3)
+  const [seconds, setSeconds] = useState(0)
 
   const step: Step =
     previousView === LOGIN_VIEW.PASSWORD ? "isResetPassword" : "isSignUp"
@@ -86,8 +87,8 @@ const PageLogin = ({
         "content-type": "application/json; charset=utf-8",
       },
     })
-    setMinutes(1)
-    setSeconds(30)
+    setMinutes(3)
+    setSeconds(0)
   }
 
   const message =
@@ -138,9 +139,9 @@ const PageLogin = ({
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
       <div className="w-full relative flex items-center justify-center">
-        <div className="flex right-0 text-neutral-700 transition-all duration-300 ease-out cursor-pointer fixed lg:absolute">
+        <button onClick={() => setCurrentView(previousView)} className="flex right-0 w-6 text-neutral-700 transition-all duration-300 ease-out cursor-pointer fixed lg:absolute">
           <ArrowRightIcon />
-        </div>
+        </button>
         <Image
           className="mx-auto h-10 w-auto"
           src={logo}
@@ -188,21 +189,20 @@ const PageLogin = ({
 
         <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
           {seconds > 0 || minutes > 0 ? (
-            <p>
-              Time Remaining: {minutes < 10 ? `0${minutes}` : minutes}:
+            <p className="text-xs">
+              زمان باقیمانده تا دریافت مجدد کد: {minutes < 10 ? `0${minutes}` : minutes}:
               {seconds < 10 ? `0${seconds}` : seconds}
             </p>
           ) : (
-            <span>
-              <span>دریافت مجدد کد از طریق </span>
-              <button
-                className="text-blue-600"
+              <ButtonSecondary
+                className="w-full"
                 disabled={seconds > 0 || minutes > 0}
                 onClick={resendOTP}
               >
-                پیامک
-              </button>
-            </span>
+                <span className="text-blue-500 text-xs">
+                دریافت مجدد کد
+                </span>
+              </ButtonSecondary>
           )}
         </div>
       </div>

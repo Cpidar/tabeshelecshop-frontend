@@ -17,11 +17,12 @@ export type ProductHit = {
 
 type HitProps = {
   hit: ProductHit
+  onClickClose?: () => void;
 }
 
-const Hit = ({ hit }: HitProps) => {
+const Hit = ({ hit, onClickClose }: HitProps) => {
   return (
-    <LocalizedClientLink href={`/products/${hit.handle}`}>
+    <LocalizedClientLink onClick={onClickClose} href={`/products/${hit.handle}`}>
       <Container
         key={hit.id}
         className="flex sm:flex-col gap-2 w-full p-4 shadow-elevation-card-rest hover:shadow-elevation-card-hover items-center sm:justify-center"

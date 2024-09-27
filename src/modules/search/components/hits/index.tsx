@@ -12,9 +12,11 @@ import ShowAll from "../show-all"
 type HitsProps<THit> = React.ComponentProps<"div"> &
   UseHitsProps & {
     hitComponent: (props: { hit: THit }) => JSX.Element
+    onClickClose?: () => void
   }
 
 const Hits = ({
+  onClickClose,
   hitComponent: Hit,
   className,
   ...props
@@ -36,16 +38,17 @@ const Hits = ({
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
         {hits.slice(0, 6).map((hit, index) => (
           <li
+            onClick={onClickClose}
             key={index}
             className={clx("list-none", {
-              "hidden sm:block": index > 2,
+              "hidden sm:block": index > 5,
             })}
           >
             <Hit hit={hit as unknown as ProductHit} />
           </li>
         ))}
       </div>
-      <ShowAll />
+      <ShowAll onClickClose={onClickClose} />
     </div>
   )
 }
