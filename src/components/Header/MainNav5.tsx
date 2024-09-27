@@ -13,12 +13,18 @@ import ButtonPrimary from "@/shared/Button/ButtonPrimary"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
 import MobileSearchHeader from "../../modules/layout/components/mobile-header"
 import { PhoneIcon, PhoneArrowUpRightIcon } from "@heroicons/react/24/solid"
+import keystaticConfig from '../../../keystatic.config';
+import { createReader } from "@keystatic/core/reader"
+
+const reader = createReader(process.cwd(), keystaticConfig);
 
 export interface MainNav2LoggedProps {}
 
 const MainNav2Logged: FC<MainNav2LoggedProps> = async () => {
   // const inputRef = createRef<HTMLInputElement>()
   // const router = useRouter()
+  const  settings = await reader.singletons.settings.read();
+
   const customer = await getCustomer()
 
   const renderMagnifyingGlassIcon = () => {
@@ -134,8 +140,8 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async () => {
             </div>
             <div className="flex items-center">
               <ButtonPrimary className=" font-bold px-4 xl:px-6 py-2 xl:py-3 rounded flex-shrink-0 flex items-center">
-                <span className="ml-2">09139201435</span>
-                <PhoneArrowUpRightIcon className="w-8 h-8 p-2" />
+                <span className="ml-2">{settings?.CTA}</span>
+                <PhoneArrowUpRightIcon className="w-6 h-6 p-1" />
               </ButtonPrimary>
             </div>
           </div>

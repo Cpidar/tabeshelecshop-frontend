@@ -71,6 +71,7 @@ export default config({
             false: fields.empty(),
           }
         ),
+        CTA: fields.text({ label: 'CTA Btton Label' })
       },
     }),
     homepage: singleton({
