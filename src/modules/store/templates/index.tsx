@@ -34,7 +34,7 @@ const StoreTemplate = ({
               <div className="sticky hidden h-full lg:pt-4 shrink-0 ltr:pr-8 rtl:pl-8 xl:ltr:pr-16 xl:rtl:pl-16 lg:block top-16 lg:w-1/3 xl:w-1/4 pr-4">
               <RefinementList sortBy={sortBy || "created_at"} />
                 <ShopFilters />
-                <SidebarFilters />
+                {/* <SidebarFilters /> */}
               </div>
               <div className="flex-shrink-0 mb-10 lg:mb-0 lg:mx-4 border-t lg:border-t-0"></div>
               <div className="flex-1 ">
@@ -52,9 +52,9 @@ const StoreTemplate = ({
         </div>
 
         {/* === SECTION 5 === */}
-        <hr className="border-slate-200 dark:border-slate-700" />
+        {/* <hr className="border-slate-200 dark:border-slate-700" />
 
-        <SectionSliderCollections />
+        <SectionSliderCollections /> */}
         <hr className="border-slate-200 dark:border-slate-700" />
 
         {/* SUBCRIBES */}
