@@ -1,5 +1,11 @@
 {
     "platform": "next",
     "app": "tabeshelecshop-storefront",
-    "port": 8000
+    "port": 8000,
+    "disks": [
+        {
+            "name": "cache",
+            "mountTo": "/tmp"
+        }
+    ]
 }
