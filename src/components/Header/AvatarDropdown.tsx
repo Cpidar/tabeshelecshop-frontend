@@ -63,7 +63,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                   ></path>
                 </svg>
               </div>
-              <div className="text-xs">زهرا یوسفی</div>
+              <div className="text-xs">{`${customer?.first_name} ${customer?.last_name}`}</div>
             </Popover.Button>
             <Transition
               as={Fragment}

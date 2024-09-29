@@ -11,18 +11,19 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import Image from "next/image"
 import logo from "@/images/logo.svg"
 import { ArrowRightIcon } from "@heroicons/react/24/solid"
+import { useRouter } from "next/navigation"
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
   phone: string
 }
 
 const Register = ({ setCurrentView, phone }: Props) => {
+  const router = useRouter()
   const onFormAction = (_currentState: unknown, formData: FormData) => {
-    "use client"
-
     if (!formData.get("phone")) formData.append("phone", phone)
-    if (!formData.get("email")) formData.append("email", `${phone}@example.com`)
-    return signUp(_currentState, formData)
+    if (!formData.get("email")) formData.append("email", `${phone}@tabeshelecshop.ir`)
+    signUp(_currentState, formData)
+    router.replace("/")
   }
 
   const [message, formAction] = useFormState(onFormAction, null)
@@ -42,72 +43,79 @@ const Register = ({ setCurrentView, phone }: Props) => {
         <h1 className="text-h4 text-neutral-900 text-right w-full mt-6">
           مشخصات خود را وارد نمایید
         </h1>
-      <form className="w-full flex flex-col" action={formAction}>
-        <div className="flex flex-col w-full gap-y-2">
-          <Input
-            label="First name"
-            name="first_name"
-            required
-            autoComplete="given-name"
-            data-testid="first-name-input"
-          />
-          <Input
-            label="Last name"
-            name="last_name"
-            required
-            autoComplete="family-name"
-            data-testid="last-name-input"
-          />
-          <Input
-            label="Email"
-            name="email"
-            required
-            type="email"
-            autoComplete="email"
-            data-testid="email-input"
-          />
-          <Input label="Phone" value={phone} name="phone" type="tel" autoComplete="tel" data-testid="phone-input" hidden />
-          <Input
-            label="Password"
-            name="password"
-            required
-            type="password"
-            autoComplete="new-password"
-            data-testid="password-input"
-          />
-        </div>
-        <ErrorMessage error={message} data-testid="register-error" />
-        <span className="text-center text-ui-fg-base text-small-regular mt-6">
-          By creating an account, you agree to Medusa Store&apos;s{" "}
-          <LocalizedClientLink
-            href="/content/privacy-policy"
+        <form className="w-full flex flex-col" action={formAction}>
+          <div className="flex flex-col w-full gap-y-2">
+            <Input
+              label="نام"
+              name="first_name"
+              required
+              autoComplete="given-name"
+              data-testid="first-name-input"
+            />
+            <Input
+              label="نام خانوادگی"
+              name="last_name"
+              required
+              autoComplete="family-name"
+              data-testid="last-name-input"
+            />
+            {/* <Input
+              label="ایمیل"
+              name="email"
+              type="email"
+              autoComplete="email"
+              data-testid="email-input"
+            />
+            <Input
+              label="Phone"
+              value={phone}
+              name="phone"
+              type="tel"
+              autoComplete="tel"
+              data-testid="phone-input"
+              hidden
+            /> */}
+            <Input
+              label="رمز عبور"
+              name="password"
+              required
+              type="password"
+              autoComplete="new-password"
+              data-testid="password-input"
+            />
+          </div>
+          <ErrorMessage error={message} data-testid="register-error" />
+          <span className="text-center text-ui-fg-base text-small-regular mt-6">
+          ورود شما به معنای پذیرش شرایط{" "}
+            <LocalizedClientLink
+              href="/content/privacy-policy"
+              className="underline"
+            >
+               تابش الکتریک 
+            </LocalizedClientLink>{" "}
+            و{" "}
+            <LocalizedClientLink
+              href="/content/terms-of-use"
+              className="underline"
+            >
+              قوانین حریم خصوصی است
+            </LocalizedClientLink>
+            .
+          </span>
+          <SubmitButton className="w-full mt-6" data-testid="register-button">
+            ورود
+          </SubmitButton>
+        </form>
+        {/* <span className="text-center text-ui-fg-base text-small-regular mt-6">
+          Already a member?{" "}
+          <button
+            onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
             className="underline"
           >
-            Privacy Policy
-          </LocalizedClientLink>{" "}
-          and{" "}
-          <LocalizedClientLink
-            href="/content/terms-of-use"
-            className="underline"
-          >
-            Terms of Use
-          </LocalizedClientLink>
+            Sign in
+          </button>
           .
-        </span>
-        <SubmitButton className="w-full mt-6" data-testid="register-button">
-          Join
-        </SubmitButton>
-      </form>
-      <span className="text-center text-ui-fg-base text-small-regular mt-6">
-        Already a member?{" "}
-        <button
-          onClick={() => setCurrentView(LOGIN_VIEW.SIGN_IN)}
-          className="underline"
-        >
-          Sign in
-        </button>
-        .
-      </span>
+        </span> */}
       </div>
     </div>
   )

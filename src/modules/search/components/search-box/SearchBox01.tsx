@@ -70,7 +70,7 @@ const ControlledSearchBox = ({
         />
       </label>
 
-      {value ? (
+      {/* {value ? ( */}
         <button
           type="button"
           title="Clear search"
@@ -78,11 +78,11 @@ const ControlledSearchBox = ({
         >
           <MagnifyingGlass className="w-[17px] h-[17px] text-brand-dark text-opacity-40" />
         </button>
-      ) : (
+      {/* ) : (
         <span className="absolute top-0 flex items-center justify-center h-full w-14 md:w-16 ltr:right-0 rtl:left-0 shrink-0 focus:outline-none">
           <XMark className="w-5 h-5 text-brand-dark text-opacity-40" />
         </span>
-      )}
+      )} */}
     </form>
   )
 }
