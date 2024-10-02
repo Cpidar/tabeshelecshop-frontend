@@ -76,12 +76,12 @@ export default function DropdownCategories({
         </MenuButton>
       }
     >
-      {items?.map((item) =>
+      {items?.map((item, index) =>
         item.category_children?.length > 0 ? (
-          <SubMenu direction="left" gap={10} key={item.id} label={item.name}>
-            {item.category_children.map((subItem) => (
+          <SubMenu direction="left" gap={10} key={index} label={item.name}>
+            {item.category_children.map((subItem, index) => (
               <MenuItem
-                key={subItem.id}
+                key={index}
                 href={`/ir/categories/${subItem.handle}`}
               >
                 {subItem.name}

@@ -43,24 +43,24 @@ async function getRegionMap() {
   return regionMapCache.regionMap
 }
 
-async function getCustomer(request: NextRequest,) {
-  const token = request.cookies.get("_medusa_jwt")?.value
+// async function getCustomer(request: NextRequest,) {
+//   const token = request.cookies.get("_medusa_jwt")?.value
+// console.log(token)
+//   const headers = {
+//     'Content-type': 'application/json',
+//     next: {
+//       tags: ["customer"],
+//     },
+//     Authorization: token ? `Bearer ${token}` : ''
+//   } as Record<string, any>
 
-  const headers = {
-    'Content-type': 'application/json',
-    next: {
-      tags: ["customer"],
-    },
-    Authorization: token ? `Bearer ${token}` : ''
-  } as Record<string, any>
+//   const customer = await fetch(`${BACKEND_URL}/store/customers/me`, { headers })
+//     .then(res => res.json())
+//     .then(({ customer }) => customer)
+//     .catch((err) => console.log(err))
 
-  const customer = await fetch(`${BACKEND_URL}/store/customers/me`, { headers })
-    .then(res => res.json())
-    .then(({ customer }) => customer)
-    .catch((err) => console.log(err))
-
-  return customer
-}
+//   return customer
+// }
 
 /**
  * Fetches regions from Medusa and sets the region cookie.
@@ -114,7 +114,7 @@ export async function middleware(request: NextRequest) {
   const protectedUrl = ['checkout', 'account']
   // I18nMiddleware (request)
 
-  const customer = await getCustomer(request)
+  const token = request.cookies.get("_medusa_jwt")?.value
   const regionMap = await getRegionMap()
 
   const countryCode = regionMap && (await getCountryCode(request, regionMap))
@@ -129,7 +129,7 @@ export async function middleware(request: NextRequest) {
   const urlHasExcluded = excludedUrl.some(exurl => request.nextUrl.pathname.split("/")[1].includes(exurl))
   const isUrlProtected = protectedUrl.some(prurl => request.nextUrl.pathname.split("/").includes(prurl))
 
-  if (!customer && isUrlProtected) {
+  if (!token && isUrlProtected) {
     return NextResponse.redirect(`${request.nextUrl.origin}/${countryCode}/auth`, 307)
   }
 
