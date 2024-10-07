@@ -12,11 +12,13 @@ import { useParams } from "next/navigation"
 import dynamic from "next/dynamic"
 import NcInputNumber from "../product-actions/NcInputNumber"
 import ButtonCircle from "@/shared/Button/ButtonCircle"
+import { useCart } from "@/modules/cart/components/cart-context"
 
 // const ModalQuickView = dynamic(() => import("../quick-view-modal/ModalQuickView"))
 export const RenderGroupButtons = ({ data }: { data: Product }) => {
   const [showModalQuickView, setShowModalQuickView] = useState(false)
-  const [qualitySelected, setQualitySelected] = useState(1)
+  const [quantitySelected, setQuantitySelected] = useState(1)
+  const { addCartItem } = useCart();
 
   const countryCode = useParams().countryCode as string
 
@@ -24,11 +26,12 @@ export const RenderGroupButtons = ({ data }: { data: Product }) => {
 
   const handleAddToCart = async () => {
     if (!variant?.id) return null
+    addCartItem(variant, quantitySelected)
 
-    NotifyAddTocart({ quantity: qualitySelected, data })
+    // NotifyAddTocart({ quantity: quantitySelected, data })
     await addToCart({
       variantId: variant.id,
-      quantity: qualitySelected,
+      quantity: quantitySelected,
       countryCode,
     })
   }
@@ -40,8 +43,8 @@ export const RenderGroupButtons = ({ data }: { data: Product }) => {
           <div className="flex items-center justify-around bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
             <NcInputNumber
               max={data.quantity}
-              defaultValue={qualitySelected}
-              onChange={setQualitySelected}
+              defaultValue={quantitySelected}
+              onChange={setQuantitySelected}
             />
             <div className="w-8"></div>
             <div>

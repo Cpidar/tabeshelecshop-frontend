@@ -19,6 +19,7 @@ import { Route } from "@/routers/types";
 import imageRightPng from "@/images/hero-right.png";
 import imageRightPng2 from "@/images/hero-right-2.png";
 import imageRightPng3 from "@/images/hero-right-3.png";
+import { PricedVariant } from "@medusajs/medusa/dist/types/pricing";
 
 interface Hero2DataType {
   image: StaticImageData | string;
@@ -82,7 +83,7 @@ export interface Product {
   tags: string[];
   link: "/product-detail/";
   product_type: 'variable' | 'simple';
-  variants?: ProductVariant[];
+  variants?: PricedVariant[];
   variantType?: "color" | "image";
   sizes?: string[];
   allOfSizes?: string[];

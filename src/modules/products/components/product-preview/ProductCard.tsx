@@ -37,6 +37,8 @@ const ProductCard = async ({
     return null
   }
 
+  
+
   // const { cheapestPrice } = getProductPrice({
   //   product: pricedProduct,
   //   region,

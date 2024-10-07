@@ -29,10 +29,7 @@ export const transformMedusaProduct = (medusaProduct: PricedProduct, regionInfo:
         // meta: [],
         // brand: undefined,
         description: medusaProduct.description as string,
-        variants: medusaProduct.variants.map(v => ({
-          id: v.id,
-          name: v.title,
-        })),
+        variants: medusaProduct.variants,
       };
 }
 

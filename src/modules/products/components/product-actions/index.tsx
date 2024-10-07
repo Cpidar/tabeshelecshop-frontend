@@ -16,6 +16,7 @@ import MobileActions from "../mobile-actions"
 import ProductPrice from "../product-price"
 import NcInputNumber from "./NcInputNumber"
 import BagIcon from "@/shared/Icons/BagIcon"
+import { useCart } from "@/modules/cart/components/cart-context"
 
 type ProductActionsProps = {
   product: PricedProduct
@@ -38,6 +39,7 @@ export default function ProductActions({
   const [options, setOptions] = useState<Record<string, string>>({})
   const [isAdding, setIsAdding] = useState(false)
   const [quantitySelected, setQualitySelected] = useState(1)
+  const { addCartItem } = useCart();
 
   const countryCode = useParams().countryCode as string
 
@@ -128,6 +130,8 @@ export default function ProductActions({
   // add the selected variant to the cart
   const handleAddToCart = async () => {
     if (!variant?.id) return null
+
+    addCartItem(variant, quantitySelected)
 
     setIsAdding(true)
 

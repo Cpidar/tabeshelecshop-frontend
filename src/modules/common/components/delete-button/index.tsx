@@ -4,14 +4,22 @@ import { useState } from "react"
 
 import { deleteLineItem } from "@modules/cart/actions"
 
+type ButtonEvent = (
+  e: React.MouseEvent<HTMLButtonElement | MouseEvent>
+) => void;
+
 const DeleteButton = ({
   id,
   children,
   className,
+  onDelete,
+  disabled
 }: {
   id: string
   children?: React.ReactNode
   className?: string
+  onDelete: ButtonEvent;
+  disabled: boolean
 }) => {
   const [isDeleting, setIsDeleting] = useState(false)
 
@@ -31,7 +39,8 @@ const DeleteButton = ({
     >
       <button
         className="flex gap-x-1 text-ui-fg-subtle hover:text-ui-fg-base cursor-pointer"
-        onClick={() => handleDelete(id)}
+        onClick={onDelete}
+        disabled={disabled}
       >
         {isDeleting ? <Spinner className="animate-spin" /> : <Trash />}
         <span>{children}</span>

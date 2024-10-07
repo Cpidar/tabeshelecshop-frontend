@@ -1,7 +1,7 @@
 "use client"
 
-import { Popover, Transition } from "@/app/headlessui"
-import { Fragment, useState } from "react"
+import { Popover, Transition, Dialog } from "@/app/headlessui"
+import { Fragment, useEffect, useRef, useState } from "react"
 import ButtonPrimary from "@/shared/Button/ButtonPrimary"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
 import Link from "next/link"
@@ -13,23 +13,35 @@ import Thumbnail from "@/modules/products/components/thumbnail"
 import DeleteButton from "@/modules/common/components/delete-button"
 import { formatAmount } from "@/lib/util/prices"
 import Counter from "@/shared/Counter/Counter"
-import { updateLineItem } from "@modules/cart/actions"
+import { deleteLineItem, updateLineItem } from "@modules/cart/actions"
+import { useCart } from "@/modules/cart/components/cart-context"
+import CloseCart from "./close-cart"
 
-export default function CartDropdown({
-  cart: cartState,
-}: {
-  cart?: Omit<Cart, "beforeInsert" | "afterLoad"> | null;
-}) {
+export default function CartDropdown() {
   const [updating, setUpdating] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  
+  const { cart, updateCartItem } = useCart()
+  const [isOpen, setIsOpen] = useState(false)
+
+  const quantityRef = useRef(cart?.subtotal)
+  const openCart = () => setIsOpen(true)
+  const closeCart = () => setIsOpen(false)
+
   const totalItems =
-    cartState?.items?.reduce((acc, item) => {
+    cart?.items?.reduce((acc, item) => {
       return acc + item.quantity
     }, 0) || 0
 
-  const totol = cartState?.subtotal || 0
+  useEffect(() => {
+    if (totalItems && totalItems !== quantityRef.current && totalItems > 0) {
+      if (!isOpen) {
+        setIsOpen(true)
+      }
+      quantityRef.current = totalItems
+    }
+  }, [isOpen, totalItems, quantityRef])
 
+  const totol = cart?.subtotal || 0
 
   const renderProduct = (item: LineItem, index: number, close: () => void) => {
     const { title: name, thumbnail, cart_id, id } = item
@@ -50,7 +62,7 @@ export default function CartDropdown({
         .finally(() => {
           setUpdating(false)
         })
-  
+
       message && setError(message)
     }
 
@@ -81,28 +93,39 @@ export default function CartDropdown({
                 </p>
               </div>
               {/* <Prices price={price} className="mt-0.5" /> */}
-              {cartState && (
-                <LineItemPrice
-                  region={cartState.region}
-                  item={item}
-                  style="tight"
-                />
+              {cart && (
+                <LineItemPrice region={cart.region} item={item} style="tight" />
               )}
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
             <Counter
               value={item.quantity}
-              onIncrement={() => changeQuantity(item.quantity+1)}
-              onDecrement={() => changeQuantity(item.quantity-1)}
+              onIncrement={() => {
+                // optimistic cart update
+                updateCartItem(item.variant_id!, "plus")
+                // server action
+                changeQuantity(item.quantity + 1)
+              }}
+              onDecrement={() => {
+                // optimistic cart update
+                updateCartItem(item.variant_id!, "minus")
+                // server action
+                changeQuantity(item.quantity - 1)
+              }}
               variant="cart"
-              disabled={item.variant.inventory_quantity < 1}
+              disabled={item.variant.inventory_quantity < 1 || item.sending}
             />
             <div className="flex">
               <DeleteButton
                 id={item.id}
                 className="mt-1"
                 data-testid="cart-item-remove-button"
+                onDelete={() => {
+                  updateCartItem(item.variant_id!, "delete")
+                  deleteLineItem(item.id)
+                }}
+                disabled={item.sending}
               >
                 حذف
               </DeleteButton>
@@ -118,57 +141,7 @@ export default function CartDropdown({
       <Popover className="relative">
         {({ open, close }) => (
           <>
-            {/* <Popover.Button
-            className={`
-                ${open ? "" : "text-opacity-90"}
-                 group w-10 h-10 sm:w-12 sm:h-12 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full inline-flex items-center justify-center focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 relative`}
-          >
-            <div className="w-3.5 h-3.5 flex items-center justify-center bg-primary-500 absolute top-1.5 ltr:right-1.5 ltr:left-1.5 rounded-full text-[10px] leading-none text-white font-medium">
-              <span className="mt-[1px]">{totalItems}</span>
-            </div>
-            <svg
-              className="w-6 h-6"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M2 2H3.74001C4.82001 2 5.67 2.93 5.58 4L4.75 13.96C4.61 15.59 5.89999 16.99 7.53999 16.99H18.19C19.63 16.99 20.89 15.81 21 14.38L21.54 6.88C21.66 5.22 20.4 3.87 18.73 3.87H5.82001"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M16.25 22C16.9404 22 17.5 21.4404 17.5 20.75C17.5 20.0596 16.9404 19.5 16.25 19.5C15.5596 19.5 15 20.0596 15 20.75C15 21.4404 15.5596 22 16.25 22Z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M8.25 22C8.94036 22 9.5 21.4404 9.5 20.75C9.5 20.0596 8.94036 19.5 8.25 19.5C7.55964 19.5 7 20.0596 7 20.75C7 21.4404 7.55964 22 8.25 22Z"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-              <path
-                d="M9 8H21"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeMiterlimit="10"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-
-            <Link className="block md:hidden absolute inset-0" href={"/cart"} />
-          </Popover.Button> */}
-            <Popover.Button className="flex">
+            <Popover.Button className="flex" onClick={openCart}>
               <div className="mr-2 lg:mr-4 relative inline-block">
                 <div className="absolute -top-1 ltr:right-0 rtl:left-0 z-10 bg-yellow-400 text-xs font-bold px-1 py-0.5 rounded-sm">
                   {totalItems}
@@ -192,62 +165,81 @@ export default function CartDropdown({
               <div className="mr-4 hidden sm:flex flex-col font-bold">
                 <span className="text-xs text-gray-400">سبد خرید شما</span>
                 <span>
-                  {
-                  cartState ?
-                  formatAmount({
-                    amount: totol || 0,
-                    region: cartState.region,
-                    includeTaxes: false,
-                  }) :
-                  "0 تومان"
-                }
+                  {cart?.items.length
+                    ? formatAmount({
+                        amount: totol || 0,
+                        region: cart.region,
+                        includeTaxes: false,
+                      })
+                    : "0 تومان"}
                 </span>
               </div>
             </Popover.Button>
-            <Transition
-              as={Fragment}
-              enter="transition ease-out duration-200"
-              enterFrom="opacity-0 translate-y-1"
-              enterTo="opacity-100 translate-y-0"
-              leave="transition ease-in duration-150"
-              leaveFrom="opacity-100 translate-y-0"
-              leaveTo="opacity-0 translate-y-1"
-            >
-              <Popover.Panel className="hidden md:block absolute z-20 w-screen max-w-xs sm:max-w-md px-4 mt-3.5 lrt:-right-28 rtl:-left-28 ltr:sm:right-0 rtl:sm:left-0 sm:px-0">
-                <div className="overflow-hidden rounded-2xl shadow-lg ring-1 ring-black/5 dark:ring-white/10">
-                  <div className="relative bg-white dark:bg-neutral-800">
-                    {cartState && cartState.items?.length ? (
+            <Transition show={isOpen}>
+              <Dialog onClose={closeCart} className="relative z-50">
+                <Transition.Child
+                  as={Fragment}
+                  enter="transition-all ease-in-out duration-300"
+                  enterFrom="opacity-0 backdrop-blur-none"
+                  enterTo="opacity-100 backdrop-blur-[.5px]"
+                  leave="transition-all ease-in-out duration-200"
+                  leaveFrom="opacity-100 backdrop-blur-[.5px]"
+                  leaveTo="opacity-0 backdrop-blur-none"
+                >
+                  <div
+                    className="fixed inset-0 bg-black/30"
+                    aria-hidden="true"
+                  />
+                </Transition.Child>
+                <Transition.Child
+                  as={Fragment}
+                  enter="transition-all ease-in-out duration-300"
+                  enterFrom="translate-x-full"
+                  enterTo="translate-x-0"
+                  leave="transition-all ease-in-out duration-200"
+                  leaveFrom="translate-x-0"
+                  leaveTo="translate-x-full"
+                >
+                  <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-l border-neutral-200 bg-white/80 p-6 text-black backdrop-blur-xl md:w-[390px] dark:border-neutral-700 dark:bg-black/80 dark:text-white">
+                    <div className="flex items-center justify-between">
+                      <p className="text-lg font-semibold">My Cart</p>
+                      <button aria-label="Close cart" onClick={closeCart}>
+                        <CloseCart />
+                      </button>
+                    </div>
+                    {cart && cart.items?.length ? (
                       <>
-                        <div className="max-h-[60vh] p-5 overflow-y-auto hiddenScrollbar">
-                          <h3 className="text-xl font-semibold">سبد خرید</h3>
-                          <div className="divide-y divide-slate-100 dark:divide-slate-700">
-                            {cartState.items
-                              .sort((a, b) => {
-                                return a.created_at > b.created_at ? -1 : 1
-                              })
-                              .map((item, index) =>
-                                renderProduct(item, index, close)
-                              )}
+                        <div className="flex h-full flex-col justify-between overflow-hidden p-1">
+                          <div className="max-h-[60vh] p-5 overflow-y-auto hiddenScrollbar">
+                            <h3 className="text-xl font-semibold">سبد خرید</h3>
+                            <div className="divide-y divide-slate-300 dark:divide-slate-700">
+                              {cart.items
+                                .sort((a, b) => {
+                                  return a.created_at > b.created_at ? -1 : 1
+                                })
+                                .map((item, index) =>
+                                  renderProduct(item, index, close)
+                                )}
+                            </div>
                           </div>
-                        </div>
-                        <div className="bg-neutral-50 dark:bg-slate-900 p-5">
-                          <p className="flex justify-between font-semibold text-slate-900 dark:text-slate-100">
-                            <span>
-                              <span>مجموع</span>
-                              {/* <span className="block text-sm text-slate-500 dark:text-slate-400 font-normal">
+                          <div className="bg-neutral-50 dark:bg-slate-900 p-5">
+                            <p className="flex justify-between font-semibold text-slate-900 dark:text-slate-100">
+                              <span>
+                                <span>مجموع</span>
+                                {/* <span className="block text-sm text-slate-500 dark:text-slate-400 font-normal">
                                 Shipping and taxes calculated at checkout.
                               </span> */}
-                            </span>
-                            <span className="">
-                              {formatAmount({
-                                amount: cartState.subtotal || 0,
-                                region: cartState.region,
-                                includeTaxes: false,
-                              })}
-                            </span>
-                          </p>
-                          <div className="flex justify-around space-x-1 mt-5">
-                            {/* <ButtonSecondary
+                              </span>
+                              <span className="">
+                                {formatAmount({
+                                  amount: cart.subtotal || 0,
+                                  region: cart.region,
+                                  includeTaxes: false,
+                                })}
+                              </span>
+                            </p>
+                            <div className="flex justify-around space-x-1 mt-5">
+                              {/* <ButtonSecondary
                               href="/cart"
                               className="flex-1 border border-slate-200 dark:border-slate-700"
                               onClick={close}
@@ -255,20 +247,21 @@ export default function CartDropdown({
                               مشاهده سبد خرید
                             </ButtonSecondary>
                             <div className="mx-1"></div> */}
-                            {/* <ButtonPrimary
+                              {/* <ButtonPrimary
                               href="/checkout"
                               onClick={close}
                               className="flex-1"
                             >
                               تسویه حساب
                             </ButtonPrimary> */}
-                            <ButtonPrimary
-                              href="/cart"
-                              onClick={close}
-                              className="flex-1"
-                            >
-                              مشاهده سبد خرید
-                            </ButtonPrimary>
+                              <ButtonPrimary
+                                href="/cart"
+                                onClick={close}
+                                className="flex-1"
+                              >
+                                مشاهده سبد خرید
+                              </ButtonPrimary>
+                            </div>
                           </div>
                         </div>
                       </>
@@ -278,7 +271,7 @@ export default function CartDropdown({
                           <div className="bg-gray-900 text-small-regular flex items-center justify-center w-6 h-6 rounded-full text-white">
                             <span>0</span>
                           </div>
-                          <span>Your shopping bag is empty.</span>
+                          <span>سبد خرید شما خالی است.</span>
                           <div>
                             <LocalizedClientLink href="/store">
                               <>
@@ -286,7 +279,7 @@ export default function CartDropdown({
                                   Go to all products page
                                 </span>
                                 <Button onClick={close}>
-                                  Explore products
+                                  یه گشت دیگه تو فروشگاه بزن
                                 </Button>
                               </>
                             </LocalizedClientLink>
@@ -294,9 +287,9 @@ export default function CartDropdown({
                         </div>
                       </div>
                     )}
-                  </div>
-                </div>
-              </Popover.Panel>
+                  </Dialog.Panel>
+                </Transition.Child>
+              </Dialog>
             </Transition>
           </>
         )}

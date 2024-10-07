@@ -16,7 +16,7 @@ const fetchCart = async () => {
 
 
 export default async function CartButton() {
-  const cart = await fetchCart()
+  // const cart = await fetchCart()
 
-  return <CartDropdown cart={cart}/>
+  return <CartDropdown />
 }
