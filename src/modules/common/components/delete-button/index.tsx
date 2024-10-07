@@ -13,13 +13,15 @@ const DeleteButton = ({
   children,
   className,
   onDelete,
-  disabled
+  disabled,
+  loading
 }: {
   id: string
   children?: React.ReactNode
   className?: string
   onDelete: ButtonEvent;
-  disabled: boolean
+  disabled?: boolean
+  loading?: boolean
 }) => {
   const [isDeleting, setIsDeleting] = useState(false)
 
@@ -42,7 +44,7 @@ const DeleteButton = ({
         onClick={onDelete}
         disabled={disabled}
       >
-        {isDeleting ? <Spinner className="animate-spin" /> : <Trash />}
+        {loading ? <Spinner className="animate-spin" /> : <Trash />}
         <span>{children}</span>
       </button>
     </div>

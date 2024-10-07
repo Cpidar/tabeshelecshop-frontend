@@ -7,20 +7,25 @@ import React, {
   createContext,
   use,
   useContext,
+  useEffect,
   useMemo,
   useOptimistic,
+  useRef,
 } from "react"
-
+import { getOrSetCart } from "../../actions"
 
 type UpdateType = "plus" | "minus" | "delete"
-type CartDTO = Pick<Cart, 'subtotal' | 'items' | 'id' | 'region'>
-type LineItemDTO = Pick<LineItem, 'variant_id' | 'id' | 'quantity' | 'subtotal' | 'unit_price' >
+type CartDTO = Pick<Cart, "subtotal" | "items" | "id" | "region">
+type LineItemDTO = Pick<
+  LineItem,
+  "variant_id" | "id" | "quantity" | "subtotal" | "unit_price"
+>
 type CartAction =
   | {
       type: "UPDATE_ITEM"
       payload: { variantId: string; updateType: UpdateType }
     }
-  | { type: "ADD_ITEM"; payload: { variant: PricedVariant, quantity: number } }
+  | { type: "ADD_ITEM"; payload: { variant: PricedVariant; quantity: number } }
 
 type CartContextType = {
   cart: CartDTO | undefined
@@ -51,7 +56,7 @@ function updateCartItem(
     ...item,
     quantity: newQuantity,
     subtotal: newTotalAmount,
-    sending: true
+    sending: true,
   } as unknown as LineItem
 }
 
@@ -72,10 +77,10 @@ function createOrUpdateCartItem(
     subtotal: totalAmount,
     variant: {
       product: {
-        handle: variant.product?.handle
-      }
+        handle: variant.product?.handle,
+      },
     },
-    sending: true
+    sending: true,
   } as unknown as LineItem
 }
 
@@ -95,9 +100,9 @@ function updateCartTotals(
   }
 }
 
-function createEmptyCart(): CartDTO{
+function createEmptyCart(): CartDTO {
   return {
-    id: '',
+    id: "",
     region: {} as Region,
     subtotal: 0,
     items: [],
@@ -112,7 +117,9 @@ function cartReducer(state: CartDTO | undefined, action: CartAction): CartDTO {
       const { variantId, updateType } = action.payload
       const updatedLines = currentCart.items
         .map((item) =>
-          item.variant_id === variantId ? updateCartItem(item, updateType) : item
+          item.variant_id === variantId
+            ? updateCartItem(item, updateType)
+            : item
         )
         .filter(Boolean) as LineItem[]
 
@@ -135,7 +142,11 @@ function cartReducer(state: CartDTO | undefined, action: CartAction): CartDTO {
       const existingItem = currentCart.items.find(
         (item) => item.variant_id === variant.id
       )
-      const updatedItem = createOrUpdateCartItem(existingItem, variant, quantity)
+      const updatedItem = createOrUpdateCartItem(
+        existingItem,
+        variant,
+        quantity
+      )
 
       const updatedLines = existingItem
         ? currentCart.items.map((item) =>
@@ -156,16 +167,29 @@ function cartReducer(state: CartDTO | undefined, action: CartAction): CartDTO {
 
 export function CartProvider({
   children,
-  cartPromise,
+  // cartPromise,
+  countryCode,
 }: {
   children: React.ReactNode
-  cartPromise: Promise<Cart | undefined>
+  // cartPromise: Promise<Cart | undefined>
+  countryCode: string
 }) {
-  const initialCart = use(cartPromise)
+  let initialCart = useRef<Cart | undefined>()
+  // const initialCart = use(cartPromise.current)
   const [optimisticCart, updateOptimisticCart] = useOptimistic(
-    initialCart,
+    initialCart.current,
     cartReducer
   )
+
+  useEffect(() => {
+    async function initializeCart() {
+      if (!initialCart.current) {
+        console.log('initialize cart')
+        initialCart.current = await getOrSetCart(countryCode)
+      }
+    }
+    initializeCart()
+  }, [countryCode])
 
   const updateCartItem = (variantId: string, updateType: UpdateType) => {
     updateOptimisticCart({

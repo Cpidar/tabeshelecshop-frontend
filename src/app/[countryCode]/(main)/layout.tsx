@@ -11,7 +11,7 @@ import { getCustomer } from "@/lib/data"
 import MobileHeader from "@/modules/layout/components/mobile-header"
 import MobileNavigation from "@/modules/layout/components/mobile-navigation"
 import { CartProvider } from "@/modules/cart/components/cart-context"
-import { getOrSetCart } from "@/modules/cart/actions"
+import { initializeCart } from "@/modules/cart/actions"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
 
@@ -29,10 +29,9 @@ export default async function PageLayout({
   const i18nNamespaces = ["common"]
 
   const { t, resources } = await initTranslations(countryCode, ["common"])
-  const cart = getOrSetCart(countryCode)
 
   return (
-    <CartProvider cartPromise={cart}>
+    <CartProvider countryCode={countryCode}>
       <TranslationsProvider
         locale={countryCode}
         namespaces={i18nNamespaces}

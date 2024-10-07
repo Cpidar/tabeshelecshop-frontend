@@ -114,7 +114,7 @@ export default function CartDropdown() {
                 changeQuantity(item.quantity - 1)
               }}
               variant="cart"
-              disabled={item.variant.inventory_quantity < 1 || item.sending}
+              disabled={item.variant.inventory_quantity < 1}
             />
             <div className="flex">
               <DeleteButton
@@ -126,8 +126,9 @@ export default function CartDropdown() {
                   deleteLineItem(item.id)
                 }}
                 disabled={item.sending}
+                loading={item.sending}
               >
-                حذف
+                { item.sending ? 'در حال ثبت ...' : 'حذف' }
               </DeleteButton>
             </div>
           </div>
