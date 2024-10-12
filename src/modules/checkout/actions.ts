@@ -202,7 +202,7 @@ export async function updatePaymentSessionStatus(cart_id: string | undefined, pr
   }
 }
 
-export async function placeOrder(cart_id: string | undefined) {
+export async function placeOrder(cart_id?: string | undefined) {
   let cartId = cart_id
   if (!cartId) {
     cartId = cookies().get("_medusa_cart_id")?.value

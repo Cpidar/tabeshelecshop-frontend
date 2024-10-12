@@ -12,7 +12,7 @@ const transformProductPreview = (
 ): ProductPreviewType => {
   const variants = product.variants as unknown as CalculatedVariant[]
 
-  let cheapestVariant = undefined
+  let cheapestVariant
   let inStock = 0
 
   if (variants?.length > 0) {
@@ -25,6 +25,7 @@ const transformProductPreview = (
 
     inStock = variants.reduce((acc, curr) => acc + curr.inventory_quantity, 0 )
   }
+
 
   return {
     id: product.id!,

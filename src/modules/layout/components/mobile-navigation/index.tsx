@@ -19,11 +19,11 @@ const fetchCart = async () => {
 }
 
 export default async function MobileNavigation() {
-  const cart = await fetchCart()
-  const totalItems =
-    cart?.items?.reduce((acc, item) => {
-      return acc + item.quantity
-    }, 0) || 0
+  // const cart = await fetchCart()
+  // const totalItems =
+  //   cart?.items?.reduce((acc, item) => {
+  //     return acc + item.quantity
+  //   }, 0) || 0
   return (
     <div className="lg:hidden fixed z-30 -bottom-0.5 flex items-center justify-between shadow-bottomNavigation body-font bg-brand-light w-full h-14 px-4 md:px-6 lg:px-8 text-brand-muted pb-0.5">
       <MenuBar />
@@ -34,7 +34,7 @@ export default async function MobileNavigation() {
         <HomeIcon />
       </LocalizedClientLink>
       <LocalizedClientLink href="/cart" className="rounded-lg text-neutral-700 dark:text-neutral-300 focus:outline-none flex items-center justify-center">
-        <BagIcon2withBadge totalItems={totalItems} />
+        <BagIcon2withBadge />
       </LocalizedClientLink>
       <LocalizedClientLink href="/account" className="rounded-lg text-neutral-700 dark:text-neutral-300 focus:outline-none flex items-center justify-center">
         <UserIcon />

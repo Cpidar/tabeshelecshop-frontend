@@ -71,6 +71,7 @@
     "react-i18next": "^15.0.1",
     "react-instantsearch-hooks-web": "^6.29.0",
     "react-intersection-observer": "^9.3.4",
+    "react-toastify": "^10.0.5",
     "react-use": "^17.5.1",
     "sass": "^1.77.8",
     "sharp": "^0.33.4",

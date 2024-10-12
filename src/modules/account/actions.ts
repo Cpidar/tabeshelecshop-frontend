@@ -29,6 +29,7 @@ export async function signUp(_currentState: unknown, formData: FormData) {
     last_name: formData.get("last_name"),
     phone: formData.get("phone"),
   } as StorePostCustomersReq
+  let success = false
 
   try {
     await createCustomer(customer)
@@ -37,8 +38,11 @@ export async function signUp(_currentState: unknown, formData: FormData) {
         revalidateTag("customer")
       }
     )
+    success = true
   } catch (error: any) {
     return error.toString()
+  } finally {
+    if(success) redirect('/')
   }
 }
 
@@ -48,14 +52,19 @@ export async function logCustomerIn(
 ) {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
+  let success = false
 
   try {
-    await getToken({ email, password }).then(() => {
-      revalidateTag("customer")
-    })
+    await getToken({ email, password })
+      .then(() => {
+        revalidateTag("customer")
+      })
+      success = true
   } catch (error: any) {
     return error.toString()
-  }
+  } finally {
+    if(success) redirect('/')
+    }
 }
 
 export async function resetPassword(
@@ -72,6 +81,7 @@ export async function resetPassword(
   const new_password = formData.get("new_password") as string
   const confirm_password = formData.get("confirm_password") as string
 
+  let success = false
 
   if (new_password !== confirm_password) {
     return {
@@ -88,6 +98,7 @@ export async function resetPassword(
       .then(() => {
         revalidateTag("customer")
       })
+    success = true
 
     return {
       email,
@@ -102,6 +113,8 @@ export async function resetPassword(
       success: false,
       error: error.toString(),
     }
+  } finally {
+    if(success) redirect('/')
   }
 }
 

@@ -1,6 +1,4 @@
-import { updatePaymentSession } from "@/lib/data"
-import { cookies } from "next/headers"
-import { notFound, redirect, RedirectType } from "next/navigation"
+import { redirect } from "next/navigation"
 
 export async function POST(request: Request) {
   const resText = await request.text()

@@ -82,7 +82,7 @@ const PageLogin = ({ setCurrentView, setPhone, setEmail }: Props) => {
   }
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
-       <div className="w-full relative flex items-center justify-center">
+      <div className="w-full relative flex items-center justify-center">
         <div className="flex right-0 text-neutral-700 transition-all duration-300 ease-out cursor-pointer fixed lg:absolute">
           <ArrowRightIcon />
         </div>
@@ -116,7 +116,7 @@ const PageLogin = ({ setCurrentView, setPhone, setEmail }: Props) => {
                   required: "enter your phone number",
                   pattern: {
                     value: /((0?9)|(\+?989))\d{9}/g,
-                    message: "enter the valid phone number",
+                    message: "شماره تلفن بدرستی وارد نشده است",
                   },
                 })}
               />

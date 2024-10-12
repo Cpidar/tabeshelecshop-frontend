@@ -4,11 +4,12 @@ import logo from "@/images/logo.svg"
 import Image from "next/image"
 import { ArrowRightIcon } from "@heroicons/react/24/solid"
 import ButtonPrimary from "@/shared/Button/ButtonPrimary"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { error } from "console"
 import ErrorMessage from "../../components/error-message"
 import { placeOrder, updatePaymentSessionStatus } from "../../actions"
 import { updatePaymentSession } from "@/lib/data"
+import { PromiseWithTimeout } from "@/utils/promiseWithTimeout"
 
 type Props = {
   providerId: string
@@ -26,55 +27,85 @@ const PaymentConfirmation = ({
   SaleOrderId,
   SaleReferenceId,
 }: Props) => {
-  const [counter, setCounter] = useState(10)
+  const [counter, setCounter] = useState(15)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+
+  const localOrCookieCartId = useMemo(() => {
+    if (!cartId && typeof window !== "undefined") {
+      return localStorage.getItem("_medusa_cart_id")!
+    }
+    return cartId
+  }, [cartId])
+
+  const handleOrder = async () => {
+    console.log("plcing order ...")
+    await updatePaymentSessionStatus(localOrCookieCartId, providerId, {
+      SaleReferenceId,
+      RefId,
+    }).catch((e) => {
+      console.error(e)
+      setErrorMessage("Payment Session not Updated")
+      throw new Error("Payment Session not Updated")
+    })
+
+    await placeOrder(localOrCookieCartId).catch((e) => {
+      console.error(e)
+      setErrorMessage("متاسفانه مشکلی در ثبت سفارش شما پدید آمده است")
+      throw new Error("Place Order Error")
+    })
+  }
 
   useEffect(() => {
     counter > 0 && setTimeout(() => setCounter(counter - 1), 1000)
-  }, [counter])
+    if (counter === 0 && !errorMessage) {
+      setIsLoading(false)
+    }
+  }, [counter, errorMessage])
 
   useEffect(() => {
-    const handleOrder = async () => {
-      let localOrCookieCartId = cartId
-      if (!cartId && typeof window !== "undefined") {
-        localOrCookieCartId = localStorage.getItem("_medusa_cart_id")!
-      }
-      const baseUrl =
-        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
+    const verifyOrder = async () => {
+      try {
+        const baseUrl =
+          process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
 
-      const res = await fetch(`${baseUrl}/api/behpardakht/verify`, {
-        method: "POST",
-        body: JSON.stringify({
-          RefId,
-          SaleOrderId,
-          SaleReferenceId,
-        }),
-      })
+        // const res = await PromiseWithTimeout<Response>(
+        //   10000,
+        //   fetch(`${baseUrl}/api/behpardakht/verify`, {
+        //     method: "POST",
+        //     body: JSON.stringify({
+        //       RefId,
+        //       SaleOrderId,
+        //       SaleReferenceId,
+        //     }),
+        //   })
+        // ) as Response
 
-      const { errorMessage } = await res.json()
+        const res = (await PromiseWithTimeout(
+          10000,
+          new Promise<any>((res) =>
+            setTimeout(
+              () => res({ status: 200, resCode: 0, errorMessage: "" }),
+              1000
+            )
+          )
+        )) as Response
 
-      if (res.status === 400) {
-        setErrorMessage(errorMessage)
-        throw new Error(errorMessage)
-      }
+        // const { errorMessage } = await res.json()
 
-      await placeOrder(localOrCookieCartId).catch((e) => {
+        if (res.status === 400) {
+          setErrorMessage(errorMessage)
+          throw new Error(errorMessage)
+        }
+        await handleOrder()
+      } catch (e) {
         console.error(e)
-        setErrorMessage("متاسفانه مشکلی در ثبت سفارش شما پدید آمده است")
-        throw new Error("Place Order Error")
-      })
+        setErrorMessage("مشکلی در پرداخت شما بوجود آمده است")
+      }
 
-      await updatePaymentSessionStatus(localOrCookieCartId, providerId, {
-        SaleReferenceId,
-        RefId,
-      }).catch((e) => {
-        console.error(e)
-        setErrorMessage("Payment Session not Updated")
-        throw new Error("Payment Session not Updated")
-      })
     }
 
-    handleOrder()
+    verifyOrder()
   }, [])
 
   return (
@@ -100,7 +131,11 @@ const PaymentConfirmation = ({
             شماره پیگیری: {SaleReferenceId}
           </p>
           {!errorMessage ? (
-            <form className="">
+            <form
+              action={async () => {
+                await handleOrder()
+              }}
+            >
               <ButtonPrimary
                 className="w-full mt-6 lg:mt-8"
                 type="submit"

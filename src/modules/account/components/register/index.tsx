@@ -26,8 +26,7 @@ const Register = ({ setCurrentView, phone }: Props) => {
     router.replace("/")
   }
 
-  const [message, formAction] = useFormState(onFormAction, null)
-
+  const [message, formAction] = useFormState(signUp, null)
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
       <div className="w-full relative flex items-center justify-center">
@@ -59,12 +58,14 @@ const Register = ({ setCurrentView, phone }: Props) => {
               autoComplete="family-name"
               data-testid="last-name-input"
             />
-            {/* <Input
+            <Input
               label="ایمیل"
+              value={`${phone}@tabeshelecshop.ir`}
               name="email"
               type="email"
               autoComplete="email"
               data-testid="email-input"
+              hidden
             />
             <Input
               label="Phone"
@@ -74,7 +75,7 @@ const Register = ({ setCurrentView, phone }: Props) => {
               autoComplete="tel"
               data-testid="phone-input"
               hidden
-            /> */}
+            />
             <Input
               label="رمز عبور"
               name="password"

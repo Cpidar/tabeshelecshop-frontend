@@ -7,7 +7,7 @@ import NcImage from "@/shared/NcImage/NcImage"
 import { ProductPreviewType } from "@/types/global"
 import { Region } from "@medusajs/medusa"
 import { RenderSizeList } from "./RenderSizeList"
-import { RenderGroupButtons } from "./RenderGroupButtons"
+import { RenderGroupButtons } from "../overlay-actions"
 
 import { retrievePricedProductById } from "@lib/data"
 import { transformMedusaProduct } from "@/utils/data-mappers"

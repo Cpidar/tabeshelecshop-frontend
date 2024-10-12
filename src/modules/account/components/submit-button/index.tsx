@@ -7,9 +7,13 @@ import { useEffect } from "react"
 import { useFormStatus } from "react-dom"
 
 export default function SubmitButton({
+  fallBackLabel,
   children,
+  className
 }: {
+  fallBackLabel?: string
   children: React.ReactNode
+  className?: string
 }) {
   const { pending } = useFormStatus()
   const router = useRouter()
@@ -20,8 +24,8 @@ export default function SubmitButton({
   // }, [pending])
 
   return (
-    <ButtonPrimary type="submit" loading={pending}>
-      {pending ? "در حال ورود" : children}
+    <ButtonPrimary type="submit" loading={pending} className={className}>
+      {(pending && fallBackLabel) ? fallBackLabel : children}
     </ButtonPrimary>
   )
 }

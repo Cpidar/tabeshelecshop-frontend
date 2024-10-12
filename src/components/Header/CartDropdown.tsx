@@ -1,7 +1,7 @@
 "use client"
 
 import { Popover, Transition, Dialog } from "@/app/headlessui"
-import { Fragment, useEffect, useRef, useState } from "react"
+import { Fragment, useEffect, useMemo, useRef, useState } from "react"
 import ButtonPrimary from "@/shared/Button/ButtonPrimary"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
 import Link from "next/link"
@@ -13,7 +13,11 @@ import Thumbnail from "@/modules/products/components/thumbnail"
 import DeleteButton from "@/modules/common/components/delete-button"
 import { formatAmount } from "@/lib/util/prices"
 import Counter from "@/shared/Counter/Counter"
-import { deleteLineItem, updateLineItem } from "@modules/cart/actions"
+import {
+  deleteLineItem,
+  getOrSetCart,
+  updateLineItem,
+} from "@modules/cart/actions"
 import { useCart } from "@/modules/cart/components/cart-context"
 import CloseCart from "./close-cart"
 
@@ -27,10 +31,19 @@ export default function CartDropdown() {
   const openCart = () => setIsOpen(true)
   const closeCart = () => setIsOpen(false)
 
-  const totalItems =
-    cart?.items?.reduce((acc, item) => {
-      return acc + item.quantity
-    }, 0) || 0
+  const totalItems = useMemo(
+    () =>
+      cart?.items?.reduce((acc, item) => {
+        return acc + item.quantity
+      }, 0) || 0,
+    [cart]
+  )
+
+  // useEffect(() => {
+  //   if (!cart) {
+  //     getOrSetCart(countryCode)
+  //   }
+  // }, [cart, countryCode])
 
   useEffect(() => {
     if (totalItems && totalItems !== quantityRef.current && totalItems > 0) {
@@ -121,14 +134,14 @@ export default function CartDropdown() {
                 id={item.id}
                 className="mt-1"
                 data-testid="cart-item-remove-button"
-                onDelete={() => {
+                onDelete={async () => {
                   updateCartItem(item.variant_id!, "delete")
-                  deleteLineItem(item.id)
+                  await deleteLineItem(item.id)
                 }}
                 disabled={item.sending}
                 loading={item.sending}
               >
-                { item.sending ? 'در حال ثبت ...' : 'حذف' }
+                {"حذف"}
               </DeleteButton>
             </div>
           </div>

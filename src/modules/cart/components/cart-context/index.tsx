@@ -45,8 +45,10 @@ function updateCartItem(
 ): Omit<LineItem, "beforeInsert"> | null {
   if (updateType === "delete") return null
 
-  const newQuantity =
+  let newQuantity =
     updateType === "plus" ? item.quantity + 1 : item.quantity - 1
+  if (newQuantity > item.variant.inventory_quantity)
+    newQuantity = item.variant.inventory_quantity
   if (newQuantity === 0) return null
 
   const singleItemAmount = Number(item.unit_price)
@@ -167,29 +169,38 @@ function cartReducer(state: CartDTO | undefined, action: CartAction): CartDTO {
 
 export function CartProvider({
   children,
-  // cartPromise,
+  cartPromise,
   countryCode,
 }: {
   children: React.ReactNode
-  // cartPromise: Promise<Cart | undefined>
+  cartPromise: Promise<Omit<
+    Cart,
+    "refundable_amount" | "refunded_total"
+  > | null>
   countryCode: string
 }) {
-  let initialCart = useRef<Cart | undefined>()
-  // const initialCart = use(cartPromise.current)
+  // let initialCart = useRef<Cart | undefined>()
+  const initialCart = use(cartPromise)
   const [optimisticCart, updateOptimisticCart] = useOptimistic(
-    initialCart.current,
+    initialCart,
     cartReducer
   )
 
   useEffect(() => {
-    async function initializeCart() {
-      if (!initialCart.current) {
-        console.log('initialize cart')
-        initialCart.current = await getOrSetCart(countryCode)
-      }
+    if (!initialCart) {
+      getOrSetCart(countryCode)
     }
-    initializeCart()
-  }, [countryCode])
+  }, [initialCart, countryCode])
+
+  // useEffect(() => {
+  //   async function initializeCart() {
+  //     if (!initialCart.current) {
+  //       initialCart.current = await getOrSetCart(countryCode)
+  //     }
+  //   }
+  //   console.log(initialCart.current)
+  //   initializeCart()
+  // }, [countryCode])
 
   const updateCartItem = (variantId: string, updateType: UpdateType) => {
     updateOptimisticCart({
@@ -199,7 +210,6 @@ export function CartProvider({
   }
 
   const addCartItem = (variant: PricedVariant, quantity: number = 1) => {
-    console.log("quantity: ", quantity)
     updateOptimisticCart({ type: "ADD_ITEM", payload: { variant, quantity } })
   }
 

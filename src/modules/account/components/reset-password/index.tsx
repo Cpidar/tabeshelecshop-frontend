@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 
 // import Input from "@modules/common/components/input"
 
@@ -9,6 +9,8 @@ import { useFormState } from "react-dom"
 import { LOGIN_VIEW } from "../../templates/login-template"
 import ButtonPrimary from "@/shared/Button/ButtonPrimary"
 import Input from "@/shared/Input/Input"
+import ErrorMessage from "@/modules/checkout/components/error-message"
+import SubmitButton from "../submit-button"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -16,8 +18,9 @@ type Props = {
   email: string
 }
 
-const ProfileName: React.FC<Props> = ({ token, email }) => {
-  const [successState, setSuccessState] = React.useState(false)
+const ChangePasswordForm: React.FC<Props> = ({ token, email }) => {
+  const [errorMessage, setErrorMessage] = useState("")
+  const [successState, setSuccessState] = useState(false)
 
   const [state, formAction] = useFormState(resetPassword, {
     email,
@@ -32,23 +35,27 @@ const ProfileName: React.FC<Props> = ({ token, email }) => {
 
   useEffect(() => {
     setSuccessState(state.success)
-  }, [state])
+    if (!successState) {
+      setErrorMessage("پسوردها با هم یکسان نیستند")
+    }
+  }, [state, successState])
 
   return (
     <div
-    className="max-w-sm flex flex-col items-center"
-    data-testid="register-page"
-  >
-    <h1 className="text-large-semi uppercase mb-6">
-      Become a Medusa Store Member
-    </h1>
-    <p className="text-center text-base-regular text-ui-fg-base mb-4">
-      Create your Medusa Store Member profile, and get access to an enhanced
-      shopping experience.
-    </p>
-    <form className="w-full flex flex-col" action={formAction} onReset={() => clearState()}>
-      <div className="flex flex-col w-full gap-y-2">
-      <Input
+      className="max-w-sm flex flex-col items-center"
+      data-testid="register-page"
+    >
+      <h1 className="text-large-semi uppercase mb-6">تغییر رمز عبود</h1>
+      <p className="text-center text-base-regular text-ui-fg-base mb-4">
+        لطفا رمز جدید خود را در کادر زیر وارد کنید:
+      </p>
+      <form
+        className="w-full flex flex-col"
+        action={formAction}
+        onReset={() => clearState()}
+      >
+        <div className="flex flex-col w-full gap-y-2">
+          <Input
             type="password"
             name="new_password"
             required
@@ -60,15 +67,17 @@ const ProfileName: React.FC<Props> = ({ token, email }) => {
             required
             data-testid="confirm-password-input"
           />
-      </div>
-      {/* <ErrorMessage error={message} data-testid="register-error" /> */}
+        </div>
+        {!successState && (
+          <ErrorMessage error={errorMessage} data-testid="register-error" />
+        )}
 
-      <ButtonPrimary className="w-full mt-6" data-testid="register-button">
-        Join
-      </ButtonPrimary>
-    </form>
-  </div>
+        <SubmitButton className="w-full mt-6" data-testid="register-button">
+          ذخیره و ورود
+        </SubmitButton>
+      </form>
+    </div>
   )
 }
 
-export default ProfileName
+export default ChangePasswordForm

@@ -13,28 +13,35 @@ import dynamic from "next/dynamic"
 import NcInputNumber from "../product-actions/NcInputNumber"
 import ButtonCircle from "@/shared/Button/ButtonCircle"
 import { useCart } from "@/modules/cart/components/cart-context"
+import { useFormState } from "react-dom"
 
 // const ModalQuickView = dynamic(() => import("../quick-view-modal/ModalQuickView"))
 export const RenderGroupButtons = ({ data }: { data: Product }) => {
   const [showModalQuickView, setShowModalQuickView] = useState(false)
   const [quantitySelected, setQuantitySelected] = useState(1)
-  const { addCartItem } = useCart();
+  const { addCartItem } = useCart()
 
-  const countryCode = useParams().countryCode as string
+  const countryCode = useParams()?.countryCode as string
 
   const variant = data.variants![0]
 
-  const handleAddToCart = async () => {
-    if (!variant?.id) return null
-    addCartItem(variant, quantitySelected)
+  // const handleAddToCart = async () => {
+  //   if (!variant?.id) return null
+  //   addCartItem(variant, quantitySelected)
 
-    // NotifyAddTocart({ quantity: quantitySelected, data })
-    await addToCart({
-      variantId: variant.id,
-      quantity: quantitySelected,
-      countryCode,
-    })
-  }
+  //   // NotifyAddTocart({ quantity: quantitySelected, data })
+  //   await addToCart({
+  //     variantId: variant.id,
+  //     quantity: quantitySelected,
+  //     countryCode,
+  //   })
+  // }
+  const [message, formAction] = useFormState(addToCart, null)
+  const actionWithVariant = formAction.bind(null, {
+    variantId: variant?.id!,
+    quantity: quantitySelected,
+    countryCode,
+  })
 
   return (
     <>
@@ -47,11 +54,17 @@ export const RenderGroupButtons = ({ data }: { data: Product }) => {
               onChange={setQuantitySelected}
             />
             <div className="w-8"></div>
-            <div>
-              <ButtonCircle onClick={() => handleAddToCart()} className="w-8 h-8">
+            <form
+              action={async () => {
+                if (!variant?.id) return null
+                addCartItem(variant, quantitySelected)
+                await actionWithVariant()
+              }}
+            >
+              <ButtonCircle type="submit" className="w-8 h-8">
                 <BagIcon className="w-3.5 h-3.5 " />
               </ButtonCircle>
-            </div>
+            </form>
           </div>
         )}
 

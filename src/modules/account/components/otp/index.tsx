@@ -10,6 +10,7 @@ import Image from "next/image"
 import logo from "@/images/logo.svg"
 import { ArrowRightIcon } from "@heroicons/react/24/solid"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
+import SubmitButton from "../submit-button"
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
   setToken: (token: string) => void
@@ -139,7 +140,10 @@ const PageLogin = ({
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
       <div className="w-full relative flex items-center justify-center">
-        <button onClick={() => setCurrentView(previousView)} className="flex right-0 w-6 text-neutral-700 transition-all duration-300 ease-out cursor-pointer fixed lg:absolute">
+        <button
+          onClick={() => setCurrentView(previousView)}
+          className="flex right-0 w-6 text-neutral-700 transition-all duration-300 ease-out cursor-pointer fixed lg:absolute"
+        >
           <ArrowRightIcon />
         </button>
         <Image
@@ -154,9 +158,11 @@ const PageLogin = ({
         <h1 className="text-h4 text-neutral-900 text-right w-full mt-6">
           کد تایید را وارد کنید
         </h1>
-        <p className="text-xs text-neutral-700 my-4 text-right w-full">{`حساب کاربری با شماره موبایل
+        {step === "isSignUp" && (
+          <p className="text-xs text-neutral-700 my-4 text-right w-full">{`حساب کاربری با شماره موبایل
         ${phone}
         وجود ندارد. برای ساخت حساب جدید، کد تایید برای این شماره ارسال گردید.`}</p>
+        )}
         {/* FORM */}
         <form
           className="grid grid-cols-1 gap-6"
@@ -184,25 +190,24 @@ const PageLogin = ({
               {t(errors.otp.message)}
             </p>
           )}
-          <ButtonPrimary type="submit">{t("text-verify-code")}</ButtonPrimary>
+          <SubmitButton>{t("text-verify-code")}</SubmitButton>
         </form>
 
         <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
           {seconds > 0 || minutes > 0 ? (
             <p className="text-xs">
-              زمان باقیمانده تا دریافت مجدد کد: {minutes < 10 ? `0${minutes}` : minutes}:
+              زمان باقیمانده تا دریافت مجدد کد:{" "}
+              {minutes < 10 ? `0${minutes}` : minutes}:
               {seconds < 10 ? `0${seconds}` : seconds}
             </p>
           ) : (
-              <ButtonSecondary
-                className="w-full"
-                disabled={seconds > 0 || minutes > 0}
-                onClick={resendOTP}
-              >
-                <span className="text-blue-500 text-xs">
-                دریافت مجدد کد
-                </span>
-              </ButtonSecondary>
+            <ButtonSecondary
+              className="w-full"
+              disabled={seconds > 0 || minutes > 0}
+              onClick={resendOTP}
+            >
+              <span className="text-blue-500 text-xs">دریافت مجدد کد</span>
+            </ButtonSecondary>
           )}
         </div>
       </div>

@@ -30,7 +30,7 @@ const PageLogin = ({ setCurrentView, email, phone }: Props) => {
       step: "isResetPassword",
     }
     try {
-      fetch("http://localhost:9000/store/customers/password-token", {
+      fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/customers/password-token`, {
         method: "POST",
         body: JSON.stringify({
           email,

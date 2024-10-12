@@ -137,7 +137,7 @@ const MobileActions: React.FC<MobileActionsProps> = ({
               )
 }
               <Button
-                onClick={handleAddToCart}
+              type="submit"
                 disabled={!inStock || !variant}
                 className="w-full rounded-full"
                 isLoading={isAdding}

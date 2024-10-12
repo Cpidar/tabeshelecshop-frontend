@@ -75,7 +75,7 @@ export async function retrieveCart() {
   }
 }
 
-export async function addToCart({
+export async function addToCart(prevState: any, {
   variantId,
   quantity,
   countryCode,
@@ -147,7 +147,8 @@ export async function deleteLineItem(lineId: string) {
   }
 
   try {
-    await removeItem({ cartId, lineId })
+    await removeItem({ cartId, lineId }).then(console.log)
+    await console.log('deleting')
     revalidateTag("cart")
   } catch (e) {
     return "Error deleting line item"
