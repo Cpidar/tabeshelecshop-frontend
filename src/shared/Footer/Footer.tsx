@@ -3,6 +3,10 @@ import SocialsList1 from "@/shared/SocialsList1/SocialsList1"
 import { CustomLink } from "@/data/types"
 import React from "react"
 import Image from "next/image"
+import { createReader } from "@keystatic/core/reader"
+import keystaticConfig from "../../../keystatic.config"
+
+const reader = createReader(process.cwd(), keystaticConfig)
 
 export interface WidgetFooterMenu {
   id: string
@@ -123,7 +127,9 @@ const navigation = {
   ],
 }
 
-const Footer: React.FC = () => {
+const Footer: React.FC = async () => {
+  const settings = await reader.singletons.settings.read()
+
   const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
     return (
       <div key={index} className="text-sm">
@@ -156,19 +162,22 @@ const Footer: React.FC = () => {
           <div className="space-y-4 grid grid-cols-1 gap-8 xl:col-span-2">
             <Logo />
             <p className="text-sm leading-6 text-gray-600">
-            در صورتی که برای خرید هر یک از محصولات پرسشی دارید میتوانید با پشتیبانی سایت درمیان بگذارید.
-            <br />
-همچنین اگ محصولی مد نظر شما میباشد و در فروشگاه موجود نیست مشخصات کامل محصول را برای ما بفرستید تا نسبت به تهیه آن اقدام شود.
+              {settings?.footer.description}
             </p>
             <div className="flex space-x-6">
-              {navigation.social.map((item) => (
+              {settings?.footer.socials.map((item) => (
                 <a
                   key={item.name}
-                  href={item.href}
+                  href={item.href!}
                   className="text-gray-400 hover:text-gray-500"
                 >
                   <span className="sr-only">{item.name}</span>
-                  <item.icon className="h-6 w-6" aria-hidden="true" />
+                  <Image
+                    src={item.icon!}
+                    alt={item.name}
+                    className="h-6 w-6"
+                    aria-hidden="true"
+                  />
                 </a>
               ))}
             </div>

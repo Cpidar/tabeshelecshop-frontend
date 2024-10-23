@@ -26,10 +26,18 @@ import keystaticConfig from "../../../../keystatic.config"
 
 const reader = createReader(process.cwd(), keystaticConfig)
 
-export const metadata: Metadata = {
-  title: "Medusa Next.js Starter Template",
-  description:
-    "A performant frontend ecommerce starter template with Next.js 14 and Medusa.",
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await reader.singletons.settings.read()
+
+  return {
+    title: settings?.SEO.siteTitle || "Medusa Next.js Starter Template",
+    description:
+      settings?.SEO.description ||
+      "A performant frontend ecommerce starter template with Next.js 14 and Medusa.",
+    openGraph: {
+      type: "website",
+    },
+  }
 }
 
 const i18nNamespaces = ["common"]
@@ -169,7 +177,7 @@ export default async function Home({
             ))}
           </SectionSliderProductCard>
 
-          <div className="relative py-24 lg:py-32">
+          {/* <div className="relative py-24 lg:py-32">
             <BackgroundSection />
             <div>
               <Heading rightDescText="From the Ciseco blog">
@@ -180,7 +188,7 @@ export default async function Home({
                 <ButtonSecondary>Show all blog articles</ButtonSecondary>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* <SectionClientSay /> */}
 
           <div className="py-24 lg:py-32 border-t border-b border-slate-200 dark:border-slate-700">

@@ -1,3 +1,30 @@
-topBar:
-  discriminant: false
-CTA: '09134372901'
+SEO:
+  siteName: تابش الکتریک
+  siteTitle: فروشگاه اینترنتی لوازم الکتریکی
+  description: ارائه دهنده محصولات الکتریکی
+header:
+  topBar:
+    discriminant: true
+    value:
+      description: 10% تخفیف ویژه کالاهای گروه لامپ، روشنایی وریسه تا آخر تابستان
+      buttonText: همین الان سفارش دهید
+      buttonLink: '#'
+  navigationMenu:
+    - name: خانه
+      href: /
+      type: none
+    - name: فروشگاه
+      href: /store
+      type: none
+    - name: مجله
+      href: /blog
+      type: none
+  CTA: '09134372901'
+footer:
+  description: >
+    در صورتی که برای خرید هر یک از محصولات پرسشی دارید میتوانید با پشتیبانی سایت
+    درمیان بگذارید.
+
+    همچنین اگ محصولی مد نظر شما میباشد و در فروشگاه موجود نیست مشخصات کامل محصول
+    را برای ما بفرستید تا نسبت به تهیه آن اقدام شود.
+  socials: []

@@ -141,6 +141,7 @@ const ShippingAddress = ({
         />
         <CountrySelect
           placeholder={t("text-country")}
+          defaultValue={countryCode}
           name="shipping_address.country_code"
           autoComplete="country"
           region={cart?.region}

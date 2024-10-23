@@ -5,7 +5,7 @@ import StoreTemplate from "@modules/store/templates"
 import { isArray } from "lodash"
 
 export const metadata: Metadata = {
-  title: "Store",
+  title: "فروشگاه",
   description: "Explore all of our products.",
 }
 

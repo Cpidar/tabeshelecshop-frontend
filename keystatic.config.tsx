@@ -1,24 +1,6 @@
 import { config, collection, singleton, fields } from "@keystatic/core"
 import { ProductCategory } from "@medusajs/medusa"
 
-let categoryies: ProductCategory[] = []
-const getCategories = async (parentCategoryHandle: string) => {
-  const parentCategoryId = await fetch(
-    `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/product-categories?handle=${parentCategoryHandle}`
-  )
-    .then((res) => res.json())
-    .then((res) => res.product_categories[0])
-    .then((res) => res.id)
-
-  await fetch(
-    `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/product-categories?parent_category_id=${parentCategoryId}`
-  )
-    .then((res) => res.json())
-    .then((res) => (categoryies = res.product_categories))
-}
-
-getCategories("main")
-
 export default config({
   // storage: {
   //   kind: 'github',
@@ -30,7 +12,7 @@ export default config({
     },
     navigation: {
       Contents: ["singlefileposts"],
-      "Store Config": ["settings", "menu", "homepage"],
+      "Store Config": ["settings", "homepage"],
     },
   },
   storage: {
@@ -57,21 +39,108 @@ export default config({
       path: "public/content/store-config/setting",
       schema: {
         logo: fields.image({ label: "Logo" }),
-        topBar: fields.conditional(
-          // First, we define a checkbox to drive the yes/no condition
-          fields.checkbox({ label: "Enable Topbar", defaultValue: false }),
-          // Then, we provide a set of fields for both the `true` and `false` scenarios
+
+        SEO: fields.object(
           {
-            true: fields.object({
-              description: fields.text({ label: "Title" }),
-              buttonText: fields.text({ label: "Button Text" }),
-              buttonLink: fields.url({ label: "Link" }),
+            siteName: fields.text({ label: "Site Name" }),
+            siteTitle: fields.text({ label: "Site Title" }),
+            description: fields.text({ label: "Description" }),
+            favicon: fields.image({
+              label: "Favicon",
+              directory: "public/assets",
+              publicPath: "/assets/",
             }),
-            // Empty fields are useful to show... no fields!
-            false: fields.empty(),
+          },
+          {
+            label: "SEO",
+            description: "The address of the user",
+            layout: [6, 6, 12, 12],
           }
         ),
-        CTA: fields.text({ label: 'CTA Btton Label' })
+
+        header: fields.object(
+          {
+            topBar: fields.conditional(
+              // First, we define a checkbox to drive the yes/no condition
+              fields.checkbox({ label: "Enable Topbar", defaultValue: false }),
+              // Then, we provide a set of fields for both the `true` and `false` scenarios
+              {
+                true: fields.object(
+                  {
+                    description: fields.text({ label: "Title" }),
+                    buttonText: fields.text({ label: "Button Text" }),
+                    buttonLink: fields.url({ label: "Link" }),
+                  },
+                  {
+                    label: "Topbar Contents",
+                    layout: [12, 6, 6],
+                  }
+                ),
+                // Empty fields are useful to show... no fields!
+                false: fields.empty(),
+              }
+            ),
+            navigationMenu: fields.array(
+              fields.object({
+                id: fields.empty(),
+                name: fields.text({ label: "Name" }),
+                href: fields.url({ label: "Link" }),
+                type: fields.select({
+                  label: "Type",
+                  description: "The person's role at the company",
+                  options: [
+                    { label: "None", value: "none" },
+                    { label: "Mega Menu", value: "megaMenu" },
+                    { label: "Dropdown", value: "dropdown" },
+                  ],
+                  defaultValue: "none",
+                }),
+              }),
+              {
+                label: "Navigation Menu Items",
+                itemLabel: (props) => props.fields.name.value,
+              }
+            ),
+            CTA: fields.text({ label: "Call to Action Phone No." }),
+          },
+          {
+            label: "Header",
+            description: "Header Settings",
+          }
+        ),
+
+        footer: fields.object(
+          {
+            title: fields.text({ label: "Footer title" }),
+            description: fields.text({ label: "Description", multiline: true }),
+            socials: fields.array(
+              fields.object(
+                {
+                  icon: fields.image({
+                    label: "Icon",
+                    directory: "public/assets",
+                    publicPath: "/assets/",
+                  }),
+                  name: fields.text({ label: "Name" }),
+                  href: fields.url({ label: "Link" }),
+                },
+                {
+                  label: "Socials List",
+                  layout: [12, 6, 6],
+                }
+              ),
+              {
+                label: "Social Links",
+                itemLabel: (props) => props.fields.name.value,
+              }
+            ),
+          },
+          {
+            label: "Footer",
+            description: "Footer Settings",
+            layout: [12, 12, 12],
+          }
+        ),
       },
     }),
     homepage: singleton({
@@ -112,73 +181,40 @@ export default config({
             layout: [12, 6, 6, 6, 6],
           }
         ),
-        homePageCategories: fields.array(
-          fields.object({
-            name: fields.select({
-              label: "Role",
-              description: "The person's role at the company",
-              options: [
-                { label: "Test", value: "test" },
-              ],
-              defaultValue: "test",
-            }),
-            icon: fields.image({
-              label: "Icon",
-              directory: "public/assets/images",
-              publicPath: "/assets/images/",
-            }),
+        homePageCategories: fields.object({
+          title: fields.text({
+            label: "Section Title",
           }),
-          {
-            label: "Home Page Category Section",
-            itemLabel: (props) => props.fields.name.value,
-          }
-        ),
-      },
-    }),
-    menu: singleton({
-      label: "Menu",
-      path: "public/content/store-config/menu",
-      schema: {
-        navigationMenu: fields.array(
-          fields.object({
-            name: fields.text({ label: "Name" }),
-            href: fields.url({ label: "Link" }),
-            type: fields.select({
-              label: "Type",
-              description: "The person's role at the company",
-              options: [
-                { label: "None", value: "none" },
-                { label: "Mega Menu", value: "megaMenu" },
-                { label: "Dropdown", value: "dropdown" },
-              ],
-              defaultValue: "none",
-            }),
-          }),
-          {
-            label: "Navigation Menu Items",
-            itemLabel: (props) => props.fields.name.value,
-          }
-        ),
-        footerMenu01: fields.array(
-          fields.object({
-            name: fields.text({ label: "Name" }),
-            href: fields.url({ label: "Link" }),
-          }),
-          {
-            label: "Footer Menu No.1",
-            itemLabel: (props) => props.fields.name.value,
-          }
-        ),
-        footerMenu02: fields.array(
-          fields.object({
-            name: fields.text({ label: "Name" }),
-            href: fields.url({ label: "Link" }),
-          }),
-          {
-            label: "Footer Menu No.2",
-            itemLabel: (props) => props.fields.name.value,
-          }
-        ),
+          items: fields.array(
+            fields.object(
+              {
+                name: fields.text({
+                  label: "Name",
+                  description: "The name of category",
+                }),
+                href: fields.url({
+                  label: "Link",
+                  description: "The address of category",
+                }),
+                icon: fields.image({
+                  label: "Icon",
+                  directory: "public/assets/images",
+                  publicPath: "/assets/images/",
+                }),
+              },
+              {
+                label: "Add Category Item",
+                layout: [6, 6, 12],
+              }
+            ),
+            {
+              label: "Section Items",
+              itemLabel: (props) => props.fields.name.value,
+            }
+          ),
+        }, {
+          label: "Home Page Category Section"
+        }),
       },
     }),
   },

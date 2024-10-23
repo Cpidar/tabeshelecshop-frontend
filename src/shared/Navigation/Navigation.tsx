@@ -7,10 +7,10 @@ import keystaticConfig from '../../../keystatic.config';
 const reader = createReader(process.cwd(), keystaticConfig);
 
 async function Navigation() {
-  const  menu = await reader.singletons.menu.read();
+  const  settings = await reader.singletons.settings.read();
   return (
     <ul className="nc-Navigation flex items-center">
-      {menu?.navigationMenu.map((item, index) => (
+      {settings?.header?.navigationMenu.map((item, index) => (
         <NavigationItem key={index+1} menuItem={item} />
       ))}
     </ul>

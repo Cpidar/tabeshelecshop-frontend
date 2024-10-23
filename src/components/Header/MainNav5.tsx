@@ -140,9 +140,9 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async () => {
               <Navigation />
             </div>
             <div className="flex items-center">
-              <Link href={`tel:${settings?.CTA}`}>
+              <Link href={`tel:${settings?.header.CTA}`}>
                 <ButtonPrimary className="font-bold px-4 xl:px-6 py-2 xl:py-3 rounded flex-shrink-0 flex items-center">
-                  <span className="ml-2 text-sm">{settings?.CTA}</span>
+                  <span className="ml-2 text-sm">{settings?.header.CTA}</span>
                   <PhoneArrowUpRightIcon className="w-6 h-6 p-1" />
                 </ButtonPrimary>
               </Link>

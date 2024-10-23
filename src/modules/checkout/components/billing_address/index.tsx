@@ -107,6 +107,7 @@ const BillingAddress = ({
           data-testid="billing-city-input"
         />
         <CountrySelect
+        hidden
           placeholder={t("text-country")}
           name="billing_address.country_code"
           autoComplete="country"

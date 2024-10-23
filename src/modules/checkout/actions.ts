@@ -13,6 +13,7 @@ import {
 import { GiftCard, StorePostCartsCartReq } from "@medusajs/medusa"
 import { revalidateTag } from "next/cache"
 import { redirect } from "next/navigation"
+import { addCustomerShippingAddress, updateCustomerShippingAddress } from "../account/actions"
 
 export async function cartUpdate(data: StorePostCartsCartReq) {
   const cartId = cookies().get("_medusa_cart_id")?.value
@@ -111,7 +112,6 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
   const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (!cartId) return { message: "No cartId cookie found" }
-
   const data = {
     shipping_address: {
       first_name: formData.get("shipping_address.first_name"),
@@ -121,7 +121,7 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
       company: formData.get("shipping_address.company"),
       postal_code: formData.get("shipping_address.postal_code"),
       city: formData.get("shipping_address.city"),
-      country_code: formData.get("shipping_address.country_code"),
+      country_code: formData.get("shipping_address.country_code") || process.env.NEXT_PUBLIC_DEFAULT_REGION,
       province: formData.get("shipping_address.province"),
       phone: formData.get("shipping_address.phone"),
     },
@@ -146,8 +146,16 @@ export async function setAddresses(currentState: unknown, formData: FormData) {
       phone: formData.get("billing_address.phone"),
     } as StorePostCartsCartReq
 
+  const getFormData = object => Object.keys(object).reduce((formData, key) => {
+    formData.append(key, object[key]);
+    return formData;
+  }, new FormData());
   try {
     await updateCart(cartId, data)
+    await addCustomerShippingAddress({
+      success: false,
+      error: null,
+    }, getFormData(data.shipping_address))
     revalidateTag("cart")
   } catch (error: any) {
     return error.toString()

@@ -6,6 +6,11 @@ import { redirect } from "next/navigation"
 import { cookies } from "next/headers"
 // import "rc-slider/assets/index.css"
 
+export const metadata: Metadata = {
+  title: "صفحه ورود",
+  description: "به حساب کاربری خود در فروشگاه تابش الکتری وارد شوید.",
+}
+
 export default async function PageLayout({
   children,
 }: {

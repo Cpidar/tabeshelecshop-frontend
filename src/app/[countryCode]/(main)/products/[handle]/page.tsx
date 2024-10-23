@@ -49,7 +49,6 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   let { handle } = params
   handle = decodeURI(handle)
 
-
   const { product } = await getProductByHandle(handle).then(
     (product) => product
   )
@@ -59,10 +58,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   return {
-    title: `${product.title} | Medusa Store`,
+    title: `${product.title} | ${process.env.SITE_NAME}`,
     description: `${product.title}`,
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+      },
+    },
     openGraph: {
-      title: `${product.title} | Medusa Store`,
+      title: `${product.title} | ${process.env.SITE_NAME}`,
       description: `${product.title}`,
       images: product.thumbnail ? [product.thumbnail] : [],
     },
