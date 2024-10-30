@@ -3,6 +3,8 @@ import React, { FC } from "react"
 import NcImage from "@/shared/NcImage/NcImage"
 import Link from "next/link"
 import { StaticImageData } from "next/image"
+import dynamic from "next/dynamic"
+import LocalizedClientLink from "@/modules/common/components/localized-client-link"
 
 export interface CardCategory1Props {
   className?: string
@@ -12,6 +14,7 @@ export interface CardCategory1Props {
   desc?: string
 }
 
+
 const CardCategory7: FC<CardCategory1Props> = ({
   className = "",
   size = "normal",
@@ -20,17 +23,20 @@ const CardCategory7: FC<CardCategory1Props> = ({
   featuredImage = "",
 }) => {
   return (
-    <Link
+    <LocalizedClientLink
       href={"/collection"}
       className={`m-3.5 h-52 w-40 bg-gray-100 rounded-xl flex flex-col items-center justify-center text-center duration-300 hover:bg-white hover:shadow-2xl ${className}`}
     >
       <NcImage
         alt=""
-        containerClassName={`max-h-20`}
+        containerClassName={`max-h-20 text-yellow-400`}
         src={featuredImage || _getImgRd()}
+        unoptimized
+        width={20}
+        height={20}
       />
       <span className="font-semibold">{name || _getTagNameRd()}</span>
-    </Link>
+    </LocalizedClientLink>
   )
 }
 

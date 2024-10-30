@@ -64,19 +64,21 @@ function updateCartItem(
 
 function createOrUpdateCartItem(
   existingItem: LineItem | undefined,
-  variant: PricedVariant,
+  variant: PricedVariant & { thumbnail: string },
   quantity: number
 ): LineItem {
   const newQuantity = existingItem ? existingItem.quantity + quantity : quantity
   const totalAmount = calculateItemCost(quantity, variant.calculated_price!)
-
+  console.log(variant)
   return {
     id: existingItem?.id!,
-    title: variant.title,
+    title: variant.product?.title,
+    description: variant.title,
     quantity: newQuantity,
     variant_id: variant.id!,
     unit_price: variant.calculated_price!,
     subtotal: totalAmount,
+    thumbnail: variant.thumbnail,
     variant: {
       product: {
         handle: variant.product?.handle,

@@ -5,7 +5,7 @@ import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import CardCategory3 from "@/components/CardCategories/CardCategory3";
 import React, { FC, Fragment, useState } from "react";
 import { Route } from "@/routers/types";
-import Link from "next/link";
+import LocalizedClientLink from "@/modules/common/components/localized-client-link";
 
 export interface NavItemType {
   id: string;
@@ -77,14 +77,12 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
   const renderMegaMenuNavlink = (item: NavItemType) => {
     return (
       <li key={item.id} className={`${item.isNew ? "menuIsNew" : ""}`}>
-        <Link
+        <LocalizedClientLink
           className="font-normal text-slate-600 hover:text-black dark:text-slate-400 dark:hover:text-white "
-          href={{
-            pathname: item.href || undefined,
-          }}
+          href={item.href!}
         >
           {item.name}
-        </Link>
+        </LocalizedClientLink>
       </li>
     );
   };
@@ -191,11 +189,9 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
 
   const renderDropdownMenuNavlink = (item: NavItemType) => {
     return (
-      <Link
+      <LocalizedClientLink
         className="flex items-center font-normal text-neutral-6000 dark:text-neutral-400 py-2 px-4 rounded-md hover:text-neutral-700 hover:bg-neutral-100 dark:hover:bg-neutral-800 dark:hover:text-neutral-200"
-        href={{
-          pathname: item.href || undefined,
-        }}
+        href={item.href!}
       >
         {item.name}
         {item.type && (
@@ -204,7 +200,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
             aria-hidden="true"
           />
         )}
-      </Link>
+      </LocalizedClientLink>
     );
   };
 
@@ -212,11 +208,10 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
   const renderMainItem = (item: NavItemType) => {
     return (
       <div className="h-20 flex-shrink-0 flex items-center">
-        <Link
+        <LocalizedClientLink
           className="inline-flex items-center text-sm lg:text-[15px] font-medium text-slate-700 dark:text-slate-300 py-2.5 px-4 xl:px-5 rounded-full hover:text-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 dark:hover:text-slate-200"
-          href={{
-            pathname: item.href || undefined,
-          }}
+          href={item.href!}
+          prefetch
         >
           {item.name}
           {item.type !== 'none' && (
@@ -225,7 +220,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
               aria-hidden="true"
             />
           )}
-        </Link>
+        </LocalizedClientLink>
       </div>
     );
   };

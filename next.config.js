@@ -25,32 +25,8 @@ const nextConfig = withStoreConfig({
   images: {
     remotePatterns: [
       {
-        protocol: "http",
-        hostname: "localhost",
-      },
-      {
         protocol: "https",
-        hostname: "medusa-public-images.s3.eu-west-1.amazonaws.com",
-      },
-      {
-        protocol: "https",
-        hostname: "medusa-server-testing.s3.amazonaws.com",
-      },
-      {
-        protocol: "https",
-        hostname: "medusa-server-testing.s3.us-east-1.amazonaws.com",
-      },
-      {
-        protocol: "https",
-        hostname: "images.pexels.com",
-        port: "",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        port: "",
-        pathname: "/**",
+        hostname: "tabeshelecshop-api.liara.run",
       },
       {
         protocol: "https",

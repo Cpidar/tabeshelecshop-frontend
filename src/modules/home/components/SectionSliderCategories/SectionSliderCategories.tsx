@@ -4,69 +4,16 @@ import React, { FC, useEffect, useRef, useState } from "react";
 import Heading from "@/components/Heading/Heading";
 // @ts-ignore
 import Glide from "@glidejs/glide/dist/glide.esm";
-import department1Png from "@/images/collections/department1.png";
-import department2Png from "@/images/collections/department2.png";
-import department3Png from "@/images/collections/department3.png";
-import department4Png from "@/images/collections/department4.png";
 import { StaticImageData } from "next/image";
 import CardCategory7 from "@modules/categories/components/categories-card/CardCategory7";
 
 export interface CardCategoryData {
   name: string;
-  desc: string;
-  img: string | StaticImageData;
+  description: string;
+  icon: string | StaticImageData;
   color?: string;
 }
-const CATS: CardCategoryData[] = [
-  {
-    name: "Travel Kits",
-    desc: "20+ categories",
-    img: department1Png,
-    color: "bg-indigo-100",
-  },
-  {
-    name: "Beauty Products",
-    desc: "10+ categories",
-    img: department2Png,
-    color: "bg-slate-100",
-  },
-  {
-    name: "Sport Kits",
-    desc: "34+ categories",
-    img: department3Png,
-    color: "bg-sky-100",
-  },
-  {
-    name: "Pets Food",
-    desc: "12+ categories",
-    img: department4Png,
-    color: "bg-orange-100",
-  },
-    {
-    name: "Travel Kits",
-    desc: "20+ categories",
-    img: department1Png,
-    color: "bg-indigo-100",
-  },
-  {
-    name: "Beauty Products",
-    desc: "10+ categories",
-    img: department2Png,
-    color: "bg-slate-100",
-  },
-  {
-    name: "Sport Kits",
-    desc: "34+ categories",
-    img: department3Png,
-    color: "bg-sky-100",
-  },
-  {
-    name: "Pets Food",
-    desc: "12+ categories",
-    img: department4Png,
-    color: "bg-orange-100",
-  },
-];
+
 export interface SectionSliderCategoriesProps {
   className?: string;
   itemClassName?: string;
@@ -80,7 +27,7 @@ const SectionSliderCategories: FC<SectionSliderCategoriesProps> = ({
   subHeading = "",
   className = "",
   itemClassName = "",
-  data = CATS,
+  data,
 }) => {
   const sliderRef = useRef(null);
   const [isShow, setIsShow] = useState(false);
@@ -132,13 +79,12 @@ const SectionSliderCategories: FC<SectionSliderCategoriesProps> = ({
         </Heading>
         <div className="glide__track" data-glide-el="track">
           <ul className="glide__slides">
-            {data.map((item, index) => (
+            {data?.map((item, index) => (
               <li key={index} className={`glide__slide ${itemClassName}`}>
                 <CardCategory7
-                  featuredImage={item.img}
+                  featuredImage={item.icon}
                   name={item.name}
-                  desc={item.desc}
-                  bgClass={item.color}
+                  desc={item.description}
                 />
               </li>
             ))}

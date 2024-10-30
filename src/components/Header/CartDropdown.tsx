@@ -139,7 +139,6 @@ export default function CartDropdown() {
                   await deleteLineItem(item.id)
                 }}
                 disabled={item.sending}
-                loading={item.sending}
               >
                 {"حذف"}
               </DeleteButton>

@@ -571,7 +571,7 @@ export const getProductsListWithSort = cache(
       pageParam: 0,
       queryParams: {
         ...queryParams,
-        limit: 100,
+        limit: 9999,
       },
       countryCode,
     })
@@ -583,10 +583,11 @@ export const getProductsListWithSort = cache(
     const nextPage = count > pageParam + limit ? pageParam + limit : null
 
     const paginatedProducts = sortedProducts.slice(pageParam, pageParam + limit)
+    const accumulatedProducts = sortedProducts.slice(0, pageParam + limit)
 
     return {
       response: {
-        products: paginatedProducts,
+        products: accumulatedProducts,
         count,
       },
       nextPage,

@@ -18,7 +18,7 @@ import NcInputNumber from "./NcInputNumber"
 import BagIcon from "@/shared/Icons/BagIcon"
 import { useCart } from "@/modules/cart/components/cart-context"
 import { useFormState } from "react-dom"
-import { Bounce, toast } from 'react-toastify';
+import { Bounce, toast } from "react-toastify"
 
 type ProductActionsProps = {
   product: PricedProduct
@@ -87,20 +87,24 @@ export default function ProductActions({
       }
     }
 
-    return variants.find((v) => v.id === variantId)
-  }, [options, variantRecord, variants])
+    return {
+      ...variants.find((v) => v.id === variantId),
+      thumbnail: product.thumbnail,
+      product: { title: product.title },
+    }
+  }, [options, variantRecord, variants, product])
 
   const optimisticItem = useMemo(
     () => cart?.items.find((item) => item.variant_id === variant?.id),
     [cart, variant]
   )
-  
+
   const inCartQuantity = optimisticItem?.quantity || 0
   const inStockQty = variant?.inventory_quantity || Infinity
 
   // if product only has one variant, then select it
   useEffect(() => {
-    if (variants.length === 1 && variants[0].id) {
+    if (variants[0].id) {
       setOptions(variantRecord[variants[0].id])
     }
   }, [variants, variantRecord])
@@ -127,7 +131,7 @@ export default function ProductActions({
     //   return true
     // }
 
-    if(inStockQty > inCartQuantity) {
+    if (inStockQty > inCartQuantity) {
       return true
     }
 
@@ -194,8 +198,7 @@ export default function ProductActions({
             if (!variant?.id) return null
 
             addCartItem(variant, quantitySelected)
-            await actionWithVariant()              
-
+            await actionWithVariant()
           }}
         >
           <div className="flex space-x-3.5">

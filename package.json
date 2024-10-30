@@ -69,6 +69,7 @@
     "react-hooks-global-state": "^2.1.0",
     "react-hot-toast": "^2.4.1",
     "react-i18next": "^15.0.1",
+    "react-infinite-scroll-hook": "^5.0.1",
     "react-instantsearch-hooks-web": "^6.29.0",
     "react-intersection-observer": "^9.3.4",
     "react-toastify": "^10.0.5",

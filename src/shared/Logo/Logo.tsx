@@ -1,13 +1,14 @@
-import React from "react";
-import logoImg from "@/images/logo.svg";
-import logoLightImg from "@/images/logo-light.svg";
-import Link from "next/link";
-import Image from "next/image";
+import React from "react"
+import logoImg from "@/images/logo.svg"
+import logoLightImg from "@/images/logo-light.svg"
+import Link from "next/link"
+import Image from "next/image"
+import LocalizedClientLink from "@/modules/common/components/localized-client-link"
 
 export interface LogoProps {
-  img?: string;
-  imgLight?: string;
-  className?: string;
+  img?: string
+  imgLight?: string
+  className?: string
 }
 
 const Logo: React.FC<LogoProps> = ({
@@ -16,7 +17,7 @@ const Logo: React.FC<LogoProps> = ({
   className = "flex-shrink-0",
 }) => {
   return (
-    <Link
+    <LocalizedClientLink
       href="/"
       className={`ttnc-logo inline-block text-slate-600 ${className}`}
     >
@@ -44,8 +45,8 @@ const Logo: React.FC<LogoProps> = ({
           priority
         />
       )}
-    </Link>
-  );
-};
+    </LocalizedClientLink>
+  )
+}
 
-export default Logo;
+export default Logo

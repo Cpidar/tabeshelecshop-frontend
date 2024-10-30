@@ -196,15 +196,19 @@ export default config({
                   label: "Link",
                   description: "The address of category",
                 }),
+                description: fields.text({
+                  label: "Description",
+                  description: "Write an sentence about this category",
+                }),
                 icon: fields.image({
                   label: "Icon",
                   directory: "public/assets/images",
                   publicPath: "/assets/images/",
-                }),
+                })
               },
               {
                 label: "Add Category Item",
-                layout: [6, 6, 12],
+                layout: [6, 6, 12, 12],
               }
             ),
             {

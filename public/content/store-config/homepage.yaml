@@ -15,3 +15,11 @@ homePageHeroRight:
   subtitle: تا 20% تخفیف در فروش ویژه محصولات گروه روشنایی
   buttonText: سفارش دهید
   buttonLink: /store
+homePageCategories:
+  items:
+    - name: لوله و اتصالات
+      href: /categories
+      icon: /assets/images/homePageCategories/items/0/icon.svg
+    - name: اسکلت، تابلو و جعبه
+      href: /categories
+      icon: /assets/images/homePageCategories/items/1/icon.webp

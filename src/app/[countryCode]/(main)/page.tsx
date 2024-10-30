@@ -118,7 +118,7 @@ export default async function Home({
         {/* </div> */}
 
         <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
-          <SectionSliderCategories />
+          <SectionSliderCategories data={homepageContent?.homePageCategories.items} />
 
           <SectionSliderProductCard heading={collections[0].title}>
             {collections[0] &&
