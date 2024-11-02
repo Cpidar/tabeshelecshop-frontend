@@ -1,6 +1,8 @@
 "use client"
 
 import Spinner from "@/components/loaders/spinner/spinner"
+import ButtonPrimary from "@/shared/Button/ButtonPrimary"
+import ButtonSecondary from "@/shared/Button/ButtonSecondary"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import useInfiniteScroll from "react-infinite-scroll-hook"
 
@@ -25,5 +27,5 @@ export default function LoadMore({
     rootMargin: "0px 0px 800px 0px",
   })
 
-  return <div ref={sentryRef}>{(loading || hasNextPage) && <Spinner />}</div>
+  return <div className="flex w-full justify-center mt-8" ref={sentryRef}>{(loading || hasNextPage) && <ButtonSecondary loading={true} >در حال دریافت محصولات</ButtonSecondary>}</div>
 }

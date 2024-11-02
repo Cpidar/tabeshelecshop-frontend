@@ -137,7 +137,7 @@ export default function ProductActions({
 
     // Otherwise, we can't add to cart
     return false
-  }, [variant])
+  }, [variant, inStockQty, inCartQuantity])
 
   const actionsRef = useRef<HTMLDivElement>(null)
 
@@ -223,10 +223,10 @@ export default function ProductActions({
               <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
               <span className="ml-3">
                 {!variant
-                  ? "Select variant"
+                  ? "یک گزینه را انتخاب کنید"
                   : !inStock
-                  ? "Out of stock"
-                  : "Add to cart"}
+                  ? "اتمام موجودی"
+                  : "اضافه به سبد خرید"}
               </span>
             </Button>
           </div>

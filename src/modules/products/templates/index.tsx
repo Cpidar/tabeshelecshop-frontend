@@ -54,7 +54,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
 
           <hr className=" 2xl:!my-10 border-slate-200 dark:border-slate-700"></hr>
 
-          <ProductTabs product={product} />
+          {/* <ProductTabs product={product} /> */}
         </div>
       </div>
       <div

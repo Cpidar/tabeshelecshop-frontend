@@ -27,4 +27,6 @@ footer:
 
     همچنین اگ محصولی مد نظر شما میباشد و در فروشگاه موجود نیست مشخصات کامل محصول
     را برای ما بفرستید تا نسبت به تهیه آن اقدام شود.
-  socials: []
+  socials:
+    - icon: /assets/footer/socials/0/icon.png
+      name: dffjfj

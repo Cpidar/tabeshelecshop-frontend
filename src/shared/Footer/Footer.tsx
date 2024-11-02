@@ -175,6 +175,8 @@ const Footer: React.FC = async () => {
                   <Image
                     src={item.icon!}
                     alt={item.name}
+                    width={20}
+                    height={20}
                     className="h-6 w-6"
                     aria-hidden="true"
                   />
@@ -221,7 +223,7 @@ const Footer: React.FC = async () => {
         </div>
         <div className="mt-16 mb-[54px] lg:mb-0 border-t border-gray-900/10 pt-8 sm:mt-20 lg:mt-24">
           <p className="text-xs leading-5 text-gray-500">
-            &copy; 2020 Your Company, Inc. All rights reserved.
+            Developed By <a href="https://hmoazeni.ir/">HMoazeni</a>
           </p>
         </div>
       </div>

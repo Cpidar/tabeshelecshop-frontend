@@ -80,13 +80,13 @@ export default async function PaginatedProducts({
           )
         })}
       </ul>
-      {totalPages > 1 && (
+      {/* {totalPages > 1 && (
         <Pagination
           data-testid="product-pagination"
           page={page}
           totalPages={totalPages}
         />
-      )}
+      )} */}
       <LoadMore
         hasNextPage={Boolean(nextPage)}
         loading={false}
