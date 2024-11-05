@@ -6,6 +6,11 @@
         {
             "name": "cache",
             "mountTo": "/tmp"
+        },
+        {
+            "name": "public",
+            "mountTo": "/app/public"
         }
+
     ]
 }

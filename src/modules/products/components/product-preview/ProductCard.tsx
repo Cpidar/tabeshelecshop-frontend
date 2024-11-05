@@ -1,11 +1,11 @@
 import LikeButton from "../like-button/LikeButton"
 import Prices from "../product-price/Prices"
 import { StarIcon } from "@heroicons/react/24/solid"
-import ProductStatus from "../product-status/ProductStatus"
+import ProductStatus from "../product-status"
 import Link from "next/link"
 import NcImage from "@/shared/NcImage/NcImage"
 import { ProductPreviewType } from "@/types/global"
-import { Region } from "@medusajs/medusa"
+import { PriceListStatus, PriceListType, Region } from "@medusajs/medusa"
 import { RenderSizeList } from "./RenderSizeList"
 import { RenderGroupButtons } from "../overlay-actions"
 
@@ -13,6 +13,8 @@ import { retrievePricedProductById } from "@lib/data"
 import { transformMedusaProduct } from "@/utils/data-mappers"
 import PlaceholderImage from "@/images/placeholders/product-placeholder.png"
 import { stripHtmlTag } from "@/utils/StripHtmlTag"
+import InCardProductPrice from "../product-price/inCard"
+import { getProductPrice } from "@/lib/util/get-product-price"
 
 export interface ProductCardProps {
   className?: string
@@ -27,17 +29,19 @@ const ProductCard = async ({
   region,
   isLiked,
 }: ProductCardProps) => {
-
   const pricedProduct = await retrievePricedProductById({
     id: productPreview?.id,
     regionId: region?.id,
   }).then((product) => product)
-  
+
   if (!pricedProduct) {
     return null
   }
 
-  
+  const { cheapestPrice, variantPrice } = getProductPrice({
+    product: pricedProduct,
+    region,
+  })
 
   // const { cheapestPrice } = getProductPrice({
   //   product: pricedProduct,
@@ -46,67 +50,58 @@ const ProductCard = async ({
 
   const data = transformMedusaProduct(pricedProduct, region)
 
-  const {
-    name,
-    slug,
-    sale_price: price,
-    description,
-    sizes,
-    status,
-    thumbnail: image,
-    rating,
-    numberOfReviews,
-    variants
-  } = data
+  const { title, handle: slug, description, thumbnail: image } = pricedProduct
 
-  const StripOffDesc = stripHtmlTag(description)
+  const StripOffDesc = description && stripHtmlTag(description)
   return (
     <>
       <div
-        className={`nc-ProductCard relative flex flex-col bg-transparent ${className}`}
+        className={`nc-ProductCard relative flex flex-col rounded-[10px] bg-white pt-[52px] border shadow-[0px_1px_4px_rgba(0,0,0,0.08)] ${className}`}
       >
-        <Link href={`/products/${slug}`} className="absolute inset-0"></Link>
-
-        <div className="relative flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded-3xl overflow-hidden z-1 group">
+        {cheapestPrice?.calculated_price_list?.type === PriceListType.SALE &&
+          cheapestPrice?.calculated_price_list?.status ===
+            PriceListStatus.ACTIVE && (
+            <ProductStatus
+              title={cheapestPrice?.calculated_price_list?.name!}
+              endAt={cheapestPrice?.calculated_price_list?.ends_at}
+            />
+          )}
+        <div className="relative mb-[22px] flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded-3xl overflow-hidden z-1 group">
           <Link href={`/products/${slug}`} className="block">
             <NcImage
               containerClassName="flex aspect-w-11 aspect-h-12 w-full h-0"
               src={image ? image : PlaceholderImage}
-              className="object-cover w-full h-full drop-shadow-xl"
+              className="object-fit w-full h-full drop-shadow-xl"
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 40vw"
               alt="product"
             />
           </Link>
-          <ProductStatus status={status} />
+          {/* <ProductStatus status={status} /> */}
           {/* <LikeButton liked={isLiked} className="absolute top-3 end-3 z-10" /> */}
-          {sizes ? (
+          {/* {sizes ? (
             <RenderSizeList data={data} sizes={sizes} />
-          ) : (
-            <RenderGroupButtons data={data} />
+          ) : ( */}
+          {pricedProduct.variants.length === 1 && (
+            <RenderGroupButtons variant={pricedProduct.variants[0]} />
           )}
+          {/* )} */}
         </div>
 
         <div className="space-y-4 px-2.5 pt-5 pb-2.5">
           {/* <RenderVariants variants={variants} variantType={variantType} /> */}
           <div>
             <h2 className="nc-ProductCard__title text-base font-semibold transition-colors">
-              {name}
+              {title}
             </h2>
-            <p className={`hidden lg:block text-sm text-slate-500 dark:text-slate-400 mt-1 `}>
+            <p
+              className={`hidden lg:block text-sm text-slate-500 dark:text-slate-400 mt-1 `}
+            >
               {StripOffDesc}
             </p>
           </div>
 
-          <div className="flex justify-between items-end ">
-            <Prices price={price} />
-            <div className="hidden lg:flex items-center mb-0.5">
-              <StarIcon className="w-5 h-5 pb-[1px] text-amber-400" />
-              <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">
-                {rating || ""} ({numberOfReviews || 0} reviews)
-              </span>
-            </div>
-          </div>
+          <InCardProductPrice product={pricedProduct} region={region} />
         </div>
       </div>
     </>

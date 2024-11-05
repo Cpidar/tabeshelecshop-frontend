@@ -23,7 +23,7 @@ export const CategoryFilter = async ({
 
   return (
     <div className="block">
-      <Heading className="mb-5 -mt-1">Categories</Heading>
+      <Heading className="mb-5 -mt-1">دسته بندی ها</Heading>
       <div className="max-h-full overflow-hidden rounded border border-border-base">
         {/* <Scrollbar className="w-full category-filter-scrollbar"> */}
         <div className="w-full category-filter-scrollbar">
@@ -32,7 +32,7 @@ export const CategoryFilter = async ({
             <CategoryFilterMenu items={product_categories} />
           ) : (
             <div className="min-h-full pt-6 pb-8 px-9 lg:p-8">
-              No Result
+              بدون نتیجه
             </div>
           )}
           </div>

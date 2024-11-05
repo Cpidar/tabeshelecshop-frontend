@@ -14,7 +14,7 @@ import SectionSliderCategories from "@/modules/home/components/SectionSliderCate
 import SectionPromo3 from "@/modules/home/components/SectionPromo3"
 import Heading from "@/components/Heading/Heading"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
-import SectionMagazine5 from "@/modules/blog/SectionMagazine5"
+import SectionMagazine5 from "@/modules/blog/components/SectionMagazine5"
 import ProductCard from "@modules/products/components/product-preview/ProductCard"
 import SectionHero4, {
   SectionHeroProps,
@@ -23,6 +23,7 @@ import initTranslations from "@/app/i18n"
 import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
 import { createReader } from "@keystatic/core/reader"
 import keystaticConfig from "../../../../keystatic.config"
+import SectionIncredibleOffer from "@/modules/home/components/SectionIncredibleOffer"
 
 const reader = createReader(process.cwd(), keystaticConfig)
 
@@ -118,15 +119,27 @@ export default async function Home({
         {/* </div> */}
 
         <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
-          <SectionSliderCategories data={homepageContent?.homePageCategories.items} />
-
-          <SectionSliderProductCard heading={collections[0].title}>
+          <SectionSliderCategories
+            data={homepageContent?.homePageCategories.items}
+          />
+          <SectionIncredibleOffer heading={collections[0].title}>
             {collections[0] &&
               collections[0]?.products.map((item, index) => (
                 <li key={index} className="glide__slide">
                   <ProductCard productPreview={item} region={region} />
                 </li>
               ))}
+          </SectionIncredibleOffer>
+
+          <SectionSliderProductCard
+            heading={collections[1].title}
+            subHeading=""
+          >
+            {collections[1].products.map((item, index) => (
+              <li key={index} className="glide__slide">
+                <ProductCard productPreview={item} region={region} />
+              </li>
+            ))}
           </SectionSliderProductCard>
 
           <SectionPromo1 className="bg-gray-50" />

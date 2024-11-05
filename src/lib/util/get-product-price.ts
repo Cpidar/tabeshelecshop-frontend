@@ -28,13 +28,17 @@ export function getProductPrice({
       return null
     }
 
-    const variants = product.variants as unknown as CalculatedVariant[]
+    const discountedVariants = product.variants.filter(v => v.calculated_price !== v.original_price) as unknown as CalculatedVariant[]
+    const variants = discountedVariants.length > 0 ? discountedVariants : product.variants as unknown as CalculatedVariant[]
 
     const cheapestVariant = variants.reduce((prev, curr) => {
       return prev.calculated_price < curr.calculated_price ? prev : curr
     })
 
+    const calculated_price_list = cheapestVariant.prices.find(p => p.amount === cheapestVariant.calculated_price)?.price_list
+
     return {
+      calculated_price_list,
       calculated_price_number: cheapestVariant.calculated_price,
       calculated_price: formatAmount({
         amount: cheapestVariant.calculated_price,
@@ -68,7 +72,10 @@ export function getProductPrice({
       return null
     }
 
+    const calculated_price_list = variant.prices.find(p => p.amount === variant.calculated_price)?.price_list
+
     return {
+      calculated_price_list,
       calculated_price_number: variant.calculated_price,
       calculated_price: formatAmount({
         amount: variant.calculated_price,

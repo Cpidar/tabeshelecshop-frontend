@@ -14,16 +14,15 @@ import NcInputNumber from "../product-actions/NcInputNumber"
 import ButtonCircle from "@/shared/Button/ButtonCircle"
 import { useCart } from "@/modules/cart/components/cart-context"
 import { useFormState } from "react-dom"
+import { PricedVariant } from "@medusajs/medusa/dist/types/pricing"
 
 // const ModalQuickView = dynamic(() => import("../quick-view-modal/ModalQuickView"))
-export const RenderGroupButtons = ({ data }: { data: Product }) => {
+export const RenderGroupButtons = ({ variant }: { variant: PricedVariant }) => {
   const [showModalQuickView, setShowModalQuickView] = useState(false)
   const [quantitySelected, setQuantitySelected] = useState(1)
   const { addCartItem } = useCart()
 
   const countryCode = useParams()?.countryCode as string
-
-  const variant = data.variants![0]
 
   // const handleAddToCart = async () => {
   //   if (!variant?.id) return null
@@ -46,10 +45,9 @@ export const RenderGroupButtons = ({ data }: { data: Product }) => {
   return (
     <>
       <div className="absolute bottom-0 group-hover:bottom-4 inset-x-1 flex justify-center opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-        {data.variants?.length === 1 && (
           <div className="flex items-center justify-around bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
             <NcInputNumber
-              max={data.quantity}
+              max={variant.inventory_quantity}
               defaultValue={quantitySelected}
               onChange={setQuantitySelected}
             />
@@ -66,7 +64,6 @@ export const RenderGroupButtons = ({ data }: { data: Product }) => {
               </ButtonCircle>
             </form>
           </div>
-        )}
 
         {/* <ButtonSecondary
           className="ms-1.5 bg-white hover:!bg-gray-100 hover:text-slate-900 transition-colors shadow-lg"
