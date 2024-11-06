@@ -36,7 +36,6 @@ export default function ProductStatus({
     calculateTimeLeft(endAt || new Date())
   )
 
-
   useEffect(() => {
     if (endAt) {
       const timer = setTimeout(() => {

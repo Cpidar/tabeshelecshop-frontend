@@ -76,6 +76,7 @@ export interface Product {
   slug: string;
   price: string;
   sale_price: string;
+  priceListName: string | undefined;
   quantity: number;
   thumbnail: StaticImageData | string;
   description: string;
