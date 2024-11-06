@@ -51,6 +51,11 @@ const ProductCard = async ({
   const data = transformMedusaProduct(pricedProduct, region)
 
   const { title, handle: slug, description, thumbnail: image } = pricedProduct
+  const selectedVariant = {
+    thumbnail: image,
+    product: { title },
+    ...pricedProduct.variants[0],
+  }
 
   const StripOffDesc = description && stripHtmlTag(description)
   return (
@@ -82,7 +87,7 @@ const ProductCard = async ({
             <RenderSizeList data={data} sizes={sizes} />
           ) : ( */}
           {pricedProduct.variants.length === 1 && (
-            <RenderGroupButtons variant={pricedProduct.variants[0]} />
+            <RenderGroupButtons variant={selectedVariant} />
           )}
           {/* )} */}
         </div>
