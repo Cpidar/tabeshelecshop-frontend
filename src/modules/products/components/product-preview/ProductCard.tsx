@@ -5,7 +5,7 @@ import ProductStatus from "../product-status"
 import Link from "next/link"
 import NcImage from "@/shared/NcImage/NcImage"
 import { ProductPreviewType } from "@/types/global"
-import { Region } from "@medusajs/medusa"
+import { PriceListStatus, PriceListType, Region } from "@medusajs/medusa"
 import { RenderSizeList } from "./RenderSizeList"
 import { RenderGroupButtons } from "../overlay-actions"
 
@@ -60,6 +60,7 @@ const ProductCard = async ({
       >
         {cheapestPrice?.calculated_price_list?.type === "sale" &&
           cheapestPrice?.calculated_price_list?.status === "active" && (
+
             <ProductStatus
               title={cheapestPrice?.calculated_price_list?.name!}
               endAt={cheapestPrice?.calculated_price_list?.ends_at}

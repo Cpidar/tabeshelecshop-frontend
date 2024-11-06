@@ -11,5 +11,6 @@
             "name": "public",
             "mountTo": "/app/public"
         }
+
     ]
 }
