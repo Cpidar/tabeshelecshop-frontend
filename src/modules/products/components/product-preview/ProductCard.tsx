@@ -58,9 +58,9 @@ const ProductCard = async ({
       <div
         className={`nc-ProductCard relative flex flex-col rounded-[10px] bg-white pt-[52px] border shadow-[0px_1px_4px_rgba(0,0,0,0.08)] ${className}`}
       >
-        {cheapestPrice?.calculated_price_list?.type === PriceListType.SALE &&
-          cheapestPrice?.calculated_price_list?.status ===
-            PriceListStatus.ACTIVE && (
+        {cheapestPrice?.calculated_price_list?.type === "sale" &&
+          cheapestPrice?.calculated_price_list?.status === "active" && (
+
             <ProductStatus
               title={cheapestPrice?.calculated_price_list?.name!}
               endAt={cheapestPrice?.calculated_price_list?.ends_at}

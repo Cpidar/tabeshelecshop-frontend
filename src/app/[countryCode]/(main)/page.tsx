@@ -14,7 +14,6 @@ import SectionSliderCategories from "@/modules/home/components/SectionSliderCate
 import SectionPromo3 from "@/modules/home/components/SectionPromo3"
 import Heading from "@/components/Heading/Heading"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
-import SectionMagazine5 from "@/modules/blog/components/SectionMagazine5"
 import ProductCard from "@modules/products/components/product-preview/ProductCard"
 import SectionHero4, {
   SectionHeroProps,

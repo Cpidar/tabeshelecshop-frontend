@@ -63,7 +63,6 @@ export default function CartDropdown() {
     const changeQuantity = async (quantity: number) => {
       setError(null)
       setUpdating(true)
-      console.log(id, quantity)
       const message = await updateLineItem({
         lineId: id,
         quantity,

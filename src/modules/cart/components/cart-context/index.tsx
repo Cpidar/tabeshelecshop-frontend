@@ -69,7 +69,6 @@ function createOrUpdateCartItem(
 ): LineItem {
   const newQuantity = existingItem ? existingItem.quantity + quantity : quantity
   const totalAmount = calculateItemCost(quantity, variant.calculated_price!)
-  console.log(variant)
   return {
     id: existingItem?.id!,
     title: variant.product?.title,
