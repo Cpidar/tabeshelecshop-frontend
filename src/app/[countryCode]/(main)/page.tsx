@@ -23,6 +23,7 @@ import TranslationsProvider from "@/modules/translationProvider/TranslationsProv
 import { createReader } from "@keystatic/core/reader"
 import keystaticConfig from "../../../../keystatic.config"
 import SectionIncredibleOffer from "@/modules/home/components/SectionIncredibleOffer"
+import SectionTripleBanners from "@/modules/home/components/SectionTripleBanners"
 
 const reader = createReader(process.cwd(), keystaticConfig)
 
@@ -138,7 +139,11 @@ export default async function Home({
                 </li>
               ))}
           </SectionIncredibleOffer>
-
+          {homepageContent?.homePageTripleBanner.items && (
+            <SectionTripleBanners
+              data={homepageContent.homePageTripleBanner.items!}
+            />
+          )}
           <SectionSliderProductCard
             heading={collections[0].title}
             subHeading=""

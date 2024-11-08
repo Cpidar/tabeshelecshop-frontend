@@ -1,7 +1,7 @@
 import { ComponentBlocks } from "@/modules/blog/components/ComponentBlocks"
 import { config, collection, singleton, fields } from "@keystatic/core"
 import { ProductCategory } from "@medusajs/medusa"
-import { wrapper } from '@keystatic/core/content-components'
+import { wrapper } from "@keystatic/core/content-components"
 
 export default config({
   // storage: {
@@ -13,7 +13,7 @@ export default config({
       name: "Dev: Next.js (app)",
     },
     navigation: {
-      Contents: ["singlefileposts", "authors","posts", "externalArticles"],
+      Contents: ["singlefileposts", "authors", "posts", "externalArticles"],
       "Store Config": ["settings", "homepage", "about"],
     },
   },
@@ -25,7 +25,7 @@ export default config({
       label: "Posts",
       path: "public/content/posts/*/",
       slugField: "slug",
-      entryLayout: 'content',
+      entryLayout: "content",
       format: { contentField: "content" },
       schema: {
         title: fields.text({ label: "Title" }),
@@ -61,7 +61,7 @@ export default config({
       label: "Posts",
       path: "content/posts/*/",
       slugField: "title",
-      entryLayout: 'content',
+      entryLayout: "content",
       format: { contentField: "content" },
       schema: {
         title: fields.slug({
@@ -286,44 +286,98 @@ export default config({
             layout: [12, 6, 6, 6, 6],
           }
         ),
-        homePageCategories: fields.object({
-          title: fields.text({
-            label: "Section Title",
-          }),
-          items: fields.array(
-            fields.object(
+        homePageCategories: fields.object(
+          {
+            title: fields.text({
+              label: "Section Title",
+            }),
+            items: fields.array(
+              fields.object(
+                {
+                  name: fields.text({
+                    label: "Name",
+                    description: "The name of category",
+                  }),
+                  href: fields.url({
+                    label: "Link",
+                    description: "The address of category",
+                  }),
+                  description: fields.text({
+                    label: "Description",
+                    description: "Write an sentence about this category",
+                  }),
+                  icon: fields.image({
+                    label: "Icon",
+                    directory: "public/assets/images",
+                    publicPath: "/assets/images/",
+                  }),
+                },
+                {
+                  label: "Add Category Item",
+                  layout: [6, 6, 12, 12],
+                }
+              ),
               {
-                name: fields.text({
-                  label: "Name",
-                  description: "The name of category",
-                }),
-                href: fields.url({
-                  label: "Link",
-                  description: "The address of category",
-                }),
-                description: fields.text({
-                  label: "Description",
-                  description: "Write an sentence about this category",
-                }),
-                icon: fields.image({
-                  label: "Icon",
-                  directory: "public/assets/images",
-                  publicPath: "/assets/images/",
-                })
-              },
-              {
-                label: "Add Category Item",
-                layout: [6, 6, 12, 12],
+                label: "Section Items",
+                itemLabel: (props) => props.fields.name.value,
               }
             ),
-            {
-              label: "Section Items",
-              itemLabel: (props) => props.fields.name.value,
-            }
-          ),
-        }, {
-          label: "Home Page Category Section"
-        }),
+          },
+          {
+            label: "Home Page Category Section",
+          }
+        ),
+        homePageTripleBanner: fields.object(
+          {
+            items: fields.array(
+              fields.object(
+                {
+                  title: fields.text({
+                    label: "Title",
+                    description: "The title of banner",
+                  }),
+
+                  subtitle: fields.text({
+                    label: "Subtitle",
+                    description: "Write an sentence about this category",
+                  }),
+                  buttonText: fields.text({
+                    label: "Button Text",
+                  }),
+                  href: fields.url({
+                    label: "Link",
+                    description: "The address of category",
+                    validation: {
+                      isRequired: true,
+                    },
+                  }),
+                  color: fields.text({
+                    label: "Background Color",
+                  }),
+                  image: fields.image({
+                    label: "Image",
+                    directory: "public/assets/images",
+                    publicPath: "/assets/images/",
+                    validation: {
+                      isRequired: true
+                    }
+                  }),
+                },
+                {
+                  label: "Add Category Item",
+                  layout: [6, 6, 6, 6, 6, 6],
+                }
+              ),
+              {
+                label: "Section Items",
+                itemLabel: (props) => props.fields.title.value,
+              }
+            ),
+          },
+          {
+            label: "Triple Banners Section",
+          }
+        ),
       },
     }),
     about: singleton({
