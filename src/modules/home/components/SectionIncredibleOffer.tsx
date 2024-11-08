@@ -40,7 +40,7 @@ const SectionIncredibleOffer: FC<SectionSliderProductCardProps> = ({
   useEffect(() => {
     const OPTIONS: Partial<Glide.Options> = {
       // direction: document.querySelector("html")?.getAttribute("dir") || "ltr",
-      perView: 4,
+      perView: 6,
       gap: 32,
       bound: true,
       direction: "rtl",
@@ -84,7 +84,7 @@ const SectionIncredibleOffer: FC<SectionSliderProductCardProps> = ({
       <div className="relative mb-6 w-full lg:mb-7">
         <Image
           loading="eager"
-          src="https://www.technolife.ir/image/static_technoffHeader.svg"
+          src="/assets/images/static_technoffHeader.svg"
           alt="techno off header"
           className="h-full w-full"
           width="1588"
@@ -107,7 +107,9 @@ const SectionIncredibleOffer: FC<SectionSliderProductCardProps> = ({
       </div>
       <div ref={sliderRef} className={`flow-root ${isShow ? "" : "invisible"}`}>
         <div className="glide__track" data-glide-el="track">
-          <ul className="glide__slides pr-4 lg:pr-0 lg:pt-4">{children}</ul>
+          <ul className="glide__slides pr-4 lg:pr-0 lg:pt-4">
+            {children}
+            </ul>
         </div>
       </div>
     </section>

@@ -48,7 +48,7 @@ export default function ProductStatus({
   return (
     <>
       {timeLeft.seconds > 0 && (
-        <div className="absolute top-4 w-full px-5">
+        <div className="mb-3.5 h-5 w-full lg:mb-4">
           <div className="flex items-center justify-between pt-0.5 text-red-600">
             <p className="font-semiBold leading-4 text-xs lg:text-[13px] lg:!leading-5 line-clamp-1 max-w-[60%]">
               {title}

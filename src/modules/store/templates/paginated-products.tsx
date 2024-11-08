@@ -68,12 +68,15 @@ export default async function PaginatedProducts({
   return (
     <>
       <ul
-        className="grid grid-cols-2 w-full small:grid-cols-3 medium:grid-cols-4 gap-x-6 gap-y-8"
+        className="-mx-px grid grid-cols-2 border-l border-t border-gray-200 sm:mx-0 md:grid-cols-3 lg:grid-cols-4"
         data-testid="products-list"
       >
         {products.map((p) => {
           return (
-            <li key={p.id}>
+            <li
+              key={p.id}
+              className="group relative border-b border-r border-gray-200 p-4 sm:p-6"
+            >
               <ProductPreview productPreview={p} region={region} />
             </li>
           )
@@ -86,11 +89,7 @@ export default async function PaginatedProducts({
           totalPages={totalPages}
         />
       )} */}
-      <LoadMore
-        hasNextPage={Boolean(nextPage)}
-        loading={false}
-        page={page}
-      />
+      <LoadMore hasNextPage={Boolean(nextPage)} loading={false} page={page} />
     </>
   )
 }
