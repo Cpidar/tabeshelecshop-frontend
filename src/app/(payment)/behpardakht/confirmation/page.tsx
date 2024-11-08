@@ -25,6 +25,18 @@ export default async function OrderConfirmedPage({ searchParams }: Props) {
     throw new Error("ResCode error")
   }
 
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/behpardakht/verify`, {
+    method: "POST",
+    body: JSON.stringify({
+      SaleOrderId,
+      SaleReferenceId,
+    }),
+  }).then((res) => res.json())
+
+  if (res.status !== 200 || (res.ResCode && res.ResCode !== 0)) {
+    console.log(ResCode)
+    throw new Error("ResCode error")
+  }
 
   return (
     <PaymentConfirmation

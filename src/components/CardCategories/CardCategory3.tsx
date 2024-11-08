@@ -1,38 +1,41 @@
-import React, { FC } from "react";
-import ButtonSecondary from "@/shared/Button/ButtonSecondary";
-import Link from "next/link";
-import Image, { StaticImageData } from "next/image";
-import { CATS_DISCOVER } from "./data";
+import React, { FC } from "react"
+import ButtonSecondary from "@/shared/Button/ButtonSecondary"
+import Link from "next/link"
+import Image, { StaticImageData } from "next/image"
+import LocalizedClientLink from "@/modules/common/components/localized-client-link"
 
 export interface CardCategory3Props {
-  className?: string;
-  featuredImage?: StaticImageData | string;
-  name?: string;
-  desc?: string;
-  color?: string;
+  className?: string
+  featuredImage?: StaticImageData | string
+  name?: string
+  desc?: string
+  color?: string
+  buttonText: string
+  href: string
 }
 
 const CardCategory3: FC<CardCategory3Props> = ({
   className = "",
-  featuredImage = CATS_DISCOVER[2].featuredImage,
-  name = CATS_DISCOVER[2].name,
-  desc = CATS_DISCOVER[2].desc,
-  color = CATS_DISCOVER[2].color,
+  featuredImage,
+  name,
+  desc,
+  color = "",
+  buttonText = "خرید کنید",
+  href ="#",
 }) => {
   return (
-    <Link
-      href={"/collection"}
-      className={`nc-CardCategory3 block ${className}`}
-    >
       <div
-        className={`relative w-full aspect-w-16 aspect-h-11 sm:aspect-h-9 h-0 rounded-2xl overflow-hidden group ${color}`}
+        className={`relative w-full aspect-w-16 aspect-h-11 sm:aspect-h-9 h-0 rounded-2xl overflow-hidden group`}
+        style={{ backgroundColor: `${color}` }}
       >
         <div>
           <div className="absolute inset-5 sm:inset-8">
             <Image
               alt=""
               src={featuredImage || ""}
-              className="absolute end-0 w-1/2 max-w-[260px] h-full object-contain drop-shadow-xl"
+              className="absolute end-0 w-1/2 max-w-[260px] h-full object-contain"
+              width={200}
+              height={200}
             />
           </div>
         </div>
@@ -52,19 +55,20 @@ const CardCategory3: FC<CardCategory3Props> = ({
               )}
             </div>
             <div className="mt-auto">
-              <ButtonSecondary
-                sizeClass="py-3 px-4 sm:py-3.5 sm:px-6"
-                fontSize="text-sm font-medium"
-                className="nc-shadow-lg"
-              >
-                Show me all
-              </ButtonSecondary>
+              <LocalizedClientLink href={href}>
+                <ButtonSecondary
+                  sizeClass="py-3 px-4 sm:py-3.5 sm:px-6"
+                  fontSize="text-sm font-medium"
+                  className="nc-shadow-lg"
+                >
+                  {buttonText}
+                </ButtonSecondary>
+              </LocalizedClientLink>
             </div>
           </div>
         </div>
       </div>
-    </Link>
-  );
-};
+  )
+}
 
-export default CardCategory3;
+export default CardCategory3

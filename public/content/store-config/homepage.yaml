@@ -23,3 +23,23 @@ homePageCategories:
     - name: اسکلت، تابلو و جعبه
       href: /categories
       icon: /assets/images/homePageCategories/items/1/icon.webp
+homePageTripleBanner:
+  items:
+    - title: شی کاریزما
+      subtitle: محصولات شی کاریزما
+      buttonText: خرید کنید
+      href: /shop
+      color: '#ffb700'
+      image: /assets/images/homePageTripleBanner/items/0/image.png
+    - title: بوش
+      subtitle: محصولات با کیفیت بوش
+      buttonText: خرید کنید
+      href: /shop
+      color: '#e0f1fb'
+      image: /assets/images/homePageTripleBanner/items/1/image.png
+    - title: کیف ابزار
+      subtitle: تخفیف ویژه
+      buttonText: خرید کنید
+      href: /shop
+      color: '#f25c05'
+      image: /assets/images/homePageTripleBanner/items/2/image.png

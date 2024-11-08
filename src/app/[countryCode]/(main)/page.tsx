@@ -23,6 +23,7 @@ import TranslationsProvider from "@/modules/translationProvider/TranslationsProv
 import { createReader } from "@keystatic/core/reader"
 import keystaticConfig from "../../../../keystatic.config"
 import SectionIncredibleOffer from "@/modules/home/components/SectionIncredibleOffer"
+import SectionTripleBanners from "@/modules/home/components/SectionTripleBanners"
 
 const reader = createReader(process.cwd(), keystaticConfig)
 
@@ -91,7 +92,13 @@ export default async function Home({
   // from keystatic cms
   const homepageContent = await reader.singletons.homepage.read()
 
-  const collections = await getCollectionsWithProducts(countryCode)
+  const allCollections = await getCollectionsWithProducts(countryCode)
+  const incredibleOffers = allCollections?.filter(
+    (c) => c.handle === "incredible_offer"
+  )[0]
+  const collections = allCollections?.filter(
+    (c) => c.handle !== "incredible_offer"
+  )
   const region = await getRegion(countryCode)
   const { t, resources } = await initTranslations(countryCode, i18nNamespaces)
 
@@ -121,24 +128,35 @@ export default async function Home({
           <SectionSliderCategories
             data={homepageContent?.homePageCategories.items}
           />
-          <SectionIncredibleOffer heading={collections[0].title}>
-            {collections[0] &&
-              collections[0]?.products.map((item, index) => (
+          <SectionIncredibleOffer heading={incredibleOffers?.title}>
+            {incredibleOffers &&
+              incredibleOffers?.products.map((item, index) => (
                 <li key={index} className="glide__slide">
-                  <ProductCard productPreview={item} region={region} />
+                  <div className="relative lg:flex lg:justify-center lg:pl-[10px]">
+                    <ProductCard productPreview={item} region={region} />
+                    <div className=" absolute left-0 top-[30px] w-[1px] bg-gray-100 xl:top-[54px] xl:w-[2px]  h-[320px]"></div>
+                  </div>
                 </li>
               ))}
           </SectionIncredibleOffer>
-
+          {homepageContent?.homePageTripleBanner.items && (
+            <SectionTripleBanners
+              data={homepageContent.homePageTripleBanner.items!}
+            />
+          )}
           <SectionSliderProductCard
-            heading={collections[1].title}
+            heading={collections[0].title}
             subHeading=""
           >
-            {collections[1].products.map((item, index) => (
-              <li key={index} className="glide__slide">
-                <ProductCard productPreview={item} region={region} />
-              </li>
-            ))}
+            {collections[0] &&
+              collections[0].products.map((item, index) => (
+                <li key={index} className="glide__slide">
+                  <div className="relative lg:flex lg:justify-center lg:pl-[10px]">
+                    <ProductCard productPreview={item} region={region} />
+                    <div className=" absolute left-0 top-[30px] w-[1px] bg-gray-100 xl:top-[54px] xl:w-[2px]  h-[320px]"></div>
+                  </div>
+                </li>
+              ))}
           </SectionSliderProductCard>
 
           <SectionPromo1 className="bg-gray-50" />
@@ -148,47 +166,53 @@ export default async function Home({
           <SectionGridMoreExplore />
         </div> */}
 
-          <SectionSliderProductCard
-            heading={collections[1].title}
-            subHeading=""
-          >
-            {collections[1].products.map((item, index) => (
-              <li key={index} className="glide__slide">
-                <ProductCard productPreview={item} region={region} />
-              </li>
-            ))}
-          </SectionSliderProductCard>
+          {collections[1] && (
+            <SectionSliderProductCard
+              heading={collections[1].title}
+              subHeading=""
+            >
+              {collections[1].products.map((item, index) => (
+                <li key={index} className="glide__slide">
+                  <ProductCard productPreview={item} region={region} />
+                </li>
+              ))}
+            </SectionSliderProductCard>
+          )}
 
-          <SectionSliderProductCard heading={collections[2].title}>
-            {collections[2].products.map((item, index) => (
-              <li key={index} className="glide__slide">
-                <ProductCard productPreview={item} region={region} />
-              </li>
-            ))}
-          </SectionSliderProductCard>
+          {collections[2] && (
+            <SectionSliderProductCard heading={collections[2].title}>
+              {collections[2].products.map((item, index) => (
+                <li key={index} className="glide__slide">
+                  <ProductCard productPreview={item} region={region} />
+                </li>
+              ))}
+            </SectionSliderProductCard>
+          )}
 
-          <SectionSliderProductCard heading={collections[3].title}>
-            {collections[3].products.map((item, index) => (
-              <li key={index} className="glide__slide">
-                <ProductCard productPreview={item} region={region} />
-              </li>
-            ))}
-          </SectionSliderProductCard>
-
+          {collections[3] && (
+            <SectionSliderProductCard heading={collections[3].title}>
+              {collections[3].products.map((item, index) => (
+                <li key={index} className="glide__slide">
+                  <ProductCard productPreview={item} region={region} />
+                </li>
+              ))}
+            </SectionSliderProductCard>
+          )}
           <SectionPromo2 />
 
           {/* <SectionSliderLargeProduct cardStyle="style1" /> */}
 
           {/* <SectionGridFeatureItems /> */}
 
-          <SectionSliderProductCard heading={collections[3].title}>
-            {collections[3].products.map((item, index) => (
-              <li key={index} className="glide__slide">
-                <ProductCard productPreview={item} region={region} />
-              </li>
-            ))}
-          </SectionSliderProductCard>
-
+          {collections[4] && (
+            <SectionSliderProductCard heading={collections[4].title}>
+              {collections[4].products.map((item, index) => (
+                <li key={index} className="glide__slide">
+                  <ProductCard productPreview={item} region={region} />
+                </li>
+              ))}
+            </SectionSliderProductCard>
+          )}
           {/* <div className="relative py-24 lg:py-32">
             <BackgroundSection />
             <div>

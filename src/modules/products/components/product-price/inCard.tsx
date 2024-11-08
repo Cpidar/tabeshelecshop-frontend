@@ -36,14 +36,14 @@ import {
                 </span>
               </div>
               <div className="flex flex-col items-end gap-[6px]">
-                <p className="text-[18px] font-semiBold leading-5 text-red-600">
+                <p className="text-[16px] font-semiBold leading-5 text-red-600">
                   {selectedPrice.calculated_price}
                   {/* <span className="text-xs font-medium mr-1  font-semiBold leading-5 text-red-600">
                     تومان
                   </span> */}
                 </p>
                 <div className="flex pl-[1px]">
-                  <p className="text-base leading-5 text-gray-600 line-through">
+                  <p className="text-sm leading-5 text-gray-600 line-through">
                     {selectedPrice.original_price}
                   </p>
                   {/* <span className="text-gray-800 text-xs font-medium mr-1  font-semiBold leading-5">
@@ -55,7 +55,7 @@ import {
           ) : (
             <>
               <div />
-              <p className=" text-[20px] font-semiBold leading-5 text-gray-800">
+              <p className=" text-base font-semiBold leading-5 text-gray-800">
                 {selectedPrice.original_price_number?.toLocaleString()}
                 <span className="text-xs font-medium mr-1 text-xs font-semiBold leading-5 text-gray-600">تومان</span>
               </p>

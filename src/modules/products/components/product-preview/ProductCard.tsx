@@ -15,6 +15,7 @@ import PlaceholderImage from "@/images/placeholders/product-placeholder.png"
 import { stripHtmlTag } from "@/utils/StripHtmlTag"
 import InCardProductPrice from "../product-price/inCard"
 import { getProductPrice } from "@/lib/util/get-product-price"
+import LocalizedClientLink from "@/modules/common/components/localized-client-link"
 
 export interface ProductCardProps {
   className?: string
@@ -59,9 +60,9 @@ const ProductCard = async ({
 
   const StripOffDesc = description && stripHtmlTag(description)
   return (
-    <>
+    <div className="relative lg:flex lg:justify-center lg:pl-[10px]">
       <div
-        className={`nc-ProductCard relative flex flex-col rounded-[10px] bg-white pt-[52px] border shadow-[0px_1px_4px_rgba(0,0,0,0.08)] ${className}`}
+        className={`flex flex-col items-center  w-full min-w-[148px] lg:w-[200px] xl:w-[186px] ${className}`}
       >
         {cheapestPrice?.calculated_price_list?.type === "sale" &&
           cheapestPrice?.calculated_price_list?.status === "active" && (
@@ -71,17 +72,17 @@ const ProductCard = async ({
               endAt={cheapestPrice?.calculated_price_list?.ends_at}
             />
           )}
-        <div className="relative mb-[22px] flex-shrink-0 bg-slate-50 dark:bg-slate-300 rounded-3xl overflow-hidden z-1 group">
-          <Link href={`/products/${slug}`} className="block">
+        <div className="relative w-[132px] lg:w-[186px]">
+          <LocalizedClientLink href={`/products/${slug}`} className="w-full relative group-hover:opacity-75">
             <NcImage
               containerClassName="flex aspect-w-11 aspect-h-12 w-full h-0"
               src={image ? image : PlaceholderImage}
-              className="object-fit w-full h-full drop-shadow-xl"
+              className="object-fit w-full h-full"
               fill
               sizes="(max-width: 640px) 100vw, (max-width: 1200px) 50vw, 40vw"
               alt="product"
             />
-          </Link>
+          </LocalizedClientLink>
           {/* <ProductStatus status={status} /> */}
           {/* <LikeButton liked={isLiked} className="absolute top-3 end-3 z-10" /> */}
           {/* {sizes ? (
@@ -96,20 +97,20 @@ const ProductCard = async ({
         <div className="space-y-4 px-2.5 pt-5 pb-2.5">
           {/* <RenderVariants variants={variants} variantType={variantType} /> */}
           <div>
-            <h2 className="nc-ProductCard__title text-base font-semibold transition-colors">
+            <h2 className="nc-ProductCard__title text-sm transition-colors">
               {title}
             </h2>
-            <p
-              className={`hidden lg:block text-sm text-slate-500 dark:text-slate-400 mt-1 `}
+            {/* <p
+              className={`hidden lg:block text-xs text-slate-500 dark:text-slate-400 mt-1 `}
             >
               {StripOffDesc}
-            </p>
+            </p> */}
           </div>
 
           <InCardProductPrice product={pricedProduct} region={region} />
         </div>
       </div>
-    </>
+    </div>
   )
 }
 
