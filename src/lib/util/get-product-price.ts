@@ -38,6 +38,7 @@ export function getProductPrice({
     const calculated_price_list = cheapestVariant.prices.find(p => p.amount === cheapestVariant.calculated_price)?.price_list
 
     return {
+      cheapestVariant,
       calculated_price_list,
       calculated_price_number: cheapestVariant.calculated_price,
       calculated_price: formatAmount({

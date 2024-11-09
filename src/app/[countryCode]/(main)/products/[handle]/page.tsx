@@ -11,9 +11,28 @@ import {
 import { Region } from "@medusajs/medusa"
 import ProductTemplate from "@modules/products/templates"
 import ScrollToTop from "@/shared/utils/scrollToTop"
+import { getProductPrice } from "@/lib/util/get-product-price"
 
 type Props = {
   params: { countryCode: string; handle: string }
+}
+
+const getPricedProductByHandle = async (slug: string, region: Region) => {
+  const handle = decodeURI(slug)
+  const { product } = await getProductByHandle(handle).then(
+    (product) => product
+  )
+
+  if (!product || !product.id) {
+    return null
+  }
+
+  const pricedProduct = await retrievePricedProductById({
+    id: product.id,
+    regionId: region.id,
+  })
+
+  return pricedProduct
 }
 
 export async function generateStaticParams() {
@@ -46,16 +65,24 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  let { handle } = params
+  let { handle, countryCode } = params
   handle = decodeURI(handle)
+  const region = await getRegion(countryCode)
 
-  const { product } = await getProductByHandle(handle).then(
-    (product) => product
-  )
+  if (!region) {
+    notFound()
+  }
+
+  const product = await getPricedProductByHandle(handle, region)
 
   if (!product) {
     notFound()
   }
+
+  const { cheapestPrice } = getProductPrice({
+    product,
+    region,
+  })
 
   return {
     title: `${product.title} | ${process.env.SITE_NAME}`,
@@ -73,25 +100,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: `${product.title}`,
       images: product.thumbnail ? [product.thumbnail] : [],
     },
+    other: {
+      product_id: product.id!,
+      product_name: product.title!,
+      product_price: cheapestPrice?.calculated_price_number!,
+      product_old_price: cheapestPrice?.original_price_number!,
+      availability:
+        cheapestPrice && cheapestPrice?.cheapestVariant.inventory_quantity > 0
+          ? "instock"
+          : "outofstock",
+    },
   }
-}
-
-const getPricedProductByHandle = async (slug: string, region: Region) => {
-  const handle = decodeURI(slug)
-  const { product } = await getProductByHandle(handle).then(
-    (product) => product
-  )
-
-  if (!product || !product.id) {
-    return null
-  }
-
-  const pricedProduct = await retrievePricedProductById({
-    id: product.id,
-    regionId: region.id,
-  })
-
-  return pricedProduct
 }
 
 export default async function ProductPage({ params }: Props) {
