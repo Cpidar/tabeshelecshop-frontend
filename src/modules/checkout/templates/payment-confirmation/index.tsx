@@ -106,7 +106,7 @@ const PaymentConfirmation = ({
     }
 
     verifyOrder()
-  })
+  }, [])
 
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
