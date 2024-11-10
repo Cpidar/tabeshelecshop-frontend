@@ -1,8 +1,6 @@
-import { updatePaymentSession } from "@/lib/data"
+import { BehpardakhtErrors } from "@/lib/constants"
 import PaymentConfirmation from "@/modules/checkout/templates/payment-confirmation"
-import { placeOrder } from "@modules/checkout/actions"
 import { cookies } from "next/headers"
-import { notFound } from "next/navigation"
 
 type Props = {
   searchParams: {
@@ -20,25 +18,9 @@ export default async function OrderConfirmedPage({ searchParams }: Props) {
   const providerId = "behpardakht"
   const cartId = cookies().get("_medusa_cart_id")?.value
 
-  if (ResCode && +ResCode !== (0 || 43)) {
-    console.log(ResCode)
-    throw new Error("ResCode error")
-  }
-
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_BASE_URL}/api/behpardakht/verify`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        SaleOrderId,
-        SaleReferenceId,
-      }),
-    }
-  ).then((res) => res.json())
-
-  if (res.status !== 200 || (res.ResCode && res.ResCode !== (0 || 43))) {
-    console.log(ResCode)
-    throw new Error("ResCode error")
+  if (ResCode && (["0", "43"].indexOf(ResCode) === -1)) {
+    console.log(ResCode, BehpardakhtErrors[ResCode])
+    throw new Error("Payment ResCode error")
   }
 
   return (

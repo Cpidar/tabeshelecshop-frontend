@@ -69,29 +69,29 @@ const PaymentConfirmation = ({
         const baseUrl =
           process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
 
-        // const res = await PromiseWithTimeout<Response>(
-        //   10000,
-        //   fetch(`${baseUrl}/api/behpardakht/verify`, {
-        //     method: "POST",
-        //     body: JSON.stringify({
-        //       RefId,
-        //       SaleOrderId,
-        //       SaleReferenceId,
-        //     }),
-        //   })
-        // ) as Response
-
-        const res = (await PromiseWithTimeout(
+        const res = await PromiseWithTimeout<Response>(
           10000,
-          new Promise<any>((res) =>
-            setTimeout(
-              () => res({ status: 200, resCode: 0, errorMessage: "" }),
-              1000
-            )
-          )
-        )) as Response
+          fetch(`${baseUrl}/api/behpardakht/verify`, {
+            method: "POST",
+            body: JSON.stringify({
+              RefId,
+              SaleOrderId,
+              SaleReferenceId,
+            }),
+          })
+        ) as Response
 
-        // const { errorMessage } = await res.json()
+        // const res = (await PromiseWithTimeout(
+        //   10000,
+        //   new Promise<any>((res) =>
+        //     setTimeout(
+        //       () => res({ status: 200, resCode: 0, errorMessage: "" }),
+        //       1000
+        //     )
+        //   )
+        // )) as Response
+
+        const { errorMessage } = await res.json()
 
         if (res.status === 400) {
           setErrorMessage(errorMessage)
@@ -106,7 +106,7 @@ const PaymentConfirmation = ({
     }
 
     verifyOrder()
-  }, [])
+  })
 
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
