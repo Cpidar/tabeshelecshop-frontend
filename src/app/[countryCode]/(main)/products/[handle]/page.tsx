@@ -105,10 +105,11 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       product_name: product.title!,
       product_price: cheapestPrice?.calculated_price_number!,
       product_old_price: cheapestPrice?.original_price_number!,
-      availability:
-        cheapestPrice && cheapestPrice?.cheapestVariant.inventory_quantity > 0
-          ? "instock"
-          : "outofstock",
+      availability: product.variants.some(
+        (v) => v.inventory_quantity && v.inventory_quantity > 0
+      )
+        ? "instock"
+        : "outofstock",
     },
   }
 }

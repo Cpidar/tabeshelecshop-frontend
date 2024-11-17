@@ -24,7 +24,7 @@ const StoreTemplate = ({
 
   return (
     <div className={`nc-PageCollection2`}>
-      <div className="container py-16 lg:pb-28 lg:pt-20 space-y-16 sm:space-y-20 lg:space-y-28">
+      <div className="py-16 lg:pb-28 lg:pt-20 mx-auto max-w-7xl overflow-hidden sm:px-6 lg:px-8">
         <div className="space-y-10 lg:space-y-14">
 
           {/* <hr className="border-slate-200 dark:border-slate-700" /> */}

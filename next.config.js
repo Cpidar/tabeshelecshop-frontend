@@ -5,6 +5,11 @@ const store = require("./store.config.json")
  * @type {import('next').NextConfig}
  */
 const nextConfig = withStoreConfig({
+  experimental: {
+    serverComponentsExternalPackages: [
+      "@medusajs/pricing",
+    ],
+  },
   rewrites: async() => {
     return [
       {
