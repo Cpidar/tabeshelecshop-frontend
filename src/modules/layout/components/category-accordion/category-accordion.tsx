@@ -6,6 +6,7 @@ import { useEffect, useMemo, useState } from 'react';
 import Image from '@/shared/Image/Image';
 import { ProductCategoryWithChildren } from '@/types/global';
 import placeholder from '@/images/placeholders/category.png'
+import { useModal } from '../modal-context';
 function checkIsActive(arr: any, item: string) {
   if (arr.includes(item)) {
     return true;
@@ -25,7 +26,8 @@ function CategoryFilterMenuItem({
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const selectedCategories = searchParams.getAll("category_id")
-  
+  const { toggleModal } = useModal()
+
   const isActive =
     checkIsActive(selectedCategories, item.handle) ||
     item?.category_children?.some((_item: any) =>
@@ -52,7 +54,7 @@ function CategoryFilterMenuItem({
 
       push(`http://localhost:8000/ir/categories/${handle}`)
 
-      displaySidebar && closeSidebar(true);
+      toggleModal();
     }
   }
 

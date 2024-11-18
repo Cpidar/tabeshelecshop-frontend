@@ -1,8 +1,7 @@
 "use client"
 
-import type { Cart, LineItem, Product, Region } from "@medusajs/medusa"
+import type { Cart, LineItem, Region } from "@medusajs/medusa"
 import { PricedVariant } from "@medusajs/medusa/dist/types/pricing"
-import { cookies } from "next/headers"
 import React, {
   createContext,
   use,
@@ -10,7 +9,6 @@ import React, {
   useEffect,
   useMemo,
   useOptimistic,
-  useRef,
 } from "react"
 import { getOrSetCart } from "../../actions"
 

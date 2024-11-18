@@ -110,7 +110,7 @@ export async function middleware(request: NextRequest) {
   const checkoutStep = searchParams.get("step")
   const onboardingCookie = request.cookies.get("_medusa_onboarding")
   const cartIdCookie = request.cookies.get("_medusa_cart_id")
-  const excludedUrl = ['keystatic', 'sitemap.xml', 'robots.txt', 'assets', 'behpardakht', 'api', 'calc']
+  const excludedUrl = ['keystatic', 'sitemap.xml', 'robots.txt', 'assets', 'behpardakht', 'api', 'calc', "site.webmanifest"]
   const protectedUrl = ['checkout', 'account']
   // I18nMiddleware (request)
 

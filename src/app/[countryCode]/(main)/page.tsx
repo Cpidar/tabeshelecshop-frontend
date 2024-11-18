@@ -124,7 +124,7 @@ export default async function Home({
         />
         {/* </div> */}
 
-        <div className="container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
+        <div className="content-container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
           <SectionSliderCategories
             data={homepageContent?.homePageCategories.items}
           />

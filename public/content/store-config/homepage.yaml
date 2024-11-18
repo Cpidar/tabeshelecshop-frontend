@@ -1,28 +1,44 @@
 homePageHeroSlider:
   - image: /assets/images/homePageHeroSlider/0/image.png
     title: فروش ویژه
-    subtitle: تخفیفات داغ تا آخر فصل تابستان
+    subtitle: تخفیفات داغ آخر هفته
     buttonText: همین الان خرید کنید
-    buttonLink: /stor
-  - image: /assets/images/homePageHeroSlider/1/image.png
-    title: تخفیف شگفت انگیز
-    subtitle: فروش ویژه کالاهای الکتریکی
-    buttonText: خرید کنید
     buttonLink: /store
 homePageHeroRight:
   image: /assets/images/homePageHeroRight/image.png
-  title: فرصتی استثنایی
+  title: چهارشنبه هر هفته
   subtitle: تا 20% تخفیف در فروش ویژه محصولات گروه روشنایی
   buttonText: سفارش دهید
   buttonLink: /store
 homePageCategories:
   items:
-    - name: لوله و اتصالات
+    - name: روشنایی
       href: /categories
-      icon: /assets/images/homePageCategories/items/0/icon.svg
-    - name: اسکلت، تابلو و جعبه
+      icon: /assets/images/homePageCategories/items/0/icon.webp
+    - name: کابلشو و ترمینال
       href: /categories
       icon: /assets/images/homePageCategories/items/1/icon.webp
+    - name: ابزار آلات
+      href: /categories/tools
+      icon: /assets/images/homePageCategories/items/2/icon.webp
+    - name: کلیدهای حفاظتی
+      href: '#'
+      icon: /assets/images/homePageCategories/items/3/icon.webp
+    - name: محافظ برق
+      href: /categories
+      icon: /assets/images/homePageCategories/items/4/icon.webp
+    - name: کلید و پریز
+      href: '#'
+      icon: /assets/images/homePageCategories/items/5/icon.webp
+    - name: فن و هواکش
+      href: '#'
+      icon: /assets/images/homePageCategories/items/6/icon.webp
+    - name: کنتاکتور و رله
+      href: '#'
+      icon: /assets/images/homePageCategories/items/7/icon.webp
+    - name: اسکلت، تابلو و جعبه
+      href: '#'
+      icon: /assets/images/homePageCategories/items/8/icon.webp
 homePageTripleBanner:
   items:
     - title: شی کاریزما
