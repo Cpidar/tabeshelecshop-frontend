@@ -8,9 +8,10 @@ import { Region } from "@medusajs/medusa"
 const ProvinceSelect = forwardRef<
   HTMLSelectElement,
   NativeSelectProps & {
-    region?: Region
+    region?: Region;
+    provinceOptions: any
   }
->(({ placeholder = "Province", region, defaultValue, ...props }, ref) => {
+>(({ placeholder = "Province", region, defaultValue, provinceOptions, ...props }, ref) => {
   const innerRef = useRef<HTMLSelectElement>(null)
 
   useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(
@@ -18,39 +19,21 @@ const ProvinceSelect = forwardRef<
     () => innerRef.current
   )
 
-  const [data, setData] = useState<{id: string; name: string; slug: string}[]>()
   const [isLoading, setLoading] = useState(true)
  
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/provinces`)
-      .then((res) => res.json())
-      .then(data => data.provinces)
-      .then((data) => {
-        setData(data)
-        setLoading(false)
-      })
-  }, [])
 
-  const provinceOptions = useMemo(() => {
-    if (!data) {
-      return []
-    }
 
-    return data.map((province) => ({
-      value: province.id,
-      label: province.name,
-    }))
-  }, [data])
+
 
   return (
     <NativeSelect
       ref={innerRef}
       placeholder={placeholder}
-      defaultValue={defaultValue || provinceOptions[0]?.value}
+      defaultValue={defaultValue || provinceOptions[0]?.label}
       {...props}
     >
       {provinceOptions.map(({ value, label }, index) => (
-        <option key={index} value={value}>
+        <option key={index} value={label}>
           {label}
         </option>
       ))}

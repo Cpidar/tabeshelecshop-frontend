@@ -60,7 +60,7 @@ const CitySelect = forwardRef<
       {...props}
     >
       {citiesOptions.map(({ value, label }, index) => (
-        <option key={index} value={value}>
+        <option key={index} value={label}>
           {label}
         </option>
       ))}

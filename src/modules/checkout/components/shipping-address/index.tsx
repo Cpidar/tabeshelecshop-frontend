@@ -24,7 +24,9 @@ const ShippingAddress = ({
   countryCode: string
 }) => {
   const { t } = useTranslation("common")
-  const [provinceId, setProvinceId] = useState(cart?.shipping_address?.province)
+  const [provinceId, setProvinceId] = useState<string>()
+  const [data, setData] =
+    useState<{ id: string; name: string; slug: string }[]>()
 
   const [formData, setFormData] = useState({
     "shipping_address.first_name": cart?.shipping_address?.first_name || "",
@@ -55,6 +57,26 @@ const ShippingAddress = ({
   )
 
   useEffect(() => {
+    fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/provinces`)
+      .then((res) => res.json())
+      .then((data) => data.provinces)
+      .then((data) => {
+        setData(data)
+      })
+  }, [])
+
+  const provinceOptions = useMemo(() => {
+    if (!data) {
+      return []
+    }
+
+    return data.map((province) => ({
+      value: province.id,
+      label: province.name,
+    }))
+  }, [data])
+
+  useEffect(() => {
     setFormData({
       "shipping_address.first_name": cart?.shipping_address?.first_name || "",
       "shipping_address.last_name": cart?.shipping_address?.last_name || "",
@@ -68,7 +90,11 @@ const ShippingAddress = ({
       email: cart?.email || "",
       "shipping_address.phone": cart?.shipping_address?.phone || "",
     })
-  }, [cart?.shipping_address, cart?.email])
+    setProvinceId(
+      provinceOptions.find((p) => p.label === cart?.shipping_address?.province)
+        ?.value
+    )
+  }, [cart?.shipping_address, cart?.email, provinceOptions])
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -80,7 +106,9 @@ const ShippingAddress = ({
       [e.target.name]: e.target.value,
     })
     if (e.target.name === "shipping_address.province") {
-      setProvinceId(e.target.value)
+      setProvinceId(
+        provinceOptions.find((p) => p.label === e.target.value)?.value
+      )
     }
   }
 
@@ -154,6 +182,7 @@ const ShippingAddress = ({
           placeholder={t("text-province")}
           name="shipping_address.province"
           autoComplete="address-level1"
+          provinceOptions={provinceOptions}
           value={formData["shipping_address.province"]}
           onChange={handleChange}
           required
@@ -180,7 +209,7 @@ const ShippingAddress = ({
         />
       </div>
       <div className="grid grid-cols-2 gap-4 mb-4">
-      <Input
+        <Input
           label={t("text-phone")}
           name="shipping_address.phone"
           title="Enter a valid phone number."

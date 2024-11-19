@@ -2,7 +2,6 @@ import { Spinner, Trash } from "@medusajs/icons"
 import { clx } from "@medusajs/ui"
 import { useState } from "react"
 
-import { deleteLineItem } from "@modules/cart/actions"
 
 type ButtonEvent = (
   e: React.MouseEvent<HTMLButtonElement | MouseEvent>
@@ -23,14 +22,6 @@ const DeleteButton = ({
   disabled?: boolean
   loading?: boolean
 }) => {
-  const [isDeleting, setIsDeleting] = useState(false)
-
-  const handleDelete = async (id: string) => {
-    setIsDeleting(true)
-    await deleteLineItem(id).catch((err) => {
-      setIsDeleting(false)
-    })
-  }
 
   return (
     <div

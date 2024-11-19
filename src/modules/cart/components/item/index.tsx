@@ -14,6 +14,9 @@ import Spinner from "@modules/common/icons/spinner"
 import { useState } from "react"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { deleteLineItem } from "@modules/cart/actions"
+import Counter from "@/shared/Counter/Counter"
+import { useCart } from "../cart-context"
 
 type ItemProps = {
   item: Omit<LineItem, "beforeInsert">
@@ -23,6 +26,9 @@ type ItemProps = {
 
 const Item = ({ item, region, type = "full" }: ItemProps) => {
   const [updating, setUpdating] = useState(false)
+  const [isDeleting, setIsDeleting] = useState(false)
+  const { cart, updateCartItem } = useCart()
+
   const [error, setError] = useState<string | null>(null)
 
   const { handle } = item.variant.product
@@ -45,6 +51,13 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
     message && setError(message)
   }
 
+  const handleDelete = async (id: string) => {
+    setIsDeleting(true)
+    await deleteLineItem(id).catch((err) => {
+      setIsDeleting(false)
+    })
+  }
+
   return (
     <Table.Row className="w-full" data-testid="product-row">
       <Table.Cell className="!pr-0 p-4 w-24">
@@ -60,14 +73,41 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
       </Table.Cell>
 
       <Table.Cell className="text-right">
-        <Text className="txt-medium-plus text-ui-fg-base" data-testid="product-title">{item.title}</Text>
+        <Text
+          className="txt-medium-plus text-ui-fg-base"
+          data-testid="product-title"
+        >
+          {item.title}
+        </Text>
         <LineItemOptions variant={item.variant} data-testid="product-variant" />
       </Table.Cell>
 
       {type === "full" && (
         <Table.Cell>
           <div className="flex gap-2 items-center w-28">
-            <DeleteButton id={item.id} data-testid="product-delete-button" />
+            <DeleteButton
+              id={item.id}
+              data-testid="product-delete-button"
+              onDelete={() => handleDelete(item.id)}
+              loading={isDeleting}
+            />
+                        {/* <Counter
+              value={item.quantity}
+              onIncrement={() => {
+                // optimistic cart update
+                updateCartItem(item.variant_id!, "plus")
+                // server action
+                changeQuantity(item.quantity + 1)
+              }}
+              onDecrement={() => {
+                // optimistic cart update
+                updateCartItem(item.variant_id!, "minus")
+                // server action
+                changeQuantity(item.quantity - 1)
+              }}
+              variant="cart"
+              disabled={item.variant.inventory_quantity < 1}
+            /> */}
             <CartItemSelect
               value={item.quantity}
               onChange={(value) => changeQuantity(parseInt(value.target.value))}
@@ -76,7 +116,7 @@ const Item = ({ item, region, type = "full" }: ItemProps) => {
             >
               {Array.from(
                 {
-                  length: Math.min(
+                  length: Math.max(
                     item.variant.inventory_quantity > 0
                       ? item.variant.inventory_quantity
                       : 10,

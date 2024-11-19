@@ -52,7 +52,7 @@ function CategoryFilterMenuItem({
       toggleCollapse();
     } else {
 
-      push(`http://localhost:8000/ir/categories/${handle}`)
+      push(`${process.env.NEXT_PUBLIC_BASE_URL}/ir/categories/${handle}`)
 
       toggleModal();
     }
