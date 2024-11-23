@@ -1,10 +1,10 @@
-const { withStoreConfig } = require("./store-config")
-const store = require("./store.config.json")
+const checkEnvVariables = require("./check-env-variables")
 
+checkEnvVariables()
 /**
  * @type {import('next').NextConfig}
  */
-const nextConfig = withStoreConfig({
+const nextConfig = {
   experimental: {
     serverComponentsExternalPackages: [
       "@medusajs/pricing",
@@ -25,7 +25,6 @@ const nextConfig = withStoreConfig({
   typescript: {
     ignoreBuildErrors: true,
   },
-  features: store.features,
   reactStrictMode: true,
   images: {
     remotePatterns: [
@@ -43,8 +42,6 @@ const nextConfig = withStoreConfig({
       }
     ],
   },
-})
-
-console.log("next.config.js", JSON.stringify(module.exports, null, 2))
+}
 
 module.exports = nextConfig
