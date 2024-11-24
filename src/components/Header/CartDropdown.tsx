@@ -268,7 +268,7 @@ export default function CartDropdown() {
                             </ButtonPrimary> */}
                               <ButtonPrimary
                                 href="/cart"
-                                onClick={close}
+                                onClick={closeCart}
                                 className="flex-1"
                               >
                                 مشاهده سبد خرید
