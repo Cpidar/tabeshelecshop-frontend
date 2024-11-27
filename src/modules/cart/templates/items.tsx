@@ -1,48 +1,58 @@
-import { LineItem, Region } from "@medusajs/medusa"
-import { Heading, Table } from "@medusajs/ui"
-
-import Item from "@modules/cart/components/item"
-import SkeletonLineItem from "@modules/skeletons/components/skeleton-line-item"
+import { convertToLocale } from "@lib/util/money"
+import { HttpTypes, StoreCartLineItem } from "@medusajs/types"
+import { Container, Text } from "@medusajs/ui"
+import ItemFull from "@modules/cart/components/item-full"
+import { useMemo } from "react"
 
 type ItemsTemplateProps = {
-  items?: Omit<LineItem, "beforeInsert">[]
-  region?: Region
+  cart: HttpTypes.StoreCart
+  showBorders?: boolean
+  showTotal?: boolean
 }
 
-const ItemsTemplate = ({ items, region }: ItemsTemplateProps) => {
+const ItemsTemplate = ({
+  cart,
+  showBorders = true,
+  showTotal = true,
+}: ItemsTemplateProps) => {
+  const items = cart?.items
+  const totalQuantity = useMemo(
+    () => cart?.items?.reduce((acc, item) => acc + item.quantity, 0),
+    [cart?.items]
+  )
+
   return (
-    <div>
-      <div className="pb-3 flex items-center">
-        <Heading className="text-[2rem] leading-[2.75rem]">سبد خرید</Heading>
+    <div className="w-full flex flex-col gap-y-2">
+      <div className="flex flex-col gap-y-2 w-full">
+        {items &&
+          items.map((item: StoreCartLineItem) => {
+            return (
+              <ItemFull
+                currencyCode={cart?.currency_code}
+                showBorders={showBorders}
+                key={item.id}
+                item={
+                  item as StoreCartLineItem & {
+                    metadata?: { note?: string }
+                  }
+                }
+              />
+            )
+          })}
       </div>
-      <Table>
-        <Table.Header className="border-t-0">
-          <Table.Row className="text-ui-fg-subtle txt-medium-plus">
-            <Table.HeaderCell className="text-right !pr-0">کالا</Table.HeaderCell>
-            <Table.HeaderCell></Table.HeaderCell>
-            <Table.HeaderCell className="text-right">تعداد</Table.HeaderCell>
-            <Table.HeaderCell className="text-right hidden small:table-cell">
-              قیمت
-            </Table.HeaderCell>
-            <Table.HeaderCell className="!pl-0">
-              مجموع
-            </Table.HeaderCell>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {items && region
-            ? items
-                .sort((a, b) => {
-                  return a.created_at > b.created_at ? -1 : 1
-                })
-                .map((item) => {
-                  return <Item key={item.id} item={item} region={region} />
-                })
-            : Array.from(Array(5).keys()).map((i) => {
-                return <SkeletonLineItem key={i} />
+      {showTotal && (
+        <Container>
+          <div className="flex items-start justify-between h-full self-stretch">
+            <Text>Total: {totalQuantity} items</Text>
+            <Text>
+              {convertToLocale({
+                amount: cart?.item_total,
+                currency_code: cart?.currency_code,
               })}
-        </Table.Body>
-      </Table>
+            </Text>
+          </div>
+        </Container>
+      )}
     </div>
   )
 }

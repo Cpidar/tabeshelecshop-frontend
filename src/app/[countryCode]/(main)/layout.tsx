@@ -7,16 +7,14 @@ import CommonClient from "./CommonClient"
 import HeaderLogged from "@/components/Header/HeaderLogged"
 import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
 import initTranslations from "@/app/i18n"
-import { getCustomer } from "@/lib/data"
 import MobileHeader from "@/modules/layout/components/mobile-header"
 import MobileNavigation from "@/modules/layout/components/mobile-navigation"
 import { CartProvider } from "@/modules/cart/components/cart-context"
-import { retrieveCart } from "@/modules/cart/actions"
-
-const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
+import { getBaseURL } from "@lib/util/env"
+import { getOrSetCart, retrieveCart } from "@/lib/data/cart"
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BASE_URL),
+  metadataBase: new URL(getBaseURL()),
 }
 
 export default async function PageLayout({
@@ -29,23 +27,25 @@ export default async function PageLayout({
   const i18nNamespaces = ["common"]
 
   const { t, resources } = await initTranslations(countryCode, ["common"])
-  const cart = retrieveCart()
+  let cart = await retrieveCart()
+
+  // if (!cart) {
+  //   cart = await getOrSetCart(countryCode)
+  // }
 
   return (
-    <CartProvider countryCode={countryCode} cartPromise={cart}>
-      <TranslationsProvider
-        locale={countryCode}
-        namespaces={i18nNamespaces}
-        resources={resources}
-      >
-        <HeaderLogged />
-        <MobileHeader />
-        {/* <SecondNav2 /> */}
-        {children}
-        <CommonClient />
-        <Footer />
-        <MobileNavigation />
-      </TranslationsProvider>
-    </CartProvider>
+    <TranslationsProvider
+      locale={countryCode}
+      namespaces={i18nNamespaces}
+      resources={resources}
+    >
+      <HeaderLogged countryCode={countryCode} />
+      <MobileHeader />
+      {/* <SecondNav2 /> */}
+      {children}
+      <CommonClient />
+      <Footer />
+      <MobileNavigation cart={cart!} />
+    </TranslationsProvider>
   )
 }

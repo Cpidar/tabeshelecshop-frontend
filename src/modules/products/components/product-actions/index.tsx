@@ -1,36 +1,34 @@
 "use client"
 
-import { Region } from "@medusajs/medusa"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import { Button } from "@medusajs/ui"
 import { isEqual } from "lodash"
 import { useParams } from "next/navigation"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import { useIntersection } from "@lib/hooks/use-in-view"
-import { addToCart } from "@modules/cart/actions"
 import Divider from "@modules/common/components/divider"
-import OptionSelect from "@modules/products/components/option-select"
+import OptionSelect from "@modules/products/components/product-actions/option-select"
 
-import MobileActions from "../mobile-actions"
+import MobileActions from "./mobile-actions"
 import ProductPrice from "../product-price"
 import NcInputNumber from "./NcInputNumber"
 import BagIcon from "@/shared/Icons/BagIcon"
-import { useCart } from "@/modules/cart/components/cart-context"
-import { useFormState } from "react-dom"
-import { Bounce, toast } from "react-toastify"
+import { HttpTypes } from "@medusajs/types"
+import { addToCartEventBus } from "@/modules/cart/components/cart-context/event-bus"
 
 type ProductActionsProps = {
-  product: PricedProduct
-  region: Region
+  product: HttpTypes.StoreProduct
+  region: HttpTypes.StoreRegion
   disabled?: boolean
 }
 
-export type PriceType = {
-  calculated_price: string
-  original_price?: string
-  price_type?: "sale" | "default"
-  percentage_diff?: string
+const optionsAsKeymap = (
+  variantOptions: HttpTypes.StoreProductVariant["options"]
+) => {
+  return variantOptions?.reduce((acc: Record<string, string>, varopt: any) => {
+    acc[varopt.option_id] = varopt.value
+    return acc
+  }, {})
 }
 
 export default function ProductActions({
@@ -38,106 +36,71 @@ export default function ProductActions({
   region,
   disabled,
 }: ProductActionsProps) {
-  const [options, setOptions] = useState<Record<string, string>>({})
+  const [options, setOptions] = useState<Record<string, string | undefined>>({})
   const [isAdding, setIsAdding] = useState(false)
   const [quantitySelected, setQualitySelected] = useState(1)
-  const { cart, addCartItem } = useCart()
 
-  const countryCode = useParams().countryCode as string
+  const countryCode = useParams()?.countryCode as string
 
-  const variants = product.variants
-
-  // initialize the option state
+  // If there is only 1 variant, preselect the options
   useEffect(() => {
-    const optionObj: Record<string, string> = {}
+    if (product.variants?.length === 1) {
+      const variantOptions = optionsAsKeymap(product.variants[0].options)
+      setOptions(variantOptions ?? {})
+    }
+  }, [product.variants])
 
-    for (const option of product.options || []) {
-      Object.assign(optionObj, { [option.id]: undefined })
+  const selectedVariant = useMemo(() => {
+    if (!product.variants || product.variants.length === 0) {
+      return
     }
 
-    setOptions(optionObj)
-  }, [product])
+    return product.variants.find((v) => {
+      const variantOptions = optionsAsKeymap(v.options)
+      return isEqual(variantOptions, options)
+    })
+  }, [product.variants, options])
 
-  // memoized record of the product's variants
-  const variantRecord = useMemo(() => {
-    const map: Record<string, Record<string, string>> = {}
 
-    for (const variant of variants) {
-      if (!variant.options || !variant.id) continue
+  // const optimisticItem = useMemo(
+  //   () => cart?.items?.find((item) => item.variant_id === selectedVariant?.id),
+  //   [cart, selectedVariant]
+  // )
 
-      const temp: Record<string, string> = {}
-
-      for (const option of variant.options) {
-        temp[option.option_id] = option.value
-      }
-
-      map[variant.id] = temp
-    }
-
-    return map
-  }, [variants])
-
-  // memoized function to check if the current options are a valid variant
-  const variant = useMemo(() => {
-    let variantId: string | undefined = undefined
-
-    for (const key of Object.keys(variantRecord)) {
-      if (isEqual(variantRecord[key], options)) {
-        variantId = key
-      }
-    }
-
-    return {
-      ...variants.find((v) => v.id === variantId),
-      thumbnail: product.thumbnail,
-      product: { title: product.title },
-    }
-  }, [options, variantRecord, variants, product])
-
-  const optimisticItem = useMemo(
-    () => cart?.items.find((item) => item.variant_id === variant?.id),
-    [cart, variant]
-  )
-
-  const inCartQuantity = optimisticItem?.quantity || 0
-  const inStockQty = variant?.inventory_quantity || Infinity
-
-  // if product only has one variant, then select it
-  useEffect(() => {
-    if (variants[0].id) {
-      setOptions(variantRecord[variants[0].id])
-    }
-  }, [variants, variantRecord])
+  // const inCartQuantity = optimisticItem?.quantity || 0
+  const inStockQty = selectedVariant?.inventory_quantity || Infinity
 
   // update the options when a variant is selected
-  const updateOptions = (update: Record<string, string>) => {
-    setOptions({ ...options, ...update })
+  const setOptionValue = (optionId: string, value: string) => {
+    setOptions((prev) => ({
+      ...prev,
+      [optionId]: value,
+    }))
   }
 
   // check if the selected variant is in stock
   const inStock = useMemo(() => {
     // If we don't manage inventory, we can always add to cart
-    if (variant && !variant.manage_inventory) {
+    if (selectedVariant && !selectedVariant.manage_inventory) {
       return true
     }
 
     // If we allow back orders on the variant, we can add to cart
-    if (variant && variant.allow_backorder) {
+    if (selectedVariant?.allow_backorder) {
       return true
     }
 
-    // // If there is inventory available, we can add to cart
-    // if (variant?.inventory_quantity && variant.inventory_quantity > 0) {
-    //   return true
-    // }
-
-    if (inStockQty > inCartQuantity) {
+    // If there is inventory available, we can add to cart
+    if (
+      selectedVariant?.manage_inventory &&
+      (selectedVariant?.inventory_quantity || 0) > 0
+    ) {
       return true
     }
 
     // Otherwise, we can't add to cart
     return false
-  }, [variant, inStockQty, inCartQuantity])
+  }, [selectedVariant])
 
   const actionsRef = useRef<HTMLDivElement>(null)
 
@@ -145,14 +108,12 @@ export default function ProductActions({
 
   // add the selected variant to the cart
   const handleAddToCart = async () => {
-    if (!variant?.id) return null
-
-    addCartItem(variant, quantitySelected)
+    if (!selectedVariant?.id) return null
 
     setIsAdding(true)
 
-    await addToCart(null, {
-      variantId: variant.id,
+    addToCartEventBus.emitCartAdd({
+      productVariant: selectedVariant,
       quantity: quantitySelected,
       countryCode,
     })
@@ -160,18 +121,18 @@ export default function ProductActions({
     setIsAdding(false)
   }
 
-  const [message, formAction] = useFormState(addToCart, null)
-  const actionWithVariant = formAction.bind(null, {
-    variantId: variant?.id!,
-    quantity: quantitySelected,
-    countryCode,
-  })
+  // const [message, formAction] = useActionState(addToCart, null)
+  // const actionWithVariant = formAction.bind({
+  //   variantId: selectedVariant?.id!,
+  //   quantity: quantitySelected,
+  //   countryCode,
+  // })
 
   return (
     <>
       <div className="flex flex-col gap-y-2" ref={actionsRef}>
         <div>
-          {product.variants.length > 1 && (
+        {(product.variants?.length ?? 0) > 1 && (
             <div className="flex flex-col gap-y-4">
               {(product.options || []).map((option) => {
                 return (
@@ -179,8 +140,8 @@ export default function ProductActions({
                     <OptionSelect
                       option={option}
                       current={options[option.id]}
-                      updateOption={updateOptions}
-                      title={option.title}
+                      updateOption={setOptionValue}
+                      title={option.title ?? ""}
                       data-testid="product-options"
                       disabled={!!disabled || isAdding}
                     />
@@ -192,15 +153,15 @@ export default function ProductActions({
           )}
         </div>
 
-        <ProductPrice product={product} variant={variant} region={region} />
-        <form
+        <ProductPrice product={product} variant={selectedVariant} />
+        {/* <form
           action={async () => {
-            if (!variant?.id) return null
+            if (!selectedVariant?.id) return null
 
-            addCartItem(variant, quantitySelected)
+            addCartItem(selectedVariant, quantitySelected)
             await actionWithVariant()
           }}
-        >
+        > */}
           <div className="flex space-x-3.5">
             <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
               <NcInputNumber
@@ -213,8 +174,8 @@ export default function ProductActions({
             <span className="w-1"></span>
 
             <Button
-              type="submit"
-              disabled={!inStock || !variant || !!disabled || isAdding}
+              onClick={handleAddToCart}
+              disabled={!inStock || !selectedVariant || !!disabled || isAdding}
               variant="primary"
               className="flex-1 flex-shrink-0 rounded-full"
               isLoading={isAdding}
@@ -222,7 +183,7 @@ export default function ProductActions({
             >
               <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
               <span className="ml-3">
-                {!variant
+              {!selectedVariant
                   ? "یک گزینه را انتخاب کنید"
                   : !inStock
                   ? "اتمام موجودی"
@@ -231,21 +192,17 @@ export default function ProductActions({
             </Button>
           </div>
           <MobileActions
-            product={product}
-            variant={variant}
-            region={region}
-            options={options}
-            updateOptions={updateOptions}
-            inStock={inStock}
-            handleAddToCart={handleAddToCart}
-            isAdding={isAdding}
-            show={!inView}
-            optionsDisabled={!!disabled || isAdding}
-            inStockQty={inStockQty}
-            quantitySelected={quantitySelected}
-            setQualitySelected={setQualitySelected}
-          />
-        </form>
+          product={product}
+          variant={selectedVariant}
+          options={options}
+          updateOptions={setOptionValue}
+          inStock={inStock}
+          handleAddToCart={handleAddToCart}
+          isAdding={isAdding}
+          show={!inView}
+          optionsDisabled={!!disabled || isAdding}
+        />
+        {/* </form> */}
       </div>
     </>
   )

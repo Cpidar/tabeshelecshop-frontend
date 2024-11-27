@@ -7,9 +7,8 @@ import ButtonPrimary from "@/shared/Button/ButtonPrimary"
 import { useEffect, useMemo, useState } from "react"
 import { error } from "console"
 import ErrorMessage from "../../components/error-message"
-import { placeOrder, updatePaymentSessionStatus } from "../../actions"
-import { updatePaymentSession } from "@/lib/data"
 import { PromiseWithTimeout } from "@/utils/promiseWithTimeout"
+import { initiatePaymentSession, placeOrder, retrieveCart } from "@/lib/data/cart"
 
 type Props = {
   providerId: string
@@ -38,11 +37,21 @@ const PaymentConfirmation = ({
     return cartId
   }, [cartId])
 
+  
   const handleOrder = async () => {
     console.log("plcing order ...")
-    await updatePaymentSessionStatus(localOrCookieCartId, providerId, {
-      SaleReferenceId,
-      RefId,
+    const cart = await retrieveCart(localOrCookieCartId)
+
+    if(!cart) {
+      return null
+    }
+
+    await initiatePaymentSession(cart, {
+      provider_id: providerId,
+      context: {
+        SaleReferenceId,
+        RefId,
+      }
     }).catch((e) => {
       console.error(e)
       setErrorMessage("Payment Session not Updated")

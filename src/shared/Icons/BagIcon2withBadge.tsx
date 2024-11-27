@@ -1,5 +1,4 @@
 "use client"
-import { useCart } from "@/modules/cart/components/cart-context"
 import React, { FC } from "react"
 
 interface BagIconProps {
@@ -7,6 +6,7 @@ interface BagIconProps {
   color?: string
   width?: number
   height?: number
+  badgeNumber: number
 }
 
 const BagIcon2withBadge: FC<BagIconProps> = ({
@@ -14,17 +14,14 @@ const BagIcon2withBadge: FC<BagIconProps> = ({
   color = "currentColor",
   width = 22,
   height = 22,
+  badgeNumber = 0
 }) => {
-  const { cart } = useCart()
-  const totalItems =
-    cart?.items?.reduce((acc, item) => {
-      return acc + item.quantity
-    }, 0) || 0
+
 
   return (
     <div className="lg:mr-4 relative inline-block">
       <div className="min-w-[15px] min-h-[15px] absolute -top-2.5 z-10 bg-yellow-400 text-xs font-bold px-1 py-0.5 ltr:left-2.5 rtl:right-2.5 rounded-sm">
-        {totalItems}
+        {badgeNumber}
       </div>
       <svg
         width={width}

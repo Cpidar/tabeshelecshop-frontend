@@ -6,7 +6,6 @@ import Navigation from "@/shared/Navigation/Navigation"
 import CartButton from "@/modules/layout/components/cart-button"
 import SearchModal from "@/modules/search/templates/search-modal"
 import CategoriesButton from "@/modules/layout/components/categories-button"
-import { getCustomer } from "@/lib/data"
 import Button from "@/shared/Button/Button"
 import Link from "next/link"
 import ButtonPrimary from "@/shared/Button/ButtonPrimary"
@@ -16,17 +15,24 @@ import { PhoneIcon, PhoneArrowUpRightIcon } from "@heroicons/react/24/solid"
 import keystaticConfig from "../../../keystatic.config"
 import { createReader } from "@keystatic/core/reader"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
+import { getCustomer } from "@/lib/data/customer"
+import { retrieveCart } from "@/lib/data/cart"
+import { useParams } from "next/navigation"
+import { CartProvider } from "@/modules/cart/components/cart-context"
 
 const reader = createReader(process.cwd(), keystaticConfig)
 
-export interface MainNav2LoggedProps {}
+export interface MainNav2LoggedProps {
+  countryCode: string
+}
 
-const MainNav2Logged: FC<MainNav2LoggedProps> = async () => {
+const MainNav2Logged: FC<MainNav2LoggedProps> = async ({ countryCode }) => {
   // const inputRef = createRef<HTMLInputElement>()
   // const router = useRouter()
   const settings = await reader.singletons.settings.read()
 
   const customer = await getCustomer()
+  const cart = await retrieveCart()
 
   const renderMagnifyingGlassIcon = () => {
     return (
@@ -120,7 +126,9 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async () => {
                 )}
               </div>
               <div className="hidden lg:block">
-                <CartButton />
+                <CartProvider countryCode={countryCode} cart={cart}>
+                  <CartButton />
+                </CartProvider>
               </div>
             </div>
           </div>

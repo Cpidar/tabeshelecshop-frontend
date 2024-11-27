@@ -3,15 +3,13 @@ import { forwardRef, useEffect, useImperativeHandle, useMemo, useRef, useState }
 import NativeSelect, {
   NativeSelectProps,
 } from "@modules/common/components/native-select"
-import { Region } from "@medusajs/medusa"
 
 const ProvinceSelect = forwardRef<
   HTMLSelectElement,
   NativeSelectProps & {
-    region?: Region;
     provinceOptions: any
   }
->(({ placeholder = "Province", region, defaultValue, provinceOptions, ...props }, ref) => {
+>(({ placeholder = "Province", defaultValue, provinceOptions, ...props }, ref) => {
   const innerRef = useRef<HTMLSelectElement>(null)
 
   useImperativeHandle<HTMLSelectElement | null, HTMLSelectElement | null>(

@@ -10,7 +10,7 @@ export interface CollectionCard2Props {
   className?: string;
   imgs?: (string | StaticImageData)[];
   name?: string;
-  price?: string;
+  price?: string | number;
   description?: string;
 }
 

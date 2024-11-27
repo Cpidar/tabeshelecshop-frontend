@@ -5,7 +5,6 @@ import Input from "@/shared/Input/Input"
 import ButtonPrimary from "@/shared/Button/ButtonPrimary"
 import { LOGIN_VIEW } from "@/modules/account/templates/login-template"
 import Link from "next/link"
-import { logCustomerIn } from "@modules/account/actions"
 import { useFormState, useFormStatus } from "react-dom"
 import Image from "next/image"
 import logo from "@/images/logo.svg"
@@ -13,6 +12,7 @@ import { ArrowRightIcon } from "@heroicons/react/24/solid"
 import { useRouter } from "next/navigation"
 import Loading from "../loading"
 import SubmitButton from "../submit-button"
+import { login } from "@lib/data/customer"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -63,11 +63,11 @@ const PageLogin = ({ setCurrentView, email, phone }: Props) => {
   const onSubmit = async (_currentState: unknown, formData: FormData) => {
     if (!formData.get("email")) formData.append("email", email)
 
-    return logCustomerIn(_currentState, formData)
+    return login(_currentState, formData)
       // .then(() => router.replace("/"))
       // .catch((e) => e.toString())
   }
-  const [message, formAction] = useFormState(logCustomerIn, null)
+  const [message, formAction] = useFormState(login, null)
 
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">

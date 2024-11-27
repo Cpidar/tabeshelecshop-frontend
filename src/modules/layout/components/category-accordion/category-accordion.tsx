@@ -4,9 +4,9 @@ import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import cn from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
 import Image from '@/shared/Image/Image';
-import { ProductCategoryWithChildren } from '@/types/global';
 import placeholder from '@/images/placeholders/category.png'
 import { useModal } from '../modal-context';
+import { HttpTypes } from '@medusajs/types';
 function checkIsActive(arr: any, item: string) {
   if (arr.includes(item)) {
     return true;
@@ -19,13 +19,13 @@ function CategoryFilterMenuItem({
   depth = 0,
 }: {
   className?: string
-  item: ProductCategoryWithChildren
+  item: HttpTypes.StoreProductCategory & { icon?: string }
   depth?: number
 }) {
   const { push } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const selectedCategories = searchParams.getAll("category_id")
+  const selectedCategories = searchParams?.getAll("category_id")
   const { toggleModal } = useModal()
 
   const isActive =

@@ -1,16 +1,13 @@
 "use client"
-import Heading from "@/shared/Heading/Heading2"
-import CategoryFilterMenu from "@/components/search/category-filter-menu"
 // import Scrollbar from '@components/ui/scrollbar';
-import { ProductCategoryWithChildren } from "@/types/global"
-import { ProductCategory } from "@medusajs/product"
 import CategoryAccordion from "./category-accordion"
 import { useModal } from "../modal-context"
+import { HttpTypes } from "@medusajs/types"
 
 export const CategoryModalContent = ({
   product_categories,
 }: {
-  product_categories: ProductCategoryWithChildren[]
+  product_categories: HttpTypes.StoreProductCategory[]
 }) => {
   const { toggleModal } = useModal()
 

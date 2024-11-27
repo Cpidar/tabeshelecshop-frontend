@@ -1,17 +1,19 @@
 "use client"
 
-import { Cart, PaymentSession } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
 import BehpardakhtIcon from "@/shared/Icons/BehpardakhtIcon"
 import ErrorMessage from "../error-message"
+import { HttpTypes } from "@medusajs/types"
+import { initiatePaymentSession } from "@/lib/data/cart"
+
 export const BehpardakhtPaymentButton = ({
   cart,
   notReady,
   "data-testid": dataTestId,
 }: {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  cart: HttpTypes.StoreCart
   notReady: boolean
   "data-testid"?: string
 }) => {
@@ -54,7 +56,6 @@ export const BehpardakhtPaymentButton = ({
   }, [])
 
   const { refId, resCode, errorMessage } = data
-  const session = cart.payment_session as PaymentSession
   let submitting = false
 
   const handlePayment = () => {

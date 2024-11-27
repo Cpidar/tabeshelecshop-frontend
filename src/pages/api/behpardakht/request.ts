@@ -1,6 +1,6 @@
 import MellatCheckout from 'mellat-checkout'
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { medusaClient } from '@/lib/config';
+import { sdk } from '@/lib/config';
 import medusaError from '@/lib/util/medusa-error';
 import cookie from "cookie";
 export const behpardakht = new MellatCheckout({
@@ -55,18 +55,24 @@ const bpRequest = async (req: NextApiRequest, res: NextApiResponse) => {
         console.log(response)
         if (response.resCode === 0) {
 
-            const cartId = req.cookies["_medusa_cart_id"]
-            console.log(cartId)
+            // const cartId = req.cookies["_medusa_cart_id"]
+            // console.log(cartId)
 
-            if (!cartId) {
-                return null
-            }
+            // if (!cartId) {
+            //     return null
+            // }
 
-            // save saleReferenceId into payment session
-            await medusaClient.carts
-                .updatePaymentSession(cartId, 'behpardakht', { data: { referenceId: response.refId, orderId } })
-                // .then(({ cart }) => cart)
-                .catch((err) => medusaError(err))
+            // // save saleReferenceId into payment session
+            // await sdk.store.payment.initiatePaymentSession({}, { 
+            //     data: {
+
+            //     }
+            // }).cart.update(cartId, { 
+
+            // })
+            //     .updatePaymentSession(cartId, 'behpardakht', { data: { referenceId: response.refId, orderId } })
+            //     // .then(({ cart }) => cart)
+            //     .catch((err) => medusaError(err))
 
             
             res.status(200).json(response)

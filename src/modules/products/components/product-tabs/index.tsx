@@ -1,21 +1,20 @@
 "use client"
 
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
-
 import Back from "@modules/common/icons/back"
 import FastDelivery from "@modules/common/icons/fast-delivery"
 import Refresh from "@modules/common/icons/refresh"
 
 import Accordion from "./accordion"
+import { HttpTypes } from "@medusajs/types"
 
 type ProductTabsProps = {
-  product: PricedProduct
+  product: HttpTypes.StoreProduct
 }
 
 const ProductTabs = ({ product }: ProductTabsProps) => {
   const tabs = [
     {
-      label: "مشخصات فنی",
+      label: "Product Information",
       component: <ProductInfoTab product={product} />,
     },
     {
@@ -75,11 +74,6 @@ const ProductInfoTab = ({ product }: ProductTabsProps) => {
           </div>
         </div>
       </div>
-      {product.tags?.length ? (
-        <div>
-          <span className="font-semibold">Tags</span>
-        </div>
-      ) : null}
     </div>
   )
 }

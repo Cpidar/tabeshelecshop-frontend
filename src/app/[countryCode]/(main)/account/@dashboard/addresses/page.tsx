@@ -3,7 +3,8 @@ import { notFound } from "next/navigation"
 
 import AddressBook from "@modules/account/components/address-book"
 
-import { getCustomer, getRegion } from "@lib/data"
+import { getRegion } from "@lib/data/regions"
+import { getCustomer } from "@lib/data/customer"
 
 import { headers } from "next/headers"
 
@@ -13,12 +14,12 @@ export const metadata: Metadata = {
 }
 
 export default async function Addresses({
-  params: { countryCode },
+  params,
 }: {
-  params: { countryCode: string },
+  params: { countryCode: string }
 }) {
-  // const nextHeaders = headers()
-  // const countryCode = nextHeaders.get("Next-Url")?.split("/")[1] || ""
+  
+  const { countryCode } = params
   const customer = await getCustomer()
   const region = await getRegion(countryCode)
   if (!customer || !region) {

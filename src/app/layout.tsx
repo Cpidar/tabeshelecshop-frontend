@@ -6,6 +6,7 @@ import HolyLoader from "holy-loader"
 import { IRANSans } from "@/styles/font"
 import { createReader } from "@keystatic/core/reader"
 import keystaticConfig from "../../keystatic.config"
+import { getBaseURL } from "@lib/util/env"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
 const { TWITTER_CREATOR, TWITTER_SITE, SITE_NAME } = process.env
@@ -16,7 +17,7 @@ export async function generateMetadata(): Promise<Metadata> {
   const settings = await reader.singletons.settings.read()
 
   return {
-    metadataBase: new URL(BASE_URL),
+    metadataBase: new URL(getBaseURL()),
     title: {
       default: settings?.SEO.siteName!,
       template: `%s | ${settings?.SEO.siteName}`,

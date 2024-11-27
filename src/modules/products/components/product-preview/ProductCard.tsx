@@ -1,47 +1,39 @@
-import LikeButton from "../like-button/LikeButton"
-import Prices from "../product-price/Prices"
-import { StarIcon } from "@heroicons/react/24/solid"
 import ProductStatus from "../product-status"
-import Link from "next/link"
 import NcImage from "@/shared/NcImage/NcImage"
-import { ProductPreviewType } from "@/types/global"
-import { PriceListStatus, PriceListType, Region } from "@medusajs/medusa"
-import { RenderSizeList } from "./RenderSizeList"
-import { RenderGroupButtons } from "../overlay-actions"
 
-import { retrievePricedProductById } from "@lib/data"
-import { transformMedusaProduct } from "@/utils/data-mappers"
 import PlaceholderImage from "@/images/placeholders/product-placeholder.png"
 import { stripHtmlTag } from "@/utils/StripHtmlTag"
 import InCardProductPrice from "../product-price/inCard"
 import { getProductPrice } from "@/lib/util/get-product-price"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
+import { HttpTypes } from "@medusajs/types"
+import { getProductsById } from "@/lib/data/products"
+import { RenderGroupButtons } from "../product-actions/overlay-actions"
 
 export interface ProductCardProps {
   className?: string
-  productPreview: ProductPreviewType
-  region: Region
+  product: HttpTypes.StoreProduct
+  region: HttpTypes.StoreRegion
   isLiked?: boolean
 }
 
 const ProductCard = async ({
   className = "",
-  productPreview,
+  product,
   region,
   isLiked,
 }: ProductCardProps) => {
-  const pricedProduct = await retrievePricedProductById({
-    id: productPreview?.id,
-    regionId: region?.id,
-  }).then((product) => product)
+  const [pricedProduct] = await getProductsById({
+    ids: [product.id!],
+    regionId: region.id,
+  })
 
   if (!pricedProduct) {
     return null
   }
 
-  const { cheapestPrice, variantPrice } = getProductPrice({
+  const { cheapestPrice } = getProductPrice({
     product: pricedProduct,
-    region,
   })
 
   // const { cheapestPrice } = getProductPrice({
@@ -49,14 +41,7 @@ const ProductCard = async ({
   //   region,
   // })
 
-  const data = transformMedusaProduct(pricedProduct, region)
-
   const { title, handle: slug, description, thumbnail: image } = pricedProduct
-  const selectedVariant = {
-    thumbnail: image,
-    product: { title },
-    ...pricedProduct.variants[0],
-  }
 
   const StripOffDesc = description && stripHtmlTag(description)
   return (
@@ -64,16 +49,17 @@ const ProductCard = async ({
       <div
         className={`flex flex-col items-center  w-full min-w-[148px] lg:w-[200px] xl:w-[186px] ${className}`}
       >
-        {cheapestPrice?.calculated_price_list?.type === "sale" &&
-          cheapestPrice?.calculated_price_list?.status === "active" && (
-
+        {cheapestPrice?.price_type === "sale" &&
+          cheapestPrice.is_calculated_price_price_list && (
             <ProductStatus
-              title={cheapestPrice?.calculated_price_list?.name!}
-              endAt={cheapestPrice?.calculated_price_list?.ends_at}
+              id={cheapestPrice.price_list_id}
             />
           )}
         <div className="relative w-[132px] lg:w-[186px]">
-          <LocalizedClientLink href={`/products/${slug}`} className="w-full relative group-hover:opacity-75">
+          <LocalizedClientLink
+            href={`/products/${slug}`}
+            className="w-full relative group-hover:opacity-75"
+          >
             <NcImage
               containerClassName="flex aspect-w-11 aspect-h-12 w-full h-full"
               src={image ? image : PlaceholderImage}
@@ -88,8 +74,8 @@ const ProductCard = async ({
           {/* {sizes ? (
             <RenderSizeList data={data} sizes={sizes} />
           ) : ( */}
-          {pricedProduct.variants.length === 1 && (
-            <RenderGroupButtons variant={selectedVariant} />
+          {pricedProduct?.variants?.length === 1 && (
+            <RenderGroupButtons selectedVariant={pricedProduct?.variants[0]} />
           )}
           {/* )} */}
         </div>
@@ -107,7 +93,7 @@ const ProductCard = async ({
             </p> */}
           </div>
 
-          <InCardProductPrice product={pricedProduct} region={region} />
+          <InCardProductPrice product={pricedProduct} />
         </div>
       </div>
     </div>

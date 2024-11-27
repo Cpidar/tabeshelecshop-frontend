@@ -1,30 +1,29 @@
-import { NextResponse } from "next/server"
+// import { NextResponse } from "next/server"
 
-import {
-  initialize as initializePricingModule,
-} from "@medusajs/pricing"
+// import { initialize as initializePricingModule } from "@medusajs/medusa/pricing"
 
-type ContextType = {
-  params: {
-    id: string
-    currency_code: string
-  }
-}
 
-export async function GET(
-  request: Request,
-  { params }: ContextType
-) {
-    console.log(params)
-  const pricingService = await initializePricingModule()
+// type ContextType = {
+//   params: {
+//     id: string
+//     currency_code: string
+//   }
+// }
 
-  const price = await pricingService.calculatePrices({
-    id: [params.id],
-  }, {
-    context: {
-      currency_code: params.currency_code,
-    },
-  })
+// export async function GET(
+//   request: Request,
+//   { params }: ContextType
+// ) {
+//     console.log(params)
+//   const pricingService = await initializePricingModule()
 
-  return NextResponse.json({ price })
-}
+//   const price = await pricingService.calculatePrices({
+//     id: [params.id],
+//   }, {
+//     context: {
+//       currency_code: params.currency_code,
+//     },
+//   })
+
+//   return NextResponse.json({ price })
+// }

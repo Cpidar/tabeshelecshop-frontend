@@ -1,4 +1,4 @@
-import { ProductVariant } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 import { Container, Text } from "@medusajs/ui"
 
 import Thumbnail from "@modules/products/components/thumbnail"
@@ -10,7 +10,7 @@ export type ProductHit = {
   handle: string
   description: string | null
   thumbnail: string | null
-  variants: ProductVariant[]
+  variants: HttpTypes.StoreProductVariant[]
   collection_handle: string | null
   collection_id: string | null
 }

@@ -10,11 +10,13 @@ interface TimeLeft {
 }
 
 export default function ProductStatus({
+  id,
   title,
   endAt,
 }: {
-  title: string
-  endAt: Date | null
+  id: string
+  title?: string
+  endAt?: Date | null
 }) {
   const calculateTimeLeft = (endDate: Date): TimeLeft => {
     const difference = +new Date(endDate) - +new Date()

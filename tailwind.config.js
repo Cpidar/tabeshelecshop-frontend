@@ -118,13 +118,13 @@ module.exports = {
           three: "#e8ebf0",
           four: "#e5eaf1",
         },
-        border: {
-          base: "#e7ecf0",
-          one: "#e3e8ec",
-          two: "#e2e8f0",
-          three: "#e6e6e6",
-          four: "#dee5ea",
-        },
+        // border: {
+        //   base: "#e7ecf0",
+        //   one: "#e3e8ec",
+        //   two: "#e2e8f0",
+        //   three: "#e6e6e6",
+        //   four: "#dee5ea",
+        // },
       },
       borderRadius: {
         none: "0px",

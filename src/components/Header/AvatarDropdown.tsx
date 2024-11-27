@@ -6,11 +6,11 @@ import { Fragment } from "react"
 import Avatar from "@/shared/Avatar/Avatar"
 import SwitchDarkMode2 from "@/shared/SwitchDarkMode/SwitchDarkMode2"
 import Link from "next/link"
-import { Customer } from "@medusajs/medusa"
-import { signOut } from "@/modules/account/actions"
+import { HttpTypes } from "@medusajs/types"
+import { signout } from "@/lib/data/customer"
 
 interface AvatarDropdownProps {
-  customer: Omit<Customer, "password_hash"> | null
+  customer: HttpTypes.StoreCustomer | null
 }
 
 export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
@@ -316,7 +316,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                     <button
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => {
-                        signOut("ir")
+                        signout('ir')
                         close()
                       }}
                     >

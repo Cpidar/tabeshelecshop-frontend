@@ -1,11 +1,8 @@
 "use client"
 
 import React, { FC, useEffect, useRef, useState } from "react"
-import Heading from "@/components/Heading/Heading"
 // @ts-ignore
 import Glide from "@glidejs/glide/dist/glide.esm"
-import { ProductCollectionWithPreviews } from "@/types/global"
-import { Region } from "@medusajs/medusa"
 import Image from "next/image"
 import { ChevronLeftIcon } from "@heroicons/react/16/solid"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"

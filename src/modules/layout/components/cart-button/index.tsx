@@ -1,14 +1,18 @@
 import CartDropdown from "@/components/Header/CartDropdown"
-import { LineItem } from "@medusajs/medusa"
-
-import { enrichLineItems, retrieveCart } from "@modules/cart/actions"
+import CartDrawer from "@/modules/cart/components/cart-drawer"
+import { enrichLineItems, retrieveCart } from "@lib/data/cart"
+import { notFound } from "next/navigation"
 
 const fetchCart = async () => {
   const cart = await retrieveCart()
 
-  if (cart?.items.length) {
-    const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id)
-    cart.items = enrichedItems as LineItem[]
+  if (!cart) {
+    return null
+  }
+
+  if (cart?.items?.length) {
+    const enrichedItems = await enrichLineItems(cart.items, cart.region_id!)
+    cart.items = enrichedItems
   }
 
   return cart
@@ -18,5 +22,5 @@ const fetchCart = async () => {
 export default async function CartButton() {
   // const cart = await fetchCart()
 
-  return <CartDropdown />
+  return <CartDrawer />
 }

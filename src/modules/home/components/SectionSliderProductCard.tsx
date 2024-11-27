@@ -4,8 +4,6 @@ import React, { FC, useEffect, useRef, useState } from "react"
 import Heading from "@/components/Heading/Heading"
 // @ts-ignore
 import Glide from "@glidejs/glide/dist/glide.esm"
-import { ProductCollectionWithPreviews } from "@/types/global"
-import { Region } from "@medusajs/medusa"
 
 export interface SectionSliderProductCardProps {
   className?: string

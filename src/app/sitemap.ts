@@ -1,4 +1,6 @@
-import { getCollectionsList, getProductsList, listCategories } from '@/lib/data';
+import { listCategories } from "@/lib/data/categories";
+import { getCollectionsList } from "@/lib/data/collections";
+import { getProductsList } from "@/lib/data/products";
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0

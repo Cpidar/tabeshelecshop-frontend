@@ -1,100 +1,74 @@
-import React, { useState, useEffect, useMemo } from "react"
-import { Address, Cart, Customer } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
+import { Container } from "@medusajs/ui"
 import Checkbox from "@modules/common/components/checkbox"
 import Input from "@modules/common/components/input"
+import { mapKeys } from "lodash"
+import React, { useEffect, useMemo, useState } from "react"
 import AddressSelect from "../address-select"
 import CountrySelect from "../country-select"
-import { Container } from "@medusajs/ui"
-import initTranslations from "@/app/i18n"
-import { useTranslation } from "react-i18next"
-import ProvinceSelect from "../province-select"
-import CitySelect from "../city-select"
 
 const ShippingAddress = ({
   customer,
   cart,
   checked,
   onChange,
-  countryCode,
 }: {
-  customer: Omit<Customer, "password_hash"> | null
-  cart: Omit<Cart, "refundable_amount" | "refunded_total"> | null
+  customer: HttpTypes.StoreCustomer | null
+  cart: HttpTypes.StoreCart | null
   checked: boolean
   onChange: () => void
-  countryCode: string
 }) => {
-  const { t } = useTranslation("common")
-  const [provinceId, setProvinceId] = useState<string>()
-  const [data, setData] =
-    useState<{ id: string; name: string; slug: string }[]>()
-
-  const [formData, setFormData] = useState({
-    "shipping_address.first_name": cart?.shipping_address?.first_name || "",
-    "shipping_address.last_name": cart?.shipping_address?.last_name || "",
-    "shipping_address.address_1": cart?.shipping_address?.address_1 || "",
-    "shipping_address.company": cart?.shipping_address?.company || "",
-    "shipping_address.postal_code": cart?.shipping_address?.postal_code || "",
-    "shipping_address.city": cart?.shipping_address?.city || "",
-    "shipping_address.country_code":
-      cart?.shipping_address?.country_code || countryCode || "",
-    "shipping_address.province": cart?.shipping_address?.province || "",
-    email: cart?.email || "",
-    "shipping_address.phone": cart?.shipping_address?.phone || "",
-  })
+  const [formData, setFormData] = useState<Record<string, any>>({})
 
   const countriesInRegion = useMemo(
-    () => cart?.region.countries.map((c) => c.iso_2),
+    () => cart?.region?.countries?.map((c) => c.iso_2),
     [cart?.region]
   )
 
   // check if customer has saved addresses that are in the current region
   const addressesInRegion = useMemo(
     () =>
-      customer?.shipping_addresses.filter(
+      customer?.addresses.filter(
         (a) => a.country_code && countriesInRegion?.includes(a.country_code)
       ),
-    [customer?.shipping_addresses, countriesInRegion]
+    [customer?.addresses, countriesInRegion]
   )
 
-  useEffect(() => {
-    fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/provinces`)
-      .then((res) => res.json())
-      .then((data) => data.provinces)
-      .then((data) => {
-        setData(data)
-      })
-  }, [])
+  const setFormAddress = (
+    address?: HttpTypes.StoreCartAddress,
+    email?: string
+  ) => {
+    address &&
+      setFormData((prevState: Record<string, any>) => ({
+        ...prevState,
+        "shipping_address.first_name": address?.first_name || "",
+        "shipping_address.last_name": address?.last_name || "",
+        "shipping_address.address_1": address?.address_1 || "",
+        "shipping_address.company": address?.company || "",
+        "shipping_address.postal_code": address?.postal_code || "",
+        "shipping_address.city": address?.city || "",
+        "shipping_address.country_code": address?.country_code || "",
+        "shipping_address.province": address?.province || "",
+        "shipping_address.phone": address?.phone || "",
+      }))
 
-  const provinceOptions = useMemo(() => {
-    if (!data) {
-      return []
+    email &&
+      setFormData((prevState: Record<string, any>) => ({
+        ...prevState,
+        email: email,
+      }))
+  }
+
+  useEffect(() => {
+    // Ensure cart is not null and has a shipping_address before setting form data
+    if (cart && cart.shipping_address) {
+      setFormAddress(cart?.shipping_address, cart?.email)
     }
 
-    return data.map((province) => ({
-      value: province.id,
-      label: province.name,
-    }))
-  }, [data])
-
-  useEffect(() => {
-    setFormData({
-      "shipping_address.first_name": cart?.shipping_address?.first_name || "",
-      "shipping_address.last_name": cart?.shipping_address?.last_name || "",
-      "shipping_address.address_1": cart?.shipping_address?.address_1 || "",
-      "shipping_address.company": cart?.shipping_address?.company || "",
-      "shipping_address.postal_code": cart?.shipping_address?.postal_code || "",
-      "shipping_address.city": cart?.shipping_address?.city || "",
-      "shipping_address.country_code":
-        cart?.shipping_address?.country_code || "",
-      "shipping_address.province": cart?.shipping_address?.province || "",
-      email: cart?.email || "",
-      "shipping_address.phone": cart?.shipping_address?.phone || "",
-    })
-    setProvinceId(
-      provinceOptions.find((p) => p.label === cart?.shipping_address?.province)
-        ?.value
-    )
-  }, [cart?.shipping_address, cart?.email, provinceOptions])
+    if (cart && !cart.email && customer?.email) {
+      setFormAddress(undefined, customer.email)
+    }
+  }, [cart]) // Add cart as a dependency
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -105,11 +79,6 @@ const ShippingAddress = ({
       ...formData,
       [e.target.name]: e.target.value,
     })
-    if (e.target.name === "shipping_address.province") {
-      setProvinceId(
-        provinceOptions.find((p) => p.label === e.target.value)?.value
-      )
-    }
   }
 
   return (
@@ -119,12 +88,20 @@ const ShippingAddress = ({
           <p className="text-small-regular">
             {`Hi ${customer.first_name}, do you want to use one of your saved addresses?`}
           </p>
-          <AddressSelect addresses={customer.shipping_addresses} cart={cart} />
+          <AddressSelect
+            addresses={customer.addresses}
+            addressInput={
+              mapKeys(formData, (_, key) =>
+                key.replace("shipping_address.", "")
+              ) as HttpTypes.StoreCartAddress
+            }
+            onSelect={setFormAddress}
+          />
         </Container>
       )}
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label={t("text-firstname")}
+          label="First name"
           name="shipping_address.first_name"
           autoComplete="given-name"
           value={formData["shipping_address.first_name"]}
@@ -133,7 +110,7 @@ const ShippingAddress = ({
           data-testid="shipping-first-name-input"
         />
         <Input
-          label={t("text-lastname")}
+          label="Last name"
           name="shipping_address.last_name"
           autoComplete="family-name"
           value={formData["shipping_address.last_name"]}
@@ -142,7 +119,7 @@ const ShippingAddress = ({
           data-testid="shipping-last-name-input"
         />
         <Input
-          label={t("text-address")}
+          label="Address"
           name="shipping_address.address_1"
           autoComplete="address-line1"
           value={formData["shipping_address.address_1"]}
@@ -151,7 +128,7 @@ const ShippingAddress = ({
           data-testid="shipping-address-input"
         />
         <Input
-          label={t("text-company")}
+          label="Company"
           name="shipping_address.company"
           value={formData["shipping_address.company"]}
           onChange={handleChange}
@@ -159,7 +136,7 @@ const ShippingAddress = ({
           data-testid="shipping-company-input"
         />
         <Input
-          label={t("text-zip")}
+          label="Postal code"
           name="shipping_address.postal_code"
           autoComplete="postal-code"
           value={formData["shipping_address.postal_code"]}
@@ -167,9 +144,16 @@ const ShippingAddress = ({
           required
           data-testid="shipping-postal-code-input"
         />
+        <Input
+          label="City"
+          name="shipping_address.city"
+          autoComplete="address-level2"
+          value={formData["shipping_address.city"]}
+          onChange={handleChange}
+          required
+          data-testid="shipping-city-input"
+        />
         <CountrySelect
-          placeholder={t("text-country")}
-          defaultValue={countryCode}
           name="shipping_address.country_code"
           autoComplete="country"
           region={cart?.region}
@@ -178,30 +162,19 @@ const ShippingAddress = ({
           required
           data-testid="shipping-country-select"
         />
-        <ProvinceSelect
-          placeholder={t("text-province")}
+        <Input
+          label="State / Province"
           name="shipping_address.province"
           autoComplete="address-level1"
-          provinceOptions={provinceOptions}
           value={formData["shipping_address.province"]}
           onChange={handleChange}
           required
           data-testid="shipping-province-input"
         />
-        <CitySelect
-          placeholder={t("text-city")}
-          provinceId={provinceId}
-          name="shipping_address.city"
-          autoComplete="address-level2"
-          value={formData["shipping_address.city"]}
-          onChange={handleChange}
-          required
-          data-testid="shipping-city-input"
-        />
       </div>
       <div className="my-8">
         <Checkbox
-          label={t("text-same-as-billing")}
+          label="Billing address same as shipping address"
           name="same_as_billing"
           checked={checked}
           onChange={onChange}
@@ -210,17 +183,7 @@ const ShippingAddress = ({
       </div>
       <div className="grid grid-cols-2 gap-4 mb-4">
         <Input
-          label={t("text-phone")}
-          name="shipping_address.phone"
-          title="Enter a valid phone number."
-          autoComplete="09123456789"
-          value={formData["shipping_address.phone"]}
-          onChange={handleChange}
-          required
-          data-testid="shipping-phone-input"
-        />
-        <Input
-          label={t("text-email")}
+          label="Email"
           name="email"
           type="email"
           title="Enter a valid email address."
@@ -229,6 +192,14 @@ const ShippingAddress = ({
           onChange={handleChange}
           required
           data-testid="shipping-email-input"
+        />
+        <Input
+          label="Phone"
+          name="shipping_address.phone"
+          autoComplete="tel"
+          value={formData["shipping_address.phone"]}
+          onChange={handleChange}
+          data-testid="shipping-phone-input"
         />
       </div>
     </>

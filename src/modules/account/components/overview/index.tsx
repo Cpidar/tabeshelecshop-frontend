@@ -1,13 +1,13 @@
-import { Customer, Order } from "@medusajs/medusa"
 import { Container } from "@medusajs/ui"
-import { formatAmount } from "@lib/util/prices"
 
 import ChevronDown from "@modules/common/icons/chevron-down"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
+import { convertToLocale } from "@lib/util/money"
+import { HttpTypes } from "@medusajs/types"
 
 type OverviewProps = {
-  customer: Omit<Customer, "password_hash"> | null
-  orders: Order[] | null
+  customer: HttpTypes.StoreCustomer | null
+  orders: HttpTypes.StoreOrder[] | null
 }
 
 const Overview = ({ customer, orders }: OverviewProps) => {
@@ -39,8 +39,8 @@ const Overview = ({ customer, orders }: OverviewProps) => {
               <div className="flex flex-col gap-y-4">
                 <h3 className="text-large-semi">لیست آدرسها</h3>
                 <div className="flex items-end gap-x-2">
-                  <span className="text-3xl-semi leading-none" data-testid="addresses-count" data-value={customer?.shipping_addresses?.length || 0}>
-                    {customer?.shipping_addresses?.length || 0}
+                  <span className="text-3xl-semi leading-none" data-testid="addresses-count" data-value={customer?.addresses?.length || 0}>
+                    {customer?.addresses?.length || 0}
                   </span>
                   <span className="uppercase text-base-regular text-ui-fg-subtle">
                     آدرس ذخیره شده
@@ -75,10 +75,9 @@ const Overview = ({ customer, orders }: OverviewProps) => {
                               </span>
                               <span data-testid="order-id" data-value={order.display_id}>#{order.display_id}</span>
                               <span data-testid="order-amount">
-                                {formatAmount({
+                                {convertToLocale({
                                   amount: order.total,
-                                  region: order.region,
-                                  includeTaxes: false,
+                                  currency_code: order.currency_code,
                                 })}
                               </span>
                             </div>
@@ -105,9 +104,7 @@ const Overview = ({ customer, orders }: OverviewProps) => {
   )
 }
 
-const getProfileCompletion = (
-  customer: Omit<Customer, "password_hash"> | null
-) => {
+const getProfileCompletion = (customer: HttpTypes.StoreCustomer | null) => {
   let count = 0
 
   if (!customer) {
@@ -126,7 +123,11 @@ const getProfileCompletion = (
     count++
   }
 
-  if (customer.billing_address) {
+  const billingAddress = customer.addresses?.find(
+    (addr) => addr.is_default_billing
+  )
+
+  if (billingAddress) {
     count++
   }
 

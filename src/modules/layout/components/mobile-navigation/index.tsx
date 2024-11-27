@@ -1,23 +1,24 @@
-import { listMainCategories } from "@/lib/data"
-import { enrichLineItems, retrieveCart } from "@/modules/cart/actions"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
-import BagIcon from "@/shared/Icons/BagIcon"
 import BagIcon2withBadge from "@/shared/Icons/BagIcon2withBadge"
 import HomeIcon from "@/shared/Icons/HomeIcon"
 import UserIcon from "@/shared/Icons/UserIcon"
 import MenuBar from "@/shared/MenuBar/MenuBar"
-import { SquaresPlusIcon } from "@heroicons/react/16/solid"
-import { LineItem } from "@medusajs/medusa"
 import CategoryModal from "../category-modal"
-import { ProductCategoryWithChildren } from "@/types/global"
 import { CategoryModalContent } from "../category-accordion"
 import { ModalProvider } from "../modal-context"
+import { getCategoryByHandle } from "@/lib/data/categories"
+import { HttpTypes } from "@medusajs/types"
 
-export default async function MobileNavigation() {
-  const product_categories = (await listMainCategories(
-    "main"
-  )) as unknown as ProductCategoryWithChildren[]
-
+export default async function MobileNavigation({
+  cart,
+}: {
+  cart: HttpTypes.StoreCart
+}) {
+  const product_categories = await getCategoryByHandle(["main"])
+  const totalItems =
+    cart?.items?.reduce((acc, item) => {
+      return acc + item.quantity
+    }, 0) || 0
   // const cart = await fetchCart()
   // const totalItems =
   //   cart?.items?.reduce((acc, item) => {
@@ -40,7 +41,7 @@ export default async function MobileNavigation() {
           href="/cart"
           className="rounded-lg text-neutral-700 dark:text-neutral-300 focus:outline-none flex items-center justify-center"
         >
-          <BagIcon2withBadge />
+          <BagIcon2withBadge badgeNumber={totalItems} />
         </LocalizedClientLink>
         <LocalizedClientLink
           href="/account"

@@ -6,7 +6,8 @@ import ProfileEmail from "@modules/account/components/profile-email"
 import ProfileName from "@modules/account/components/profile-name"
 import ProfilePassword from "@modules/account/components/profile-password"
 
-import { getCustomer, listRegions } from "@lib/data"
+import { listRegions } from "@lib/data/regions"
+import { getCustomer } from "@lib/data/customer"
 import { notFound } from "next/navigation"
 
 export const metadata: Metadata = {

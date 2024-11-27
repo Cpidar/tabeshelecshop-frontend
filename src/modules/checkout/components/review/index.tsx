@@ -4,16 +4,11 @@ import { Heading, Text, clx } from "@medusajs/ui"
 
 import PaymentButton from "../payment-button"
 import { useSearchParams } from "next/navigation"
-import { Cart } from "@medusajs/medusa"
 
-const Review = ({
-  cart,
-}: {
-  cart: Omit<Cart, "refundable_amount" | "refunded_total">
-}) => {
+const Review = ({ cart }: { cart: any }) => {
   const searchParams = useSearchParams()
 
-  const isOpen = searchParams.get("step") === "review"
+  const isOpen = searchParams?.get("step") === "review"
 
   const paidByGiftcard =
     cart?.gift_cards && cart?.gift_cards?.length > 0 && cart?.total === 0
@@ -21,7 +16,7 @@ const Review = ({
   const previousStepsCompleted =
     cart.shipping_address &&
     cart.shipping_methods.length > 0 &&
-    (cart.payment_session || paidByGiftcard)
+    (cart.payment_collection || paidByGiftcard)
 
   return (
     <div className="bg-white">
@@ -35,7 +30,7 @@ const Review = ({
             }
           )}
         >
-          ثبت سفارش
+          Review
         </Heading>
       </div>
       {isOpen && previousStepsCompleted && (
@@ -43,7 +38,10 @@ const Review = ({
           <div className="flex items-start gap-x-1 w-full mb-6">
             <div className="w-full">
               <Text className="txt-medium-plus text-ui-fg-base mb-1">
-              کلیک شما روی گزینه ثبت سفارش به معنای پذیرش شرایط فروشگاه تابش الکتریک و قوانین حریم‌خصوصی است
+                By clicking the Place Order button, you confirm that you have
+                read, understand and accept our Terms of Use, Terms of Sale and
+                Returns Policy and acknowledge that you have read Medusa
+                Store&apos;s Privacy Policy.
               </Text>
             </div>
           </div>

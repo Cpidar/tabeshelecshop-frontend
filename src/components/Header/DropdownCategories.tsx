@@ -1,7 +1,7 @@
 "use client"
 
 import { Bars3Icon, ChevronLeftIcon } from "@heroicons/react/16/solid"
-import { ProductCategory } from "@medusajs/medusa"
+import { HttpTypes } from "@medusajs/types"
 import {
   Menu,
   MenuItem as MenuItemInner,
@@ -59,7 +59,7 @@ export default function DropdownCategories({
   items,
   className,
 }: {
-  items: ProductCategory[]
+  items: HttpTypes.StoreProductCategory[]
   className?: string
 }) {
   return (

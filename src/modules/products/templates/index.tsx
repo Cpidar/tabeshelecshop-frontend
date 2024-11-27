@@ -1,5 +1,3 @@
-import { Region } from "@medusajs/medusa"
-import { PricedProduct } from "@medusajs/medusa/dist/types/pricing"
 import React, { Suspense } from "react"
 
 import ImageGallery from "@modules/products/components/image-gallery"
@@ -11,10 +9,11 @@ import ProductInfo from "@modules/products/templates/product-info"
 import SkeletonRelatedProducts from "@modules/skeletons/templates/skeleton-related-products"
 import { notFound } from "next/navigation"
 import ProductActionsWrapper from "./product-actions-wrapper"
+import { HttpTypes } from "@medusajs/types"
 
 type ProductTemplateProps = {
-  product: PricedProduct
-  region: Region
+  product: HttpTypes.StoreProduct
+  region: HttpTypes.StoreRegion
   countryCode: string
 }
 
@@ -33,12 +32,14 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         className="content-container flex flex-col small:flex-row small:items-start py-6 relative"
         data-testid="product-container"
       >
-        <div className="block w-full max-w-[640px] relative">
+        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-6">
+          <ProductInfo product={product} />
+          <ProductTabs product={product} />
+        </div>
+        <div className="block w-full relative">
           <ImageGallery images={product?.images || []} />
         </div>
-        <div className="flex flex-col small:sticky small:top-48 small:py-0 lg:w-[45%] w-full py-8 gap-y-6">
-        <ProductInfo product={product} />
-
+        <div className="flex flex-col small:sticky small:top-48 small:py-0 small:max-w-[300px] w-full py-8 gap-y-12">
           <ProductOnboardingCta />
           <Suspense
             fallback={
@@ -51,10 +52,6 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
           >
             <ProductActionsWrapper id={product.id} region={region} />
           </Suspense>
-
-          <hr className=" 2xl:!my-10 border-slate-200 dark:border-slate-700"></hr>
-
-          {/* <ProductTabs product={product} /> */}
         </div>
       </div>
       <div
@@ -62,7 +59,7 @@ const ProductTemplate: React.FC<ProductTemplateProps> = ({
         data-testid="related-products-container"
       >
         <Suspense fallback={<SkeletonRelatedProducts />}>
-          {/* <RelatedProducts product={product} countryCode={countryCode} /> */}
+          <RelatedProducts product={product} countryCode={countryCode} />
         </Suspense>
       </div>
     </>

@@ -7,9 +7,13 @@ import keystaticConfig from "../../../keystatic.config"
 
 const reader = createReader(process.cwd(), keystaticConfig)
 
-export interface HeaderLoggedProps {}
+export interface HeaderLoggedProps {
+  countryCode: string
+}
 
-const HeaderLogged: FC<HeaderLoggedProps> = async () => {
+const HeaderLogged: FC<HeaderLoggedProps> = async ({
+  countryCode
+}) => {
   const settings = await reader.singletons.settings.read()
   const topBar = settings?.header.topBar
 
@@ -32,7 +36,7 @@ const HeaderLogged: FC<HeaderLoggedProps> = async () => {
           </div>
         </HighlightedBar>
       )}
-      <MainNav5 />
+      <MainNav5 countryCode={countryCode} />
     </div>
   )
 }

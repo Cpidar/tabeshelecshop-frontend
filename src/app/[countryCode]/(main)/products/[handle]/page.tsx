@@ -1,14 +1,10 @@
 import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
-import {
-  getProductByHandle,
-  getProductsList,
-  getRegion,
-  listRegions,
-  retrievePricedProductById,
-} from "@lib/data"
-import { Region } from "@medusajs/medusa"
+import { getRegion, listRegions } from "@lib/data/regions"
+import { getProductByHandle } from "@lib/data/products"
+import { sdk } from "@lib/config"
+
 import ProductTemplate from "@modules/products/templates"
 import ScrollToTop from "@/shared/utils/scrollToTop"
 import { getProductPrice } from "@/lib/util/get-product-price"
@@ -17,71 +13,58 @@ type Props = {
   params: { countryCode: string; handle: string }
 }
 
-const getPricedProductByHandle = async (slug: string, region: Region) => {
-  const handle = decodeURI(slug)
-  const { product } = await getProductByHandle(handle).then(
-    (product) => product
-  )
-
-  if (!product || !product.id) {
-    return null
-  }
-
-  const pricedProduct = await retrievePricedProductById({
-    id: product.id,
-    regionId: region.id,
-  })
-
-  return pricedProduct
-}
 
 export async function generateStaticParams() {
-  const countryCodes = await listRegions().then((regions) =>
-    regions?.map((r) => r.countries.map((c) => c.iso_2)).flat()
-  )
-
-  if (!countryCodes) {
-    return null
-  }
-
-  const products = await Promise.all(
-    countryCodes.map((countryCode) => {
-      return getProductsList({ countryCode })
-    })
-  ).then((responses) =>
-    responses.map(({ response }) => response.products).flat()
-  )
-
-  const staticParams = countryCodes
-    ?.map((countryCode) =>
-      products.map((product) => ({
-        countryCode,
-        handle: product.handle,
-      }))
+  try {
+    const countryCodes = await listRegions().then((regions) =>
+      regions?.map((r) => r.countries?.map((c) => c.iso_2)).flat()
     )
-    .flat()
 
-  return staticParams
+    if (!countryCodes) {
+      return []
+    }
+
+    const { products } = await sdk.store.product.list(
+      { fields: "handle" },
+      { next: { tags: ["products"] } }
+    )
+
+    return countryCodes
+      .map((countryCode) =>
+        products.map((product) => ({
+          countryCode,
+          handle: product.handle,
+        }))
+      )
+      .flat()
+      .filter((param) => param.handle)
+  } catch (error) {
+    console.error(
+      `Failed to generate static paths for product pages: ${
+        error instanceof Error ? error.message : "Unknown error"
+      }.`
+    )
+    return []
+  }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   let { handle, countryCode } = params
   handle = decodeURI(handle)
-  const region = await getRegion(countryCode)
+  const region = await getRegion(params.countryCode)
 
   if (!region) {
     notFound()
   }
 
-  const product = await getPricedProductByHandle(handle, region)
-
+  const product = await getProductByHandle(handle, region.id)
+  
   if (!product) {
     notFound()
   }
 
   const { cheapestPrice } = getProductPrice({
     product,
-    region,
   })
 
   return {
@@ -105,7 +88,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       product_name: product.title!,
       product_price: cheapestPrice?.calculated_price_number!,
       product_old_price: cheapestPrice?.original_price_number!,
-      availability: product.variants.some(
+      availability: product?.variants?.some(
         (v) => v.inventory_quantity && v.inventory_quantity > 0
       )
         ? "instock"
@@ -120,8 +103,8 @@ export default async function ProductPage({ params }: Props) {
   if (!region) {
     notFound()
   }
-  const pricedProduct = await getPricedProductByHandle(params.handle, region)
-
+  const pricedProduct = await getProductByHandle(params.handle, region.id)
+  
   if (!pricedProduct) {
     notFound()
   }

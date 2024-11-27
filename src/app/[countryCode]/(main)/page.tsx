@@ -1,16 +1,16 @@
-import { Product } from "@medusajs/medusa"
 import { Metadata } from "next"
 
-import { getCollectionsList, getProductsList, getRegion } from "@lib/data"
-import { ProductCollectionWithPreviews } from "types/global"
-import { cache } from "react"
-import React from "react"
+import { getCollectionsWithProducts } from "@lib/data/collections"
+import { getRegion } from "@lib/data/regions"
+
 import SectionHowItWork from "@/modules/home/components/SectionHowItWork/SectionHowItWork"
 import BackgroundSection from "@/modules/home/components/BackgroundSection/BackgroundSection"
 import SectionPromo1 from "@/modules/home/components/SectionPromo1"
 import SectionSliderProductCard from "@/modules/home/components/SectionSliderProductCard"
 import SectionPromo2 from "@/modules/home/components/SectionPromo2"
-import SectionSliderCategories from "@/modules/home/components/SectionSliderCategories/SectionSliderCategories"
+import SectionSliderCategories, {
+  CardCategoryData,
+} from "@/modules/home/components/SectionSliderCategories/SectionSliderCategories"
 import SectionPromo3 from "@/modules/home/components/SectionPromo3"
 import Heading from "@/components/Heading/Heading"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
@@ -23,7 +23,9 @@ import TranslationsProvider from "@/modules/translationProvider/TranslationsProv
 import { createReader } from "@keystatic/core/reader"
 import keystaticConfig from "../../../../keystatic.config"
 import SectionIncredibleOffer from "@/modules/home/components/SectionIncredibleOffer"
-import SectionTripleBanners from "@/modules/home/components/SectionTripleBanners"
+import SectionTripleBanners, {
+  SectionPromo1Data,
+} from "@/modules/home/components/SectionTripleBanners"
 
 const reader = createReader(process.cwd(), keystaticConfig)
 
@@ -42,47 +44,6 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 const i18nNamespaces = ["common"]
-
-const getCollectionsWithProducts = cache(
-  async (
-    countryCode: string
-  ): Promise<ProductCollectionWithPreviews[] | null> => {
-    const { collections } = await getCollectionsList(0, 8)
-
-    if (!collections) {
-      return null
-    }
-
-    const collectionIds = collections.map((collection) => collection.id)
-
-    await Promise.all(
-      collectionIds.map((id) =>
-        getProductsList({
-          queryParams: { collection_id: [id] },
-          countryCode,
-        })
-      )
-    ).then((responses) =>
-      responses.forEach(({ response, queryParams }) => {
-        let collection
-
-        if (collections) {
-          collection = collections.find(
-            (collection) => collection.id === queryParams?.collection_id?.[0]
-          )
-        }
-
-        if (!collection) {
-          return
-        }
-
-        collection.products = response.products as unknown as Product[]
-      })
-    )
-
-    return collections as unknown as ProductCollectionWithPreviews[]
-  }
-)
 
 export default async function Home({
   params: { countryCode },
@@ -126,14 +87,17 @@ export default async function Home({
 
         <div className="content-container relative space-y-24 my-24 lg:space-y-32 lg:my-32">
           <SectionSliderCategories
-            data={homepageContent?.homePageCategories.items}
+            data={
+              homepageContent?.homePageCategories
+                .items as unknown as CardCategoryData[]
+            }
           />
           <SectionIncredibleOffer heading={incredibleOffers?.title}>
             {incredibleOffers &&
-              incredibleOffers?.products.map((item, index) => (
+              incredibleOffers?.products?.map((item, index) => (
                 <li key={index} className="glide__slide">
                   <div className="relative lg:flex lg:justify-center lg:pl-[10px]">
-                    <ProductCard productPreview={item} region={region} />
+                    <ProductCard product={item} region={region} />
                     <div className=" absolute left-0 top-[30px] w-[1px] bg-gray-100 xl:top-[54px] xl:w-[2px]  h-[320px]"></div>
                   </div>
                 </li>
@@ -141,7 +105,10 @@ export default async function Home({
           </SectionIncredibleOffer>
           {homepageContent?.homePageTripleBanner.items && (
             <SectionTripleBanners
-              data={homepageContent.homePageTripleBanner.items!}
+              data={
+                homepageContent.homePageTripleBanner
+                  .items as unknown as SectionPromo1Data[]
+              }
             />
           )}
           <SectionSliderProductCard
@@ -149,10 +116,10 @@ export default async function Home({
             subHeading=""
           >
             {collections[0] &&
-              collections[0].products.map((item, index) => (
+              collections[0].products?.map((item, index) => (
                 <li key={index} className="glide__slide">
                   <div className="relative lg:flex lg:justify-center lg:pl-[10px]">
-                    <ProductCard productPreview={item} region={region} />
+                    <ProductCard product={item} region={region} />
                     <div className=" absolute left-0 top-[30px] w-[1px] bg-gray-100 xl:top-[54px] xl:w-[2px]  h-[320px]"></div>
                   </div>
                 </li>
@@ -171,9 +138,9 @@ export default async function Home({
               heading={collections[1].title}
               subHeading=""
             >
-              {collections[1].products.map((item, index) => (
+              {collections[1].products?.map((item, index) => (
                 <li key={index} className="glide__slide">
-                  <ProductCard productPreview={item} region={region} />
+                  <ProductCard product={item} region={region} />
                 </li>
               ))}
             </SectionSliderProductCard>
@@ -181,9 +148,9 @@ export default async function Home({
 
           {collections[2] && (
             <SectionSliderProductCard heading={collections[2].title}>
-              {collections[2].products.map((item, index) => (
+              {collections[2].products?.map((item, index) => (
                 <li key={index} className="glide__slide">
-                  <ProductCard productPreview={item} region={region} />
+                  <ProductCard product={item} region={region} />
                 </li>
               ))}
             </SectionSliderProductCard>
@@ -191,9 +158,9 @@ export default async function Home({
 
           {collections[3] && (
             <SectionSliderProductCard heading={collections[3].title}>
-              {collections[3].products.map((item, index) => (
+              {collections[3].products?.map((item, index) => (
                 <li key={index} className="glide__slide">
-                  <ProductCard productPreview={item} region={region} />
+                  <ProductCard product={item} region={region} />
                 </li>
               ))}
             </SectionSliderProductCard>
@@ -206,9 +173,9 @@ export default async function Home({
 
           {collections[4] && (
             <SectionSliderProductCard heading={collections[4].title}>
-              {collections[4].products.map((item, index) => (
+              {collections[4].products?.map((item, index) => (
                 <li key={index} className="glide__slide">
-                  <ProductCard productPreview={item} region={region} />
+                  <ProductCard product={item} region={region} />
                 </li>
               ))}
             </SectionSliderProductCard>

@@ -4,7 +4,6 @@ import { useFormState } from "react-dom"
 
 import Input from "@modules/common/components/input"
 import { LOGIN_VIEW } from "@/modules/account/templates/login-template"
-import { signUp } from "@modules/account/actions"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import { SubmitButton } from "@modules/checkout/components/submit-button"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
@@ -12,6 +11,8 @@ import Image from "next/image"
 import logo from "@/images/logo.svg"
 import { ArrowRightIcon } from "@heroicons/react/24/solid"
 import { useRouter } from "next/navigation"
+import { signup } from "@lib/data/customer"
+
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
   phone: string
@@ -22,11 +23,11 @@ const Register = ({ setCurrentView, phone }: Props) => {
   const onFormAction = (_currentState: unknown, formData: FormData) => {
     if (!formData.get("phone")) formData.append("phone", phone)
     if (!formData.get("email")) formData.append("email", `${phone}@tabeshelecshop.ir`)
-    signUp(_currentState, formData)
+    signup(_currentState, formData)
     router.replace("/")
   }
 
-  const [message, formAction] = useFormState(signUp, null)
+  const [message, formAction] = useFormState(signup, null)
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
       <div className="w-full relative flex items-center justify-center">

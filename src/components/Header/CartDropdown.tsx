@@ -3,33 +3,27 @@
 import { Popover, Transition, Dialog } from "@/app/headlessui"
 import { Fragment, useEffect, useMemo, useRef, useState } from "react"
 import ButtonPrimary from "@/shared/Button/ButtonPrimary"
-import ButtonSecondary from "@/shared/Button/ButtonSecondary"
 import Link from "next/link"
-import { Cart, LineItem } from "@medusajs/medusa"
 import LineItemPrice from "@/modules/common/components/line-item-price"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
 import Button from "@/shared/Button/Button"
 import Thumbnail from "@/modules/products/components/thumbnail"
 import DeleteButton from "@/modules/common/components/delete-button"
-import { formatAmount } from "@/lib/util/prices"
 import Counter from "@/shared/Counter/Counter"
-import {
-  deleteLineItem,
-  getOrSetCart,
-  updateLineItem,
-} from "@modules/cart/actions"
-import { useCart } from "@/modules/cart/components/cart-context"
+import { convertToLocale } from "@lib/util/money"
+import { HttpTypes } from "@medusajs/types"
+import { isOptimisticItemId, useCart } from "@/modules/cart/components/cart-context"
 import CloseCart from "./close-cart"
+import { deleteLineItem, updateLineItem } from "@/lib/data/cart"
 
 export default function CartDropdown() {
   const [updating, setUpdating] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const { cart, updateCartItem } = useCart()
-  const [isOpen, setIsOpen] = useState(false)
+  const { cart, updateCartItem, cartOpen, setCartOpen } = useCart()
 
   const quantityRef = useRef(cart?.subtotal)
-  const openCart = () => setIsOpen(true)
-  const closeCart = () => setIsOpen(false)
+  const openCart = () => setCartOpen(true)
+  const closeCart = () => setCartOpen(false)
 
   const totalItems = useMemo(
     () =>
@@ -45,26 +39,36 @@ export default function CartDropdown() {
   //   }
   // }, [cart, countryCode])
 
-  useEffect(() => {
-    if (totalItems && totalItems !== quantityRef.current && totalItems > 0) {
-      if (!isOpen) {
-        setIsOpen(true)
-      }
-      quantityRef.current = totalItems
-    }
-  }, [isOpen, totalItems, quantityRef])
+  // useEffect(() => {
+  //   if (totalItems && totalItems !== quantityRef.current && totalItems > 0) {
+  //     if (!cartOpen) {
+  //       setCartOpen(true)
+  //     }
+  //     quantityRef.current = totalItems
+  //   }
+  // }, [isOpen, totalItems, quantityRef])
 
   const totol = cart?.subtotal || 0
 
-  const renderProduct = (item: LineItem, index: number, close: () => void) => {
-    const { title: name, thumbnail, cart_id, id } = item
-    const { handle } = item.variant.product
+  const renderProduct = (
+    item: HttpTypes.StoreCartLineItem,
+    index: number,
+    close: () => void
+  ) => {
+    
+    const handle = item?.variant?.product?.handle
+
+    if (!((item?.quantity || 0) > 0)) return null;
+
+    const isOptimisticLine = isOptimisticItemId(item.id);
+
+    console.log(item)
 
     const changeQuantity = async (quantity: number) => {
       setError(null)
       setUpdating(true)
       const message = await updateLineItem({
-        lineId: id,
+        lineId: item.id,
         quantity,
       })
         .catch((err) => {
@@ -81,7 +85,7 @@ export default function CartDropdown() {
     return (
       <div key={index} className="flex py-5 last:pb-0">
         <div className="relative h-24 w-20 flex-shrink-0 overflow-hidden rounded-xl bg-slate-100">
-          <Thumbnail thumbnail={thumbnail} size="square" />
+          <Thumbnail thumbnail={item.thumbnail} size="square" />
           <Link
             onClick={close}
             className="absolute inset-0"
@@ -95,7 +99,7 @@ export default function CartDropdown() {
               <div>
                 <h3 className="text-base font-medium ">
                   <Link onClick={close} href={`/products/${handle}`}>
-                    {name}
+                    {item.title}
                   </Link>
                 </h3>
                 <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
@@ -105,39 +109,39 @@ export default function CartDropdown() {
                 </p>
               </div>
               {/* <Prices price={price} className="mt-0.5" /> */}
-              {cart && (
-                <LineItemPrice region={cart.region} item={item} style="tight" />
-              )}
+              {cart && <LineItemPrice item={item} style="tight" />}
             </div>
           </div>
           <div className="flex flex-1 items-end justify-between text-sm">
-            <Counter
-              value={item.quantity}
-              onIncrement={() => {
-                // optimistic cart update
-                updateCartItem(item.variant_id!, "plus")
-                // server action
-                changeQuantity(item.quantity + 1)
-              }}
-              onDecrement={() => {
-                // optimistic cart update
-                updateCartItem(item.variant_id!, "minus")
-                // server action
-                changeQuantity(item.quantity - 1)
-              }}
-              variant="cart"
-              disabled={item.variant.inventory_quantity < 1}
-            />
+            {item.variant?.inventory_quantity && (
+              <Counter
+                value={item.quantity}
+                onIncrement={() => {
+                  // optimistic cart update
+                  updateCartItem(item.id, 1)
+                  // server action
+                  changeQuantity(item.quantity + 1)
+                }}
+                onDecrement={() => {
+                  // optimistic cart update
+                  updateCartItem(item.id, -1)
+                  // server action
+                  changeQuantity(item.quantity - 1)
+                }}
+                variant="cart"
+                disabled={item.variant?.inventory_quantity < 1}
+              />
+            )}
             <div className="flex">
               <DeleteButton
                 id={item.id}
                 className="mt-1"
                 data-testid="cart-item-remove-button"
                 onDelete={async () => {
-                  updateCartItem(item.variant_id!, "delete")
+                  updateCartItem(item.id, 0)
                   await deleteLineItem(item.id)
                 }}
-                disabled={item.sending}
+                disabled={(item as any).sending}
               >
                 {"حذف"}
               </DeleteButton>
@@ -177,17 +181,16 @@ export default function CartDropdown() {
               <div className="mr-4 hidden sm:flex flex-col font-bold">
                 <span className="text-xs text-gray-400">سبد خرید شما</span>
                 <span>
-                  {cart?.items.length
-                    ? formatAmount({
-                        amount: totol || 0,
-                        region: cart.region,
-                        includeTaxes: false,
+                  {cart?.items?.length
+                    ? convertToLocale({
+                        amount: totol,
+                        currency_code: cart.currency_code,
                       })
                     : "0 تومان"}
                 </span>
               </div>
             </Popover.Button>
-            <Transition show={isOpen}>
+            <Transition show={cartOpen}>
               <Dialog onClose={closeCart} className="relative z-50">
                 <Transition.Child
                   as={Fragment}
@@ -227,7 +230,10 @@ export default function CartDropdown() {
                             <div className="divide-y divide-slate-300 dark:divide-slate-700">
                               {cart.items
                                 .sort((a, b) => {
-                                  return a.created_at > b.created_at ? -1 : 1
+                                  return (a.created_at ?? "") >
+                                    (b.created_at ?? "")
+                                    ? -1
+                                    : 1
                                 })
                                 .map((item, index) =>
                                   renderProduct(item, index, close)
@@ -243,10 +249,9 @@ export default function CartDropdown() {
                               </span> */}
                               </span>
                               <span className="">
-                                {formatAmount({
-                                  amount: cart.subtotal || 0,
-                                  region: cart.region,
-                                  includeTaxes: false,
+                                {convertToLocale({
+                                  amount: totol,
+                                  currency_code: cart.currency_code,
                                 })}
                               </span>
                             </p>

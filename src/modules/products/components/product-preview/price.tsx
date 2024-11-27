@@ -1,8 +1,11 @@
 import { Text, clx } from "@medusajs/ui"
 
-import { PriceType } from "../product-actions"
+import { VariantPrice } from "types/global"
 
-export default async function PreviewPrice({ price }: { price: PriceType }) {
+export default async function PreviewPrice({ price }: { price: VariantPrice }) {
+  if (!price) {
+    return null
+  }
   return (
     <>
       {price.price_type === "sale" && (

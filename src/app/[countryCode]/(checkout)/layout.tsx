@@ -4,7 +4,7 @@ import MedusaCTA from "@modules/layout/components/medusa-cta"
 import initTranslations from "@/app/i18n"
 import Logo from "@/shared/Logo/Logo"
 import { CartProvider } from "@/modules/cart/components/cart-context"
-import { retrieveCart } from "@/modules/cart/actions"
+import { retrieveCart } from "@/lib/data/cart"
 
 export default async function CheckoutLayout({
   params: { countryCode },
@@ -14,10 +14,8 @@ export default async function CheckoutLayout({
   children: React.ReactNode
 }) {
   const { t } = await initTranslations(countryCode, ["common"])
-  const cart = retrieveCart()
 
   return (
-    <CartProvider countryCode={countryCode} cartPromise={cart}>
       <div className="w-full bg-white relative small:min-h-screen">
         <div className="h-16 bg-white border-b ">
           <nav className="flex h-full items-center content-container justify-between">
@@ -51,6 +49,5 @@ export default async function CheckoutLayout({
           <MedusaCTA />
         </div>
       </div>
-    </CartProvider>
   )
 }

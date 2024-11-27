@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from 'react';
-import cn from 'classnames';
 import SearchBox from '@/modules/search/components/search-box/SearchBox02';
 import SearchResultLoader from '@/components/loaders/search-result-loader';
 import SearchProduct from '@/modules/search/components/search-product';

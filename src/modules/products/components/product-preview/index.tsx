@@ -1,16 +1,29 @@
-import { ProductPreviewType } from "types/global"
 
-import { Region } from "@medusajs/medusa"
+import { getProductPrice } from "@lib/util/get-product-price"
+import { getProductsById } from "@lib/data/products"
+import { HttpTypes } from "@medusajs/types"
 import ProductCard from "./ProductCard"
 
 export default async function ProductPreview({
-  productPreview,
+  product,
   isFeatured,
   region,
 }: {
-  productPreview: ProductPreviewType
+  product: HttpTypes.StoreProduct
   isFeatured?: boolean
-  region: Region
+  region: HttpTypes.StoreRegion
 }) {
-  return <ProductCard productPreview={productPreview} region={region} />
+  const [pricedProduct] = await getProductsById({
+    ids: [product.id!],
+    regionId: region.id,
+  })
+
+  if (!pricedProduct) {
+    return null
+  }
+
+  const { cheapestPrice } = getProductPrice({
+    product: pricedProduct,
+  })
+  return <ProductCard product={product} region={region} />
 }

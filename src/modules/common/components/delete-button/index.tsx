@@ -8,14 +8,12 @@ type ButtonEvent = (
 ) => void;
 
 const DeleteButton = ({
-  id,
   children,
   className,
   onDelete,
   disabled,
   loading
 }: {
-  id: string
   children?: React.ReactNode
   className?: string
   onDelete: ButtonEvent;
@@ -31,12 +29,10 @@ const DeleteButton = ({
       )}
     >
       <button
-        className="flex gap-x-1 text-ui-fg-subtle hover:text-ui-fg-base cursor-pointer"
+        className="text-neutral-950 text-xs shadow-[0_0_0_1px_rgba(0,0,0,0.1)] rounded-full px-2 py-1 hover:bg-neutral-100 min-w-20 flex items-center justify-center"
         onClick={onDelete}
-        disabled={disabled}
       >
-        {loading ? <Spinner className="animate-spin" /> : <Trash />}
-        <span>{children}</span>
+        {loading ? <Spinner /> : "حذف"}
       </button>
     </div>
   )

@@ -1,7 +1,5 @@
 import { Metadata } from "next"
 import KeystaticApp from "./keystatic"
-import { getCustomer } from "@/lib/data"
-import { redirect } from "next/navigation"
 
 export const metadata: Metadata = {
   robots: {

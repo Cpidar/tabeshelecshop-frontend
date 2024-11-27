@@ -1,11 +1,5 @@
-import { completeCart, updatePaymentSession } from '@/lib/data';
 import { behpardakht, errors } from './request'
 import type { NextApiRequest, NextApiResponse } from 'next';
-import { updatePaymentSessionStatus } from '@/modules/checkout/actions';
-import { medusaClient } from '@/lib/config';
-import medusaError from '@/lib/util/medusa-error';
-import cookie from "cookie";
-import { isObject } from 'lodash'
 
 
 const getMedusaHeaders = (req: NextApiRequest, tags: string[] = []) => {

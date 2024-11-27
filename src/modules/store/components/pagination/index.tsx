@@ -22,7 +22,7 @@ export function Pagination({
 
   // Function to handle page changes
   const handlePageChange = (newPage: number) => {
-    const params = new URLSearchParams(searchParams)
+    const params = new URLSearchParams(searchParams!)
     params.set("page", newPage.toString())
     router.push(`${pathname}?${params.toString()}`)
   }
@@ -57,7 +57,7 @@ export function Pagination({
 
   // Function to render page buttons based on the current page and total pages
   const renderPageButtons = () => {
-    const buttons = []
+    const buttons = [] as React.JSX.Element[]
 
     if (totalPages <= 7) {
       // Show all pages

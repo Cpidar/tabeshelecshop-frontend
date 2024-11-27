@@ -1,25 +1,18 @@
-import {
-  PricedProduct,
-  PricedVariant,
-} from "@medusajs/medusa/dist/types/pricing"
 import { clx } from "@medusajs/ui"
 
 import { getProductPrice } from "@lib/util/get-product-price"
-import { RegionInfo } from "types/global"
+import { HttpTypes } from "@medusajs/types"
 
 export default function ProductPrice({
   product,
   variant,
-  region,
 }: {
-  product: PricedProduct
-  variant?: PricedVariant
-  region: RegionInfo
+  product: HttpTypes.StoreProduct
+  variant?: HttpTypes.StoreProductVariant
 }) {
   const { cheapestPrice, variantPrice } = getProductPrice({
     product,
     variantId: variant?.id,
-    region,
   })
 
   const selectedPrice = variant ? variantPrice : cheapestPrice
@@ -29,13 +22,13 @@ export default function ProductPrice({
   }
 
   return (
-    <div className="flex flex-col items-end ml-8 text-ui-fg-base">
+    <div className="flex flex-col text-ui-fg-base">
       <span
         className={clx("text-xl-semi", {
           "text-ui-fg-interactive": selectedPrice.price_type === "sale",
         })}
       >
-        {!variant && "از "}
+        {!variant && "َشروع از "}
         <span
           data-testid="product-price"
           data-value={selectedPrice.calculated_price_number}
@@ -46,7 +39,7 @@ export default function ProductPrice({
       {selectedPrice.price_type === "sale" && (
         <>
           <p>
-            {/* <span className="text-ui-fg-subtle">Original: </span> */}
+            <span className="text-ui-fg-subtle">Original: </span>
             <span
               className="line-through"
               data-testid="original-product-price"

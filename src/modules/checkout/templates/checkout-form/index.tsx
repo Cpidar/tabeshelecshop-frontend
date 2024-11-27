@@ -1,75 +1,28 @@
+import { listCartShippingMethods } from "@lib/data/fulfillment"
+import { listCartPaymentMethods } from "@lib/data/payment"
+import { HttpTypes } from "@medusajs/types"
 import Addresses from "@modules/checkout/components/addresses"
-import Shipping from "@modules/checkout/components/shipping"
 import Payment from "@modules/checkout/components/payment"
 import Review from "@modules/checkout/components/review"
-import {
-  createPaymentSessions,
-  getCustomer,
-  listCartShippingMethods,
-  listShippingMethods,
-} from "@lib/data"
-import { cookies } from "next/headers"
-import { CartWithCheckoutStep } from "types/global"
-import { getCheckoutStep } from "@lib/util/get-checkout-step"
-import { cache } from "react"
+import Shipping from "@modules/checkout/components/shipping"
 
-// const paymentRequest = cache(async function (amount: string, payerId: string) {
-//   const res = await fetch(
-//     `${process.env.NEXT_PUBLIC_BASE_URL}/api/behpardakht/request`,
-//     {
-//       method: "POST",
-//       body: JSON.stringify({
-//         amount,
-//         payerId,
-//       }),
-//     }
-//   )
-//   return res.json()
-// })
-
-export default async function CheckoutForm() {
-  const cartId = cookies().get("_medusa_cart_id")?.value
-
-  if (!cartId) {
-    return null
-  }
-
-  // create payment sessions and get cart
-  const cart = (await createPaymentSessions(cartId).then(
-    (cart) => cart
-  )) as CartWithCheckoutStep
-
+export default async function CheckoutForm({
+  cart,
+  customer,
+}: {
+  cart: HttpTypes.StoreCart | null
+  customer: HttpTypes.StoreCustomer | null
+}) {
   if (!cart) {
     return null
   }
 
-  // const { resCode, refId } = await paymentRequest(
-  //   `${cart.total}`,
-  //   cart.customer.phone
-  // )
+  const shippingMethods = await listCartShippingMethods(cart.id)
+  const paymentMethods = await listCartPaymentMethods(cart.region?.id ?? "")
 
-  // cart.refId = refId
-  // cart.resCode = resCode
-
-  cart.checkout_step = cart && getCheckoutStep(cart)
-
-    // get available shipping methods
-    // const availableShippingMethods = await listCartShippingMethods(cart.id).then(
-    //   (methods) => methods?.filter((m) => !m.is_return)
-    // )
-
-  // get available shipping methods
-  const availableShippingMethods = await listShippingMethods(
-    cart.region_id
-  ).then((methods) => methods?.filter((m) => !m.is_return))
-
-
-  if (!availableShippingMethods) {
+  if (!shippingMethods || !paymentMethods) {
     return null
   }
-
-  // get customer if logged in
-  const customer = await getCustomer()
 
   return (
     <div>
@@ -79,14 +32,11 @@ export default async function CheckoutForm() {
         </div>
 
         <div>
-          <Shipping
-            cart={cart}
-            availableShippingMethods={availableShippingMethods}
-          />
+          <Shipping cart={cart} availableShippingMethods={shippingMethods} />
         </div>
 
         <div>
-          <Payment cart={cart} />
+          <Payment cart={cart} availablePaymentMethods={paymentMethods} />
         </div>
 
         <div>

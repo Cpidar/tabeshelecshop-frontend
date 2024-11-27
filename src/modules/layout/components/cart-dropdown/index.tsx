@@ -1,29 +1,28 @@
 "use client"
 
 import { Popover, Transition } from "@headlessui/react"
-import { Cart } from "@medusajs/medusa"
+import { convertToLocale } from "@lib/util/money"
+import { HttpTypes } from "@medusajs/types"
 import { Button } from "@medusajs/ui"
-import { useParams, usePathname } from "next/navigation"
+import { usePathname } from "next/navigation"
 import { Fragment, useEffect, useRef, useState } from "react"
 
-import { formatAmount } from "@lib/util/prices"
 import DeleteButton from "@modules/common/components/delete-button"
 import LineItemOptions from "@modules/common/components/line-item-options"
 import LineItemPrice from "@modules/common/components/line-item-price"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import Thumbnail from "@modules/products/components/thumbnail"
+import { deleteLineItem } from "@/lib/data/cart"
 
 const CartDropdown = ({
   cart: cartState,
 }: {
-  cart?: Omit<Cart, "beforeInsert" | "afterLoad"> | null
+  cart?: HttpTypes.StoreCart | null
 }) => {
   const [activeTimer, setActiveTimer] = useState<NodeJS.Timer | undefined>(
     undefined
   )
   const [cartDropdownOpen, setCartDropdownOpen] = useState(false)
-
-  const { countryCode } = useParams()
 
   const open = () => setCartDropdownOpen(true)
   const close = () => setCartDropdownOpen(false)
@@ -32,6 +31,8 @@ const CartDropdown = ({
     cartState?.items?.reduce((acc, item) => {
       return acc + item.quantity
     }, 0) || 0
+
+  const subtotal = cartState?.subtotal ?? 0
 
   const itemRef = useRef<number>(totalItems || 0)
 
@@ -64,7 +65,7 @@ const CartDropdown = ({
 
   // open cart dropdown when modifying the cart items, but only if we're not on the cart page
   useEffect(() => {
-    if (itemRef.current !== totalItems && !pathname.includes("/cart")) {
+    if (itemRef.current !== totalItems && !pathname?.includes("/cart")) {
       timedOpen()
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -107,7 +108,9 @@ const CartDropdown = ({
                 <div className="overflow-y-scroll max-h-[402px] px-4 grid grid-cols-1 gap-y-8 no-scrollbar p-px">
                   {cartState.items
                     .sort((a, b) => {
-                      return a.created_at > b.created_at ? -1 : 1
+                      return (a.created_at ?? "") > (b.created_at ?? "")
+                      ? -1
+                      : 1
                     })
                     .map((item) => (
                       <div
@@ -116,7 +119,7 @@ const CartDropdown = ({
                         data-testid="cart-item"
                       >
                         <LocalizedClientLink
-                          href={`/products/${item.variant.product.handle}`}
+                          href={`/products/${item.variant?.product?.handle}`}
                           className="w-24"
                         >
                           <Thumbnail thumbnail={item.thumbnail} size="square" />
@@ -127,7 +130,7 @@ const CartDropdown = ({
                               <div className="flex flex-col overflow-ellipsis whitespace-nowrap mr-4 w-[180px]">
                                 <h3 className="text-base-regular overflow-hidden text-ellipsis">
                                   <LocalizedClientLink
-                                    href={`/products/${item.variant.product.handle}`}
+                                    href={`/products/${item.variant?.product?.handle}`}
                                     data-testid="product-link"
                                   >
                                     {item.title}
@@ -146,11 +149,7 @@ const CartDropdown = ({
                                 </span>
                               </div>
                               <div className="flex justify-end">
-                                <LineItemPrice
-                                  region={cartState.region}
-                                  item={item}
-                                  style="tight"
-                                />
+                              <LineItemPrice item={item} style="tight" />
                               </div>
                             </div>
                           </div>
@@ -158,6 +157,7 @@ const CartDropdown = ({
                             id={item.id}
                             className="mt-1"
                             data-testid="cart-item-remove-button"
+                            onDelete={() => deleteLineItem(item.id)}
                           >
                             Remove
                           </DeleteButton>
@@ -174,12 +174,11 @@ const CartDropdown = ({
                     <span
                       className="text-large-semi"
                       data-testid="cart-subtotal"
-                      data-value={cartState.subtotal || 0}
+                      data-value={subtotal}
                     >
-                      {formatAmount({
-                        amount: cartState.subtotal || 0,
-                        region: cartState.region,
-                        includeTaxes: false,
+                      {convertToLocale({
+                        amount: subtotal,
+                        currency_code: cartState.currency_code,
                       })}
                     </span>
                   </div>

@@ -3,16 +3,18 @@ import NcImage from "@/shared/NcImage/NcImage"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
 import CardCategory3 from "@/components/CardCategories/CardCategory3"
 
+export interface SectionPromo1Data {
+  title: string
+  subtitle: string
+  buttonText: string
+  href: string
+  color: string
+  image: string
+}
+
 export interface SectionPromo1Props {
   className?: string
-  data: {
-    title: string
-    subtitle: string
-    buttonText: string
-    href: string
-    color: string
-    image: string
-  }[]
+  data: SectionPromo1Data[]
 }
 
 const SectionTripleBanners: FC<SectionPromo1Props> = ({

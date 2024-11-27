@@ -39,6 +39,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "tbsbucket.storage.c2.liara.space"
+      },
+      {
+        protocol: "https",
+        hostname: "medusa-public-images.s3.eu-west-1.amazonaws.com"
       }
     ],
   },

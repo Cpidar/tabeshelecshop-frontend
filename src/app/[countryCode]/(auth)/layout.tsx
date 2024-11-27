@@ -1,7 +1,6 @@
 import { Metadata } from "next"
 // import "@/fonts/line-awesome-1.3.0/css/line-awesome.css"
 import "@/styles/index.scss"
-import { getCustomer } from "@/lib/data"
 import { redirect } from "next/navigation"
 import { cookies } from "next/headers"
 // import "rc-slider/assets/index.css"

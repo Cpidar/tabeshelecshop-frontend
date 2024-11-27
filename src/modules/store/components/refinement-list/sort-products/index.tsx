@@ -1,7 +1,5 @@
 "use client"
 
-import { ChangeEvent } from "react"
-
 import FilterRadioGroup from "@modules/common/components/filter-radio-group"
 
 export type SortOptions = "price_asc" | "price_desc" | "created_at"
@@ -27,10 +25,13 @@ const sortOptions = [
   },
 ]
 
-const SortProducts = ({ 'data-testid': dataTestId, sortBy, setQueryParams }: SortProductsProps) => {
-  const handleChange = (e: ChangeEvent<HTMLButtonElement>) => {
-    const newSortBy = e.target.value as SortOptions
-    setQueryParams("sortBy", newSortBy)
+const SortProducts = ({
+  "data-testid": dataTestId,
+  sortBy,
+  setQueryParams,
+}: SortProductsProps) => {
+  const handleChange = (value: SortOptions) => {
+    setQueryParams("sortBy", value)
   }
 
   return (

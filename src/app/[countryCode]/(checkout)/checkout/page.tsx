@@ -1,14 +1,14 @@
 
 import { Metadata } from "next"
-import { cookies } from "next/headers"
 import { notFound } from "next/navigation"
-import { LineItem } from "@medusajs/medusa"
 
-import { enrichLineItems } from "@modules/cart/actions"
 import Wrapper from "@modules/checkout/components/payment-wrapper"
 import CheckoutForm from "@modules/checkout/templates/checkout-form"
 import CheckoutSummary from "@modules/checkout/templates/checkout-summary"
-import { getCart } from "@lib/data"
+import { enrichLineItems, retrieveCart } from "@lib/data/cart"
+import { HttpTypes } from "@medusajs/types"
+import { getCustomer } from "@lib/data/customer"
+
 import initTranslations from "@/app/i18n"
 import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
 
@@ -18,17 +18,15 @@ export const metadata: Metadata = {
 const i18nNamespaces = ["common"]
 
 const fetchCart = async () => {
-  const cartId = cookies().get("_medusa_cart_id")?.value
+  const cart = await retrieveCart()
 
-  if (!cartId) {
-    return notFound()
+  if (!cart) {
+        return notFound()
   }
 
-  const cart = await getCart(cartId).then((cart) => cart)
-
-  if (cart?.items.length) {
-    const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id)
-    cart.items = enrichedItems as LineItem[]
+  if (cart?.items?.length) {
+    const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id!)
+    cart.items = enrichedItems as HttpTypes.StoreCartLineItem[]
   }
 
   return cart
@@ -42,10 +40,8 @@ export default async function Checkout({
   const { t, resources } = await initTranslations(countryCode, i18nNamespaces)
 
   const cart = await fetchCart()
+  const customer = await getCustomer()
 
-  if (!cart) {
-    return notFound()
-  }
 
   return (
     <TranslationsProvider
@@ -55,9 +51,9 @@ export default async function Checkout({
     >
       <div className="grid grid-cols-1 small:grid-cols-[1fr_416px] content-container gap-x-40 py-12">
         <Wrapper cart={cart}>
-          <CheckoutForm />
+          <CheckoutForm cart={cart} customer={customer} />
         </Wrapper>
-        <CheckoutSummary />
+        <CheckoutSummary cart={cart} />
       </div>
     </TranslationsProvider>
   )
