@@ -3,7 +3,7 @@
 import logo from "@/images/logo.svg"
 import Image from "next/image"
 import { ArrowRightIcon } from "@heroicons/react/24/solid"
-import ButtonPrimary from "@/shared/Button/ButtonPrimary"
+import ButtonPrimary from "@/components/Button/ButtonPrimary"
 import { useEffect, useMemo, useState } from "react"
 import { error } from "console"
 import ErrorMessage from "../../components/error-message"

@@ -2,7 +2,7 @@ import LocalizedClientLink from "@modules/common/components/localized-client-lin
 import ChevronDown from "@modules/common/icons/chevron-down"
 import MedusaCTA from "@modules/layout/components/medusa-cta"
 import initTranslations from "@/app/i18n"
-import Logo from "@/shared/Logo/Logo"
+import Logo from "@/components/Logo/Logo"
 import { CartProvider } from "@/modules/cart/components/cart-context"
 import { retrieveCart } from "@/lib/data/cart"
 

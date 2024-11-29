@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
 import backgroundLineSvg from "@/images/Moon.svg";
 import imageRightPng2 from "@/images/hero-2-right-1.png";
 import Image from "next/image";

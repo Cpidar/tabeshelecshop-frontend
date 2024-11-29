@@ -1,7 +1,7 @@
 import React, { FC } from "react"
-import NcImage from "@/shared/NcImage/NcImage"
+import NcImage from "@/components/NcImage/NcImage"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
-import CardCategory3 from "@/components/CardCategories/CardCategory3"
+import CardCategory3 from "@/modules/categories/components/categories-card/CardCategory3"
 
 export interface SectionPromo1Data {
   title: string

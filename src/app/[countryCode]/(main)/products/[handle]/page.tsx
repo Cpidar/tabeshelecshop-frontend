@@ -6,7 +6,7 @@ import { getProductByHandle } from "@lib/data/products"
 import { sdk } from "@lib/config"
 
 import ProductTemplate from "@modules/products/templates"
-import ScrollToTop from "@/shared/utils/scrollToTop"
+import ScrollToTop from "@/components/utils/scrollToTop"
 import { getProductPrice } from "@/lib/util/get-product-price"
 
 type Props = {

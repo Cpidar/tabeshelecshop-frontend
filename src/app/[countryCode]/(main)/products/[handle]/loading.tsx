@@ -1,5 +1,5 @@
 import ProductDetailLoader from "@/components/loaders/product-details-loader"
-import ScrollToTop from "@/shared/utils/scrollToTop"
+import ScrollToTop from "@/components/utils/scrollToTop"
 
 export default function Loading() {
   return (

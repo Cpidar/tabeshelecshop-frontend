@@ -20,8 +20,7 @@ export const FilteredItems: React.FC<{items: any[]}> = ({items}) => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const query = searchParams.getAll("category_id")
-  const params = new URLSearchParams(Array.from(searchParams.entries())); // -> has to use this form
+  const query = searchParams?.getAll("category_id")
 
   const flattenItems = walkBFS(items)
   return (
@@ -36,14 +35,14 @@ export const FilteredItems: React.FC<{items: any[]}> = ({items}) => {
               className="flex-shrink transition duration-150 ease-in text-13px focus:outline-none hover:text-brand-dark"
               aria-label="Clear All"
               onClick={() => {
-                router.push(pathname)
+                router.push(pathname || "")
               }}
             >
               Clear All
             </button>
           </div>
           <div className="flex flex-wrap -m-1">
-            {Array.from(searchParams.entries())
+            {Array.from(searchParams?.entries() || [])
               .map(
                 ([k, v]) =>
                   !isEmpty(v) && (

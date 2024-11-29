@@ -3,7 +3,7 @@
 import { Button } from "@medusajs/ui"
 import { useEffect, useRef, useState } from "react"
 import { useTranslation } from "react-i18next"
-import BehpardakhtIcon from "@/shared/Icons/BehpardakhtIcon"
+import BehpardakhtIcon from "@/components/Icons/BehpardakhtIcon"
 import ErrorMessage from "../error-message"
 import { HttpTypes } from "@medusajs/types"
 import { initiatePaymentSession } from "@/lib/data/cart"

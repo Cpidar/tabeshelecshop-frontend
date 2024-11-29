@@ -4,7 +4,6 @@ import React from "react"
 import Prices from "../product-price/Prices"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
-import { Product } from "@/data/data"
 import PlaceholderImage from "@/images/placeholders/product-placeholder.png"
 
 export const RenderProductCartOnNotify = ({
@@ -15,7 +14,7 @@ export const RenderProductCartOnNotify = ({
 }: {
   size?: string
   quantity: number
-  data: Product
+  data: any
   variantActive?: number 
 }) => {
   const {

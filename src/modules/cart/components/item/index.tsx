@@ -15,7 +15,7 @@ import { useState } from "react"
 import ErrorMessage from "@modules/checkout/components/error-message"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 import { deleteLineItem } from "@lib/data/cart"
-import Counter from "@/shared/Counter/Counter"
+import Counter from "@/components/Counter/Counter"
 import { useCart } from "../cart-context"
 
 type ItemProps = {

@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { ProductVariant } from "@/data/data";
 
 
 const getBorderClass = (Bgclass = "") => {
@@ -32,7 +31,7 @@ const getBorderClass = (Bgclass = "") => {
   export const RenderVariants = ({
     variants, variantType
   }: {
-    variants: ProductVariant[];
+    variants: any;
     variantType: "color" | "image"
   }) => {
 

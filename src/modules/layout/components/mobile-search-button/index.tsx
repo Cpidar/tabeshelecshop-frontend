@@ -1,6 +1,6 @@
 "use client"
 
-import SearchIcon from "@/shared/Icons/SearchIcon"
+import SearchIcon from "@/components/Icons/SearchIcon"
 import logoImg from "@/images/logo.svg"
 import Image from "next/image"
 import React, { FC, useState, Fragment } from "react"

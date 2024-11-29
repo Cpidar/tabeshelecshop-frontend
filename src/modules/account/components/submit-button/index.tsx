@@ -1,6 +1,6 @@
 "use client"
 
-import ButtonPrimary from "@/shared/Button/ButtonPrimary"
+import ButtonPrimary from "@/components/Button/ButtonPrimary"
 import Spinner from "@modules/common/icons/spinner"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"

@@ -3,9 +3,9 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import cn from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
-import Image from '@/shared/Image/Image';
-import { ProductCategoryWithChildren } from '@/types/global';
+import Image from '@/components/Image/Image';
 import placeholder from '@/images/placeholders/category.png'
+import { HttpTypes } from '@medusajs/types';
 function checkIsActive(arr: any, item: string) {
   if (arr.includes(item)) {
     return true;
@@ -18,13 +18,13 @@ function CategoryFilterMenuItem({
   depth = 0,
 }: {
   className?: string
-  item: ProductCategoryWithChildren
+  item: HttpTypes.StoreProductCategory & { icon: string }
   depth?: number
 }) {
   const { replace } = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()
-  const selectedCategories = searchParams.getAll("category_id")
+  const selectedCategories = searchParams?.getAll("category_id")
   
   const isActive =
     checkIsActive(selectedCategories, item.handle) ||
@@ -49,8 +49,8 @@ function CategoryFilterMenuItem({
     if (Array.isArray(items) && !!items.length) {
       toggleCollapse();
     } else {
-      const params = new URLSearchParams(searchParams);
-      selectedCategories.includes(id)
+      const params = new URLSearchParams(searchParams!);
+      selectedCategories?.includes(id)
         ? params.delete("category_id", id)
         : params.append("category_id", id);
         replace(`${pathname}?${params.toString()}`);
@@ -100,11 +100,11 @@ function CategoryFilterMenuItem({
           {depth > 0 && (
             <span
               className={`w-[22px] h-[22px] text-13px flex items-center justify-center border-2 border-border-four rounded-full ltr:ml-auto rtl:mr-auto transition duration-500 ease-in-out group-hover:border-yellow-100 text-brand-light ${
-                selectedCategories.includes(id) &&
+                selectedCategories?.includes(id) &&
                 'border-yellow-100 bg-yellow-100'
               }`}
             >
-              {selectedCategories.includes(id) && (<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>)}
+              {selectedCategories?.includes(id) && (<svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg"><path d="M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"></path></svg>)}
             </span>
           )}
           {expandIcon && (

@@ -1,6 +1,6 @@
 import React, { FormEvent } from "react"
-import Input from "@/shared/Input/Input"
-import ButtonPrimary from "@/shared/Button/ButtonPrimary"
+import Input from "@/components/Input/Input"
+import ButtonPrimary from "@/components/Button/ButtonPrimary"
 import { LOGIN_VIEW, Step } from "@/modules/account/templates/login-template"
 import { useTranslation } from "react-i18next"
 import { SubmitHandler, useForm } from "react-hook-form"

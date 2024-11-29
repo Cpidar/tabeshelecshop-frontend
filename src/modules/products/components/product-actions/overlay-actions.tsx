@@ -1,10 +1,10 @@
 "use client"
 
 import React, { useState } from "react"
-import BagIcon from "@/shared/Icons/BagIcon"
+import BagIcon from "@/components/Icons/BagIcon"
 import { useParams } from "next/navigation"
 import NcInputNumber from "./NcInputNumber"
-import ButtonCircle from "@/shared/Button/ButtonCircle"
+import ButtonCircle from "@/components/Button/ButtonCircle"
 import { HttpTypes } from "@medusajs/types"
 import { addToCart } from "@/lib/data/cart"
 import { addToCartEventBus } from "@/modules/cart/components/cart-context/event-bus"

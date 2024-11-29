@@ -1,5 +1,5 @@
 import { Button } from "@medusajs/ui"
-import BehpardakhtIcon from "@/shared/Icons/BehpardakhtIcon"
+import BehpardakhtIcon from "@/components/Icons/BehpardakhtIcon"
 export default function Test () {
 
   return (

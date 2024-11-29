@@ -12,7 +12,7 @@ import OptionSelect from "@modules/products/components/product-actions/option-se
 import MobileActions from "./mobile-actions"
 import ProductPrice from "../product-price"
 import NcInputNumber from "./NcInputNumber"
-import BagIcon from "@/shared/Icons/BagIcon"
+import BagIcon from "@/components/Icons/BagIcon"
 import { HttpTypes } from "@medusajs/types"
 import { addToCartEventBus } from "@/modules/cart/components/cart-context/event-bus"
 

@@ -1,10 +1,9 @@
-import { ProductCategoryWithChildren } from "@/types/global"
+import { getCategoryByHandle, listCategories } from "@/lib/data/categories"
 import { CategoryFilter } from "./category-filter"
 import { FilteredItems } from "./filtered-items"
-import { listMainCategories } from "@lib/data"
 
 export const ShopFilters: React.FC = async () => {
-  const product_categories = await listMainCategories('main')
+  const product_categories = await getCategoryByHandle(['main'])
   return (
     <div className="space-y-10">
         <FilteredItems items={product_categories} />

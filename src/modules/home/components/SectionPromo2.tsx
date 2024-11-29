@@ -1,8 +1,8 @@
 import React, { FC } from "react";
-import NcImage from "@/shared/NcImage/NcImage";
+import NcImage from "@/components/NcImage/NcImage";
 import rightImgDemo from "@/images/hero-right.png";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import Logo from "@/shared/Logo/Logo";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import Logo from "@/components/Logo/Logo";
 import backgroundLineSvg from "@/images/Moon.svg";
 import Image from "next/image";
 

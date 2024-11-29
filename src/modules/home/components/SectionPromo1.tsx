@@ -1,11 +1,11 @@
 import React, { FC } from "react";
-import NcImage from "@/shared/NcImage/NcImage";
+import NcImage from "@/components/NcImage/NcImage";
 import rightImgDemo from "@/images/rightLargeImg.png";
 import rightLargeImgDark from "@/images/rightLargeImgDark.png";
 import ToolsImage from "@/images/tools-img-construction.webp";
-import ButtonPrimary from "@/shared/Button/ButtonPrimary";
-import Logo from "@/shared/Logo/Logo";
-import ButtonSecondary from "@/shared/Button/ButtonSecondary";
+import ButtonPrimary from "@/components/Button/ButtonPrimary";
+import Logo from "@/components/Logo/Logo";
+import ButtonSecondary from "@/components/Button/ButtonSecondary";
 
 export interface SectionPromo1Props {
   className?: string;

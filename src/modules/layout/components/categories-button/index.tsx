@@ -1,4 +1,4 @@
-import DropdownCategories from "@/components/Header/DropdownCategories"
+import DropdownCategories from "@/modules/categories/components/category-dropdown"
 import { getCategoryByHandle } from "@/lib/data/categories"
 
 

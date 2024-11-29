@@ -1,4 +1,3 @@
-import CartDropdown from "@/components/Header/CartDropdown"
 import CartDrawer from "@/modules/cart/components/cart-drawer"
 import { enrichLineItems, retrieveCart } from "@lib/data/cart"
 import { notFound } from "next/navigation"

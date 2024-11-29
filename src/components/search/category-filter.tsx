@@ -1,13 +1,12 @@
-import Heading from '@/shared/Heading/Heading2';
+import Heading from '@/components/Heading/Heading4';
 import CategoryFilterMenu from '@/components/search/category-filter-menu';
 // import Scrollbar from '@components/ui/scrollbar';
-import { ProductCategoryWithChildren } from '@/types/global';
-import { ProductCategory } from '@medusajs/product';
+import { HttpTypes } from '@medusajs/types';
 
 export const CategoryFilter = ({
   product_categories
 }: {
-  product_categories: ProductCategoryWithChildren[]
+  product_categories: HttpTypes.StoreProductCategory[]
 }) => {
 
   // if (product_categories?.length) {

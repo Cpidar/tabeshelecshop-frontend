@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import ButtonClose from "@/shared/ButtonClose/ButtonClose";
+import ButtonClose from "@/components/ButtonClose/ButtonClose";
 import SearchModal from "@/modules/search/templates/search-modal";
 
 export interface MobileSearchPanelProps {

@@ -1,5 +1,5 @@
 import ProductStatus from "../product-status"
-import NcImage from "@/shared/NcImage/NcImage"
+import NcImage from "@/components/NcImage/NcImage"
 
 import PlaceholderImage from "@/images/placeholders/product-placeholder.png"
 import { stripHtmlTag } from "@/utils/StripHtmlTag"

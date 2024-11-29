@@ -3,14 +3,7 @@
 import React, { FC, ReactNode, useState } from "react"
 import useInterval from "react-use/lib/useInterval"
 import useBoolean from "react-use/lib/useBoolean"
-import ButtonPrimary from "@/shared/Button/ButtonPrimary"
-import ButtonSecondary from "@/shared/Button/ButtonSecondary"
-import rightImg from "@/images/about-hero-right.png"
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline"
-import Image, { StaticImageData } from "next/image"
-import imageRightPng from "@/images/hero-right.png"
-import { HERO2_DEMO_DATA as DATA } from "@/data/data"
-import { HERO1_DEMO_DATA } from "@/data/data"
+import { StaticImageData } from "next/image"
 import Link from "next/link"
 
 export interface SectionHeroProps {

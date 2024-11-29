@@ -1,10 +1,10 @@
 import React, { FC } from "react";
-import NcImage from "@/shared/NcImage/NcImage";
+import NcImage from "@/components/NcImage/NcImage";
 import rightImgDemo from "@/images/promo3.png";
 import backgroundLineSvg from "@/images/BackgroundLine.svg";
-import Badge from "@/shared/Badge/Badge";
-import Input from "@/shared/Input/Input";
-import ButtonCircle from "@/shared/Button/ButtonCircle";
+import Badge from "@/components/Badge/Badge";
+import Input from "@/components/Input/Input";
+import ButtonCircle from "@/components/Button/ButtonCircle";
 import { PhoneArrowUpRightIcon } from "@heroicons/react/24/solid";
 import Image from "next/image";
 

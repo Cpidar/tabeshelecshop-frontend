@@ -1,6 +1,5 @@
 "use client"
 
-import { Product } from "@/data/data";
 import NotifyAddTocart from "../add-to-card-notification/NotifyAddToCart";
 
 export const RenderSizeList = ({
@@ -8,7 +7,7 @@ export const RenderSizeList = ({
     data
 }: {
     sizes: string[];
-    data: Product
+    data: any
 }) => {
     if (!sizes || !sizes.length) {
       return null;

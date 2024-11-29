@@ -4,14 +4,13 @@ import React from "react"
 import toast from "react-hot-toast"
 import { Transition } from "@/app/headlessui"
 import { RenderProductCartOnNotify } from "../product-preview/RenderProductCartOnNotify"
-import { Product } from "@/data/data"
 
 const NotifyAddTocart = ({
   data,
   size,
   quantity,
 }: {
-  data: Product
+  data: any
   quantity: number
   size?: string
 }) => {

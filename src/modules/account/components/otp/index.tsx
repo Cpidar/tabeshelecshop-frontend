@@ -1,15 +1,15 @@
 "use client"
 
 import React, { FormEvent, useEffect, useState } from "react"
-import Input from "@/shared/Input/Input"
-import ButtonPrimary from "@/shared/Button/ButtonPrimary"
+import Input from "@/components/Input/Input"
+import ButtonPrimary from "@/components/Button/ButtonPrimary"
 import { LOGIN_VIEW, Step } from "@/modules/account/templates/login-template"
 import { useTranslation } from "react-i18next"
 import { SubmitHandler, useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "@/images/logo.svg"
 import { ArrowRightIcon } from "@heroicons/react/24/solid"
-import ButtonSecondary from "@/shared/Button/ButtonSecondary"
+import ButtonSecondary from "@/components/Button/ButtonSecondary"
 import SubmitButton from "../submit-button"
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void

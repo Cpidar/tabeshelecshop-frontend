@@ -3,7 +3,7 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import cn from 'classnames';
 import { useEffect, useMemo, useState } from 'react';
-import Image from '@/shared/Image/Image';
+import Image from '@/components/Image/Image';
 import placeholder from '@/images/placeholders/category.png'
 import { useModal } from '../modal-context';
 import { HttpTypes } from '@medusajs/types';

@@ -87,7 +87,7 @@ const CartDrawer = ({ customer, ...props }: CartDrawerProps) => {
   return (
     <>
       {isOpen && (
-        <div className="fixed inset-[-2rem] z-10 backdrop-blur-sm p-0" />
+        <div className="fixed inset-[-2rem] z-20 backdrop-blur-sm p-0" />
       )}
       <Drawer
         onMouseEnter={cancelTimer}

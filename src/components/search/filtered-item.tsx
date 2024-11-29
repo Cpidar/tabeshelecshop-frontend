@@ -14,7 +14,7 @@ export const FilteredItem = ({ itemKey, itemValue, itemName }: Props) => {
   const searchParams = useSearchParams()
 
   function handleClose() {
-    const params = new URLSearchParams(Array.from(searchParams.entries())); // -> has to use this form
+    const params = new URLSearchParams(Array.from(searchParams?.entries()!)); // -> has to use this form
     params.delete(itemKey, itemValue)
 
     const query = params.toString() ? `?${params.toString()}` : "";

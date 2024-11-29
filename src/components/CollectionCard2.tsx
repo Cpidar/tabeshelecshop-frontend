@@ -1,7 +1,7 @@
 import { StarIcon } from "@heroicons/react/24/solid";
 import { productImgs } from "@/data/fakeData";
 import React, { FC } from "react";
-import NcImage from "@/shared/NcImage/NcImage";
+import NcImage from "@/components/NcImage/NcImage";
 import Prices from "@/modules/products/components/product-price/Prices";
 import Link from "next/link";
 import { StaticImageData } from "next/image";

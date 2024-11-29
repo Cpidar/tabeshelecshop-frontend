@@ -1,8 +1,8 @@
 "use client"
 
 import Spinner from "@/components/loaders/spinner/spinner"
-import ButtonPrimary from "@/shared/Button/ButtonPrimary"
-import ButtonSecondary from "@/shared/Button/ButtonSecondary"
+import ButtonPrimary from "@/components/Button/ButtonPrimary"
+import ButtonSecondary from "@/components/Button/ButtonSecondary"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import useInfiniteScroll from "react-infinite-scroll-hook"
 
