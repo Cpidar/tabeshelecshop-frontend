@@ -38,6 +38,43 @@ const PaymentConfirmation = ({
     return cartId
   }, [cartId])
 
+  const reversalRequest = async () => {
+    try {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
+
+      const res = await fetch(`${baseUrl}/api/behpardakht/reversalRequest`, {
+        method: "POST",
+        body: JSON.stringify({
+          RefId,
+          SaleOrderId,
+          SaleReferenceId,
+        }),
+      })
+
+      // const res = (await PromiseWithTimeout(
+      //   10000,
+      //   new Promise<any>((res) =>
+      //     setTimeout(
+      //       () => res({ status: 200, resCode: 0, errorMessage: "" }),
+      //       1000
+      //     )
+      //   )
+      // )) as Response
+
+      const { errorMessage } = await res.json()
+
+      if (res.status === 400) {
+        setErrorMessage(errorMessage)
+        throw new Error(errorMessage)
+      }
+      await handleOrder()
+    } catch (e) {
+      console.error(e)
+      setErrorMessage("مشکلی در پرداخت شما بوجود آمده است")
+    }
+  }
+
   const handleOrder = async () => {
     console.log("plcing order ...")
     await updatePaymentSessionStatus(localOrCookieCartId, providerId, {
@@ -45,13 +82,17 @@ const PaymentConfirmation = ({
       RefId,
     }).catch((e) => {
       console.error(e)
+      reversalRequest()
       setErrorMessage("Payment Session not Updated")
       throw new Error("Payment Session not Updated")
     })
 
     await placeOrder(localOrCookieCartId).catch((e) => {
+      reversalRequest()
       console.error(e)
-      setErrorMessage("متاسفانه مشکلی در ثبت سفارش شما پدید آمده است")
+      setErrorMessage(
+        "متاسفانه مشکلی در ثبت سفارش شما پدید آمده است حداکثر تا 72 ساعت مبلغ پرداختی به حساب شما بازگردانده خواهد شد. در غیر اینصورت با پشتیبانی فروشگاه تماس حاصل فرمایید."
+      )
       throw new Error("Place Order Error")
     })
   }
@@ -69,7 +110,7 @@ const PaymentConfirmation = ({
         const baseUrl =
           process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
 
-        const res = await PromiseWithTimeout<Response>(
+        const res = (await PromiseWithTimeout<Response>(
           10000,
           fetch(`${baseUrl}/api/behpardakht/verify`, {
             method: "POST",
@@ -79,7 +120,7 @@ const PaymentConfirmation = ({
               SaleReferenceId,
             }),
           })
-        ) as Response
+        )) as Response
 
         // const res = (await PromiseWithTimeout(
         //   10000,
@@ -102,7 +143,6 @@ const PaymentConfirmation = ({
         console.error(e)
         setErrorMessage("مشکلی در پرداخت شما بوجود آمده است")
       }
-
     }
 
     verifyOrder()

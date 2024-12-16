@@ -9,13 +9,17 @@ type ShippingDetailsProps = {
 }
 
 const ShippingDetails = ({ order }: ShippingDetailsProps) => {
+  console.log(order.fulfillments[0].tracking_links[0])
   return (
     <div>
       <Heading level="h2" className="flex flex-row text-3xl-regular my-6">
         تحویل
       </Heading>
       <div className="flex items-start gap-x-8">
-        <div className="flex flex-col w-1/3" data-testid="shipping-address-summary">
+        <div
+          className="flex flex-col w-1/3"
+          data-testid="shipping-address-summary"
+        >
           <Text className="txt-medium-plus text-ui-fg-base mb-1">
             ارسال به آدرس
           </Text>
@@ -35,16 +39,26 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
           </Text>
         </div>
 
-        <div className="flex flex-col w-1/3 " data-testid="shipping-contact-summary">
-          <Text className="txt-medium-plus text-ui-fg-base mb-1">اطلاعات تماس</Text>
+        <div
+          className="flex flex-col w-1/3 "
+          data-testid="shipping-contact-summary"
+        >
+          <Text className="txt-medium-plus text-ui-fg-base mb-1">
+            اطلاعات تماس
+          </Text>
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_address.phone}
           </Text>
           <Text className="txt-medium text-ui-fg-subtle">{order.email}</Text>
         </div>
 
-        <div className="flex flex-col w-1/3" data-testid="shipping-method-summary">
-          <Text className="txt-medium-plus text-ui-fg-base mb-1">روش ارسال</Text>
+        <div
+          className="flex flex-col w-1/3"
+          data-testid="shipping-method-summary"
+        >
+          <Text className="txt-medium-plus text-ui-fg-base mb-1">
+            روش ارسال
+          </Text>
           <Text className="txt-medium text-ui-fg-subtle">
             {order.shipping_methods[0].shipping_option?.name} (
             {formatAmount({
@@ -56,6 +70,13 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
               .replace(/\./g, ",")}
             )
           </Text>
+          {order.fulfillments.map((fulfillment) =>
+            fulfillment.tracking_links.map((tl) => (
+              <Text key={tl.id} className="txt-medium text-ui-fg-subtle">
+                {`کد رهگیری: ${tl.tracking_number}`}
+              </Text>
+            ))
+          )}
         </div>
       </div>
       <Divider className="mt-8" />

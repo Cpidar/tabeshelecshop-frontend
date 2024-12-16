@@ -1,4 +1,4 @@
-import { Order } from "@medusajs/medusa"
+import { Order, OrderStatus } from "@medusajs/medusa"
 import { Text } from "@medusajs/ui"
 
 type OrderDetailsProps = {
@@ -8,6 +8,7 @@ type OrderDetailsProps = {
 
 const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
   const formatStatus = (str: string) => {
+
     const formatted = str.split("_").join(" ")
 
     return formatted.slice(0, 1).toUpperCase() + formatted.slice(1)
@@ -40,13 +41,13 @@ const OrderDetails = ({ order, showStatus }: OrderDetailsProps) => {
         {showStatus && (
           <>
             <Text>
-              Order status:{" "}
+              وضعیت سفارش:{" "}
               <span className="text-ui-fg-subtle " data-testid="order-status">
                 {formatStatus(order.fulfillment_status)}
               </span>
             </Text>
             <Text>
-              Payment status:{" "}
+              وضعیت پرداخت:{" "}
               <span
                 className="text-ui-fg-subtle "
                 sata-testid="order-payment-status"
