@@ -16,6 +16,8 @@ import PaymentContainer from "@modules/checkout/components/payment-container"
 import { setPaymentMethod } from "@modules/checkout/actions"
 import { paymentInfoMap } from "@lib/constants"
 import { StripeContext } from "@modules/checkout/components/payment-wrapper"
+import PaymentButton from "../payment-button"
+import Review from "@modules/checkout/components/review"
 
 const Payment = ({
   cart,
@@ -199,7 +201,7 @@ const Payment = ({
             data-testid="payment-method-error-message"
           />
 
-          <Button
+          {/* <Button
             size="large"
             className="mt-6"
             onClick={handleSubmit}
@@ -211,7 +213,8 @@ const Payment = ({
             data-testid="submit-payment-button"
           >
             انتقال به مرحله بعد
-          </Button>
+          </Button> */}
+          {cart && <Review cart={cart} />}
         </div>
 
         <div className={isOpen ? "hidden" : "block"}>

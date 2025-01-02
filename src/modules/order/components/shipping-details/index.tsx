@@ -70,13 +70,14 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
               .replace(/\./g, ",")}
             )
           </Text>
-          {order.fulfillments.map((fulfillment) =>
-            fulfillment.tracking_links.map((tl) => (
-              <Text key={tl.id} className="txt-medium text-ui-fg-subtle">
-                {`کد رهگیری: ${tl.tracking_number}`}
-              </Text>
-            ))
-          )}
+          {order.fulfillments &&
+            order.fulfillments.map((fulfillment) =>
+              fulfillment.tracking_links?.map((tl) => (
+                <Text key={tl.id} className="txt-medium text-ui-fg-subtle">
+                  {`کد رهگیری: ${tl.tracking_number}`}
+                </Text>
+              ))
+            )}
         </div>
       </div>
       <Divider className="mt-8" />

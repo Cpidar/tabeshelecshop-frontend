@@ -100,7 +100,7 @@ export default function ProductActions({
   )
 
   const inCartQuantity = optimisticItem?.quantity || 0
-  const inStockQty = variant?.inventory_quantity || Infinity
+  const inStockQty = variant?.inventory_quantity || 0
 
   // if product only has one variant, then select it
   useEffect(() => {

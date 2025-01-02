@@ -46,21 +46,23 @@ const bpRequest = async (req: NextApiRequest, res: NextApiResponse) => {
     console.log(JSON.parse(req.body))
     const { amount, payerId, orderId } = JSON.parse(req.body)
     try {
+        const cartId = req.cookies["_medusa_cart_id"]
+        console.log(cartId)
+
+        if (!cartId) {
+            console.error('cart id was not found')
+            return null
+        }
+
         const response = await behpardakht.paymentRequest({
             amount,
             orderId,
             callbackUrl: `${process.env.NEXT_PUBLIC_BASE_URL}/behpardakht/callback`,
             payerId: payerId || "0", // Optional
+            additionalData: cartId
         })
         console.log(response)
-        if (response.resCode === 0) {
-
-            const cartId = req.cookies["_medusa_cart_id"]
-            console.log(cartId)
-
-            if (!cartId) {
-                return null
-            }
+        if (response.resCode === 0 || response.resCode === 43) {
 
             // save saleReferenceId into payment session
             await medusaClient.carts

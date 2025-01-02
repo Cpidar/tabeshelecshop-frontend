@@ -25,6 +25,7 @@ const Review = ({
 
   return (
     <div className="bg-white">
+      { isOpen &&
       <div className="flex flex-row items-center justify-between mb-6">
         <Heading
           level="h2"
@@ -38,7 +39,8 @@ const Review = ({
           ثبت سفارش
         </Heading>
       </div>
-      {isOpen && previousStepsCompleted && (
+}
+      {previousStepsCompleted && (
         <>
           <div className="flex items-start gap-x-1 w-full mb-6">
             <div className="w-full">

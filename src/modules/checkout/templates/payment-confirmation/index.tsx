@@ -75,26 +75,61 @@ const PaymentConfirmation = ({
     }
   }
 
-  const handleOrder = async () => {
-    console.log("plcing order ...")
-    await updatePaymentSessionStatus(localOrCookieCartId, providerId, {
-      SaleReferenceId,
-      RefId,
-    }).catch((e) => {
-      console.error(e)
-      reversalRequest()
-      setErrorMessage("Payment Session not Updated")
-      throw new Error("Payment Session not Updated")
-    })
+  const settlePayment = async () => {
+    try {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:8000"
 
-    await placeOrder(localOrCookieCartId).catch((e) => {
+      const res = await fetch(`${baseUrl}/api/behpardakht/settle`, {
+        method: "POST",
+        body: JSON.stringify({
+          RefId,
+          SaleOrderId,
+          SaleReferenceId,
+        }),
+      })
+
+      // const res = (await PromiseWithTimeout(
+      //   10000,
+      //   new Promise<any>((res) =>
+      //     setTimeout(
+      //       () => res({ status: 200, resCode: 0, errorMessage: "" }),
+      //       1000
+      //     )
+      //   )
+      // )) as Response
+
+      const { errorMessage } = await res.json()
+
+      if (res.status === 400) {
+        setErrorMessage(errorMessage)
+        throw new Error(errorMessage)
+      }
+      await handleOrder()
+    } catch (e) {
+      console.error(e)
+      setErrorMessage("مشکلی در پرداخت شما بوجود آمده است")
+    }
+  }
+
+  const handleOrder = async () => {
+    try {
+      console.log("placing order ...")
+      await updatePaymentSessionStatus(localOrCookieCartId, providerId, {
+        SaleReferenceId,
+        RefId,
+      })
+
+      await placeOrder(localOrCookieCartId)
+      await settlePayment()
+    } catch (e) {
       reversalRequest()
       console.error(e)
       setErrorMessage(
         "متاسفانه مشکلی در ثبت سفارش شما پدید آمده است حداکثر تا 72 ساعت مبلغ پرداختی به حساب شما بازگردانده خواهد شد. در غیر اینصورت با پشتیبانی فروشگاه تماس حاصل فرمایید."
       )
       throw new Error("Place Order Error")
-    })
+    }
   }
 
   useEffect(() => {
@@ -122,25 +157,15 @@ const PaymentConfirmation = ({
           })
         )) as Response
 
-        // const res = (await PromiseWithTimeout(
-        //   10000,
-        //   new Promise<any>((res) =>
-        //     setTimeout(
-        //       () => res({ status: 200, resCode: 0, errorMessage: "" }),
-        //       1000
-        //     )
-        //   )
-        // )) as Response
-
-        const { errorMessage } = await res.json()
+        const errorMessage = await res.json()
 
         if (res.status === 400) {
           setErrorMessage(errorMessage)
-          throw new Error(errorMessage)
+          throw errorMessage
         }
         await handleOrder()
       } catch (e) {
-        console.error(e)
+        // console.error(e)
         setErrorMessage("مشکلی در پرداخت شما بوجود آمده است")
       }
     }
