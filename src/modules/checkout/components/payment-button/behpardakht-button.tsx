@@ -25,36 +25,41 @@ export const BehpardakhtPaymentButton = ({
   const formEl = useRef<HTMLFormElement>(null)
   const orderId = Date.now()
 
-  const getRefId = () => {
+  const getRefId = async () => {
     setLoading(true)
     if (typeof window !== "undefined") {
       localStorage.setItem("_medusa_cart_id", cart.id)
     }
     // if (!initialized.current) {
     // initialized.current = true
-    setLoading(true)
-    fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/api/behpardakht/request`, {
-      method: "POST",
-      body: JSON.stringify({
-        orderId,
-        amount: cart.total! * 10,
-        payerId: cart.shipping_address?.phone || cart.email,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        if (res.resCode && [0, 43].indexOf(res.resCode) === -1) {
-          console.log(res)
-          formEl.current?.submit()
-          setData(res)
-          setLoading(false)
-        } else {
-          setData({
-            errorMessage:
-              "مشکلی در اتصال به درگاه پرداخت بوجود آمده است لطفا مجددا تلاش نمایید",
-          })
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_BASE_URL}/api/behpardakht/request`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            orderId,
+            amount: cart.total! * 10,
+            payerId: cart.shipping_address?.phone || cart.email,
+          }),
         }
+      )
+
+      if (res.status > 399) {
+        throw ("مشکلی در اتصال به درگاه پرداخت بوجود آمده است لطفا مجددا تلاش نمایید")
+      }
+
+      const data = await res.json()
+      formEl.current?.submit()
+
+      setData(data)
+      setLoading(false)
+    } catch (errorMessage) {
+      setLoading(false)
+      setData({
+        errorMessage,
       })
+    }
     // }
   }
 
@@ -81,7 +86,7 @@ export const BehpardakhtPaymentButton = ({
           data-testid="submit-order-button"
         >
           <BehpardakhtIcon />
-          ثبت سفارش
+          پرداخت
         </Button>
       ) : (
         <ErrorMessage
