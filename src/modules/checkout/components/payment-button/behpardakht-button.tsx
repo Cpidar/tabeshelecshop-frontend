@@ -19,7 +19,8 @@ export const BehpardakhtPaymentButton = ({
   "data-testid"?: string
 }) => {
   const { t } = useTranslation("common")
-  const [data, setData] = useState({} as any)
+  const [refId, setRefId] = useState<string | null>(null)
+  const [errorMessage, setErrorMessage] = useState<string | undefined>()
   const [isLoading, setLoading] = useState(false)
   // const initialized = useRef(false)
   const formEl = useRef<HTMLFormElement>(null)
@@ -46,66 +47,63 @@ export const BehpardakhtPaymentButton = ({
       )
 
       if (res.status > 399) {
-        throw ("مشکلی در اتصال به درگاه پرداخت بوجود آمده است لطفا مجددا تلاش نمایید")
+        throw "مشکلی در اتصال به درگاه پرداخت بوجود آمده است لطفا مجددا تلاش نمایید"
       }
 
-      const data = await res.json()
-      setData(data)
-      formEl.current?.submit()
+      const { refId } = await res.json()
+      // await new Promise((resolve, reject) => setTimeout(resolve, 500))
+      setRefId(refId)
+
       setLoading(false)
-    } catch (errorMessage) {
+    } catch (errorMessage: any) {
       setLoading(false)
-      setData({
-        errorMessage,
-      })
+      setErrorMessage(errorMessage)
     }
     // }
   }
+
+  useEffect(() => {
+    if (refId) formEl.current?.submit()
+  }, [refId])
 
   const close = () => {
     setLoading(false)
   }
 
-  const { refId, resCode, errorMessage } = data
-  let submitting = false
-
-  const handlePayment = () => {
-    submitting = true
-  }
-
   return (
     <>
-      {!errorMessage ? (
-        <Button
-          variant="danger"
-          onClick={getRefId}
-          disabled={notReady}
-          isLoading={isLoading}
-          size="xlarge"
-          data-testid="submit-order-button"
-        >
-          <BehpardakhtIcon />
-          پرداخت
-        </Button>
-      ) : (
-        <ErrorMessage
-          error={errorMessage}
-          data-testid="manual-payment-error-message"
-        />
-      )}
+      <form
+        ref={formEl}
+        method="POST"
+        action="https://bpm.shaparak.ir/pgwchannel/startpay.mellat"
+      >
+        <input type="hidden" value={refId!} id="RefId" name="RefId" />
+        {!errorMessage ? (
+          <Button
+            variant="danger"
+            onClick={getRefId}
+            disabled={notReady}
+            isLoading={isLoading}
+            size="xlarge"
+            data-testid="submit-order-button"
+          >
+            <BehpardakhtIcon />
+            پرداخت
+          </Button>
+        ) : (
+          <ErrorMessage
+            error={errorMessage}
+            data-testid="manual-payment-error-message"
+          />
+        )}
 
-      <Modal isOpen={isLoading} close={close}>
-        <form
-          ref={formEl}
-          action="https://bpm.shaparak.ir/pgwchannel/startpay.mellat"
-        >
-          <input type="hidden" value={refId} id="RefId" name="RefId" />
+        <Modal isOpen={isLoading} close={close}>
           <div className="flex items-center gap-1">
             <Spinner />
             <span>در حال اتصال به درگاه بانکی</span>
           </div>
-        </form>
-      </Modal>
+        </Modal>
+      </form>
     </>
   )
 }
