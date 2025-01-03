@@ -172,10 +172,7 @@ export function CartProvider({
   countryCode,
 }: {
   children: React.ReactNode
-  cartPromise: Promise<Omit<
-    Cart,
-    "refundable_amount" | "refunded_total"
-  > | null>
+  cartPromise: Promise<CartDTO>
   countryCode: string
 }) {
   // let initialCart = useRef<Cart | undefined>()

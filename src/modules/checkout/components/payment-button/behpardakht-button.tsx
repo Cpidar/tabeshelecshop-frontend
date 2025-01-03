@@ -50,9 +50,8 @@ export const BehpardakhtPaymentButton = ({
       }
 
       const data = await res.json()
-      formEl.current?.submit()
-
       setData(data)
+      formEl.current?.submit()
       setLoading(false)
     } catch (errorMessage) {
       setLoading(false)

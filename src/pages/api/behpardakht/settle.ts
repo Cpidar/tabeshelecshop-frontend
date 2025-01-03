@@ -12,6 +12,7 @@ const bpSettle = async (req: NextApiRequest, res: NextApiResponse) => {
             saleReferenceId: SaleReferenceId
         })
 
+        console.log('settlement request ...')
         console.log(response)
 
         if (response.resCode === 0 || response.resCode === 43) {
@@ -24,7 +25,7 @@ const bpSettle = async (req: NextApiRequest, res: NextApiResponse) => {
         }
 
     } catch (e) {
-        console.log('Error, something went wrong.', e);
+        console.log('Error in settleRequest, something went wrong.', e);
         res.setHeader('Cache-Control', 'no-store');
         res.status(400).json({ errorMessage: 'Unexpected error', code: 400 });
     }

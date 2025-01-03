@@ -60,6 +60,7 @@ export async function createCart(data = {}) {
     .create(data, headers)
     .then(({ cart }) => cart)
     .catch((err) => {
+      console.log('in createCart lib ...')
       console.log(err)
       return null
     })
@@ -81,6 +82,7 @@ export const getCart = cache(async function (cartId: string) {
     .retrieve(cartId, headers)
     .then(({ cart }) => cart)
     .catch((err) => {
+      console.log('in getCart lib ...')
       console.log(err)
       return null
     })
@@ -101,6 +103,7 @@ export async function addItem({
     .create(cartId, { variant_id: variantId, quantity }, headers)
     .then(({ cart }) => cart)
     .catch((err) => {
+      console.log('in addItem lib ...')
       console.log(err)
       return null
     })
@@ -136,6 +139,7 @@ export async function removeItem({
     .delete(cartId, lineId, headers)
     .then(({ cart }) => cart)
     .catch((err) => {
+      console.log('in removeItem lib ...')
       console.log(err)
       return null
     })
@@ -148,6 +152,7 @@ export async function deleteDiscount(cartId: string, code: string) {
     .deleteDiscount(cartId, code, headers)
     .then(({ cart }) => cart)
     .catch((err) => {
+      console.log('in deleteDiscount lib ...')
       console.log(err)
       return null
     })

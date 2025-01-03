@@ -50,7 +50,7 @@ const bpRequest = async (req: NextApiRequest, res: NextApiResponse) => {
         console.log(cartId)
 
         if (!cartId) {
-            console.error('cart id was not found')
+            console.error('in bpRequest: cart id was not found')
             return null
         }
 

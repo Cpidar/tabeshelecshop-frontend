@@ -48,6 +48,7 @@ const retryVerify = async (res: NextApiResponse, {
 }
 
 const bpVerify = async (req: NextApiRequest, res: NextApiResponse) => {
+    console.log('reversal request ...')
     console.log(req.body)
     const { SaleOrderId, SaleReferenceId, RefId } = JSON.parse(req.body)
 

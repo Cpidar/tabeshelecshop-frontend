@@ -9,7 +9,6 @@ type ShippingDetailsProps = {
 }
 
 const ShippingDetails = ({ order }: ShippingDetailsProps) => {
-  console.log(order.fulfillments[0].tracking_links[0])
   return (
     <div>
       <Heading level="h2" className="flex flex-row text-3xl-regular my-6">
@@ -70,8 +69,8 @@ const ShippingDetails = ({ order }: ShippingDetailsProps) => {
               .replace(/\./g, ",")}
             )
           </Text>
-          {order.fulfillments &&
-            order.fulfillments.map((fulfillment) =>
+          {order.fulfillments?.length > 0 &&
+            order.fulfillments?.map((fulfillment) =>
               fulfillment.tracking_links?.map((tl) => (
                 <Text key={tl.id} className="txt-medium text-ui-fg-subtle">
                   {`کد رهگیری: ${tl.tracking_number}`}

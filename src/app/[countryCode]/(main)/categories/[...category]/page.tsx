@@ -62,6 +62,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       },
     }
   } catch (error) {
+    console.log('in categories generateMetadat ...')
     console.log(error)
     notFound()
   }

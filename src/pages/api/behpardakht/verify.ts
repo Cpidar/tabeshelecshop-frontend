@@ -24,6 +24,7 @@ const reversalRequest = async (res: NextApiResponse, {
             saleReferenceId
         })
 
+        console.log('verify request ...')
         console.log(response)
 
         if (response.resCode === 0 || response.resCode === 43) {

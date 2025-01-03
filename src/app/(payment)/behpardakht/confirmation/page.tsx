@@ -19,8 +19,8 @@ export default async function OrderConfirmedPage({ searchParams }: Props) {
   const cartId = cookies().get("_medusa_cart_id")?.value
 
   if (ResCode && (["0", "43"].indexOf(ResCode) === -1)) {
-    console.log(ResCode, BehpardakhtErrors[ResCode])
-    throw new Error("Payment ResCode error")
+    console.log(`Payment callback ResCode error: ${ResCode}, ${BehpardakhtErrors[ResCode]}`)
+    throw new Error(`Payment callback ResCode error: ${ResCode}, ${BehpardakhtErrors[ResCode]}`)
   }
 
   return (

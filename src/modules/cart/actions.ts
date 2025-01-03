@@ -147,8 +147,8 @@ export async function deleteLineItem(lineId: string) {
   }
 
   try {
-    await removeItem({ cartId, lineId }).then(console.log)
-    await console.log('deleting')
+    const cart = await removeItem({ cartId, lineId })
+    console.log(`deleting ${lineId} from ${cartId} belong to ${cart?.customer.email}`)
     revalidateTag("cart")
   } catch (e) {
     return "Error deleting line item"

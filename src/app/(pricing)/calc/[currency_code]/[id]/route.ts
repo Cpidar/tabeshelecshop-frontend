@@ -15,7 +15,6 @@ export async function GET(
   request: Request,
   { params }: ContextType
 ) {
-    console.log(params)
   const pricingService = await initializePricingModule()
 
   const price = await pricingService.calculatePrices({
