@@ -119,10 +119,6 @@ export async function updateLineItem({
     return "Missing lineItem ID"
   }
 
-  if (!cartId) {
-    return "Missing cart ID"
-  }
-
   try {
     await updateItem({ cartId, lineId, quantity })
     revalidateTag("cart")
@@ -140,10 +136,6 @@ export async function deleteLineItem(lineId: string) {
 
   if (!lineId) {
     return "Missing lineItem ID"
-  }
-
-  if (!cartId) {
-    return "Missing cart ID"
   }
 
   try {

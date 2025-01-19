@@ -1,5 +1,5 @@
 import { Spinner, Trash } from "@medusajs/icons"
-import { clx } from "@medusajs/ui"
+import { Button, clx } from "@medusajs/ui"
 import { useState } from "react"
 
 
@@ -30,14 +30,16 @@ const DeleteButton = ({
         className
       )}
     >
-      <button
+      <Button
         className="flex gap-x-1 text-ui-fg-subtle hover:text-ui-fg-base cursor-pointer"
         onClick={onDelete}
         disabled={disabled}
+        size="small"
+        variant="transparent"
       >
         {loading ? <Spinner className="animate-spin" /> : <Trash />}
         <span>{children}</span>
-      </button>
+      </Button>
     </div>
   )
 }

@@ -62,6 +62,7 @@ export const BehpardakhtPaymentButton = ({
     // }
   }
 
+  // must be used to update form el because useState is asynchronous
   useEffect(() => {
     if (refId) formEl.current?.submit()
   }, [refId])

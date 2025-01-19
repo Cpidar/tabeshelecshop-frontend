@@ -1,7 +1,7 @@
 "use client"
 
 import { Popover, Transition, Dialog } from "@/app/headlessui"
-import { Fragment, useEffect, useMemo, useRef, useState } from "react"
+import { Fragment, useEffect, useMemo, useRef, useState, useTransition } from "react"
 import ButtonPrimary from "@/shared/Button/ButtonPrimary"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
 import Link from "next/link"
@@ -133,11 +133,11 @@ export default function CartDropdown() {
                 id={item.id}
                 className="mt-1"
                 data-testid="cart-item-remove-button"
-                onDelete={async () => {
-                  updateCartItem(item.variant_id!, "delete")
-                  await deleteLineItem(item.id)
+                onDelete={() => {
+                    updateCartItem(item.variant_id!, "delete")
+                    changeQuantity(0)
                 }}
-                disabled={item.sending}
+                disabled={item.sending || updating}
               >
                 {"حذف"}
               </DeleteButton>

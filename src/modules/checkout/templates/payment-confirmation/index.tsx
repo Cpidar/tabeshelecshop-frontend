@@ -121,7 +121,7 @@ const PaymentConfirmation = ({
       })
 
       await placeOrder(localOrCookieCartId)
-      await settlePayment()
+      // await settlePayment()
     } catch (e) {
       reversalRequest()
       console.error(e)
