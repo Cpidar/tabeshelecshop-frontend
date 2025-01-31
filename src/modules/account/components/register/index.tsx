@@ -1,6 +1,5 @@
+import { useActionState } from "react";
 "use client"
-
-import { useFormState } from "react-dom"
 
 import Input from "@modules/common/components/input"
 import { LOGIN_VIEW } from "@/modules/account/templates/login-template"
@@ -27,7 +26,7 @@ const Register = ({ setCurrentView, phone }: Props) => {
     router.replace("/")
   }
 
-  const [message, formAction] = useFormState(signup, null)
+  const [message, formAction] = useActionState(signup, null)
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
       <div className="w-full relative flex items-center justify-center">

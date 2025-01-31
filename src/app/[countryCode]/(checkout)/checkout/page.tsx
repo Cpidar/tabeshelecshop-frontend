@@ -32,11 +32,17 @@ const fetchCart = async () => {
   return cart
 }
 
-export default async function Checkout({
-  params: { countryCode },
-}: {
-  params: { countryCode: string }
-}) {
+export default async function Checkout(
+  props: {
+    params: Promise<{ countryCode: string }>
+  }
+) {
+  const params = await props.params;
+
+  const {
+    countryCode
+  } = params;
+
   const { t, resources } = await initTranslations(countryCode, i18nNamespaces)
 
   const cart = await fetchCart()

@@ -6,13 +6,22 @@ import Logo from "@/components/Logo/Logo"
 import { CartProvider } from "@/modules/cart/components/cart-context"
 import { retrieveCart } from "@/lib/data/cart"
 
-export default async function CheckoutLayout({
-  params: { countryCode },
-  children,
-}: {
-  params: { countryCode: string }
-  children: React.ReactNode
-}) {
+export default async function CheckoutLayout(
+  props: {
+    params: Promise<{ countryCode: string }>
+    children: React.ReactNode
+  }
+) {
+  const params = await props.params;
+
+  const {
+    countryCode
+  } = params;
+
+  const {
+    children
+  } = props;
+
   const { t } = await initTranslations(countryCode, ["common"])
 
   return (

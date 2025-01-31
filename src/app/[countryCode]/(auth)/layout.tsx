@@ -15,7 +15,7 @@ export default async function PageLayout({
 }: {
   children: React.ReactNode
 }) {
-  const token = cookies().get("_medusa_jwt")?.value
+  const token = (await cookies()).get("_medusa_jwt")?.value
   if (token) {
     redirect("/")
   }

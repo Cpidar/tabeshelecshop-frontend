@@ -45,11 +45,17 @@ export async function generateMetadata(): Promise<Metadata> {
 
 const i18nNamespaces = ["common"]
 
-export default async function Home({
-  params: { countryCode },
-}: {
-  params: { countryCode: string }
-}) {
+export default async function Home(
+  props: {
+    params: Promise<{ countryCode: string }>
+  }
+) {
+  const params = await props.params;
+
+  const {
+    countryCode
+  } = params;
+
   // from keystatic cms
   const homepageContent = await reader.singletons.homepage.read()
 

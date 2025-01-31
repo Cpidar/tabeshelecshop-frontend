@@ -1,11 +1,11 @@
 "use client"
 
-import React, { FormEvent, useState } from "react"
+import React, { FormEvent, useState, useActionState } from "react";
 import Input from "@/components/Input/Input"
 import ButtonPrimary from "@/components/Button/ButtonPrimary"
 import { LOGIN_VIEW } from "@/modules/account/templates/login-template"
 import Link from "next/link"
-import { useFormState, useFormStatus } from "react-dom"
+import { useFormStatus } from "react-dom";
 import Image from "next/image"
 import logo from "@/images/logo.svg"
 import { ArrowRightIcon } from "@heroicons/react/24/solid"
@@ -67,7 +67,7 @@ const PageLogin = ({ setCurrentView, email, phone }: Props) => {
       // .then(() => router.replace("/"))
       // .catch((e) => e.toString())
   }
-  const [message, formAction] = useFormState(login, null)
+  const [message, formAction] = useActionState(login, null)
 
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">

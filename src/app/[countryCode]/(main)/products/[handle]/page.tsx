@@ -10,7 +10,7 @@ import ScrollToTop from "@/components/utils/scrollToTop"
 import { getProductPrice } from "@/lib/util/get-product-price"
 
 type Props = {
-  params: { countryCode: string; handle: string }
+  params: Promise<{ countryCode: string; handle: string }>
 }
 
 
@@ -48,7 +48,8 @@ export async function generateStaticParams() {
   }
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
+export async function generateMetadata(props: Props): Promise<Metadata> {
+  const params = await props.params;
   let { handle, countryCode } = params
   handle = decodeURI(handle)
   const region = await getRegion(params.countryCode)
@@ -58,7 +59,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 
   const product = await getProductByHandle(handle, region.id)
-  
+
   if (!product) {
     notFound()
   }
@@ -97,14 +98,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   }
 }
 
-export default async function ProductPage({ params }: Props) {
+export default async function ProductPage(props: Props) {
+  const params = await props.params;
   const region = await getRegion(params.countryCode)
 
   if (!region) {
     notFound()
   }
   const pricedProduct = await getProductByHandle(params.handle, region.id)
-  
+
   if (!pricedProduct) {
     notFound()
   }

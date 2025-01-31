@@ -7,7 +7,7 @@ import OrderCompletedTemplate from "@modules/order/templates/order-completed-tem
 import { notFound } from "next/navigation"
 
 type Props = {
-  params: { id: string }
+  params: Promise<{ id: string }>
 }
 
 async function getOrder(id: string) {
@@ -30,11 +30,12 @@ export const metadata: Metadata = {
   description: "خرید شما موفقیت آمیز بود.",
 }
 
-export default async function OrderConfirmedPage({ params }: Props) {
+export default async function OrderConfirmedPage(props: Props) {
+  const params = await props.params;
   const order = await getOrder(params.id)
   if (!order) {
     return notFound()
   }
-  
+
   return <OrderCompletedTemplate order={order} />
 }

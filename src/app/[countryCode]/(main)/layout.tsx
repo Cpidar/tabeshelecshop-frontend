@@ -17,13 +17,22 @@ export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
 }
 
-export default async function PageLayout({
-  params: { countryCode },
-  children,
-}: {
-  children: React.ReactNode
-  params: { countryCode: string }
-}) {
+export default async function PageLayout(
+  props: {
+    children: React.ReactNode
+    params: Promise<{ countryCode: string }>
+  }
+) {
+  const params = await props.params;
+
+  const {
+    countryCode
+  } = params;
+
+  const {
+    children
+  } = props;
+
   const i18nNamespaces = ["common"]
 
   const { t, resources } = await initTranslations(countryCode, ["common"])

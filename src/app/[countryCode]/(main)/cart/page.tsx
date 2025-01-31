@@ -28,11 +28,12 @@ const fetchCart = async () => {
   return cart
 }
 
-export default async function Cart({
-  params,
-}: {
-  params: { countryCode: string; handle: string }
-}) {
+export default async function Cart(
+  props: {
+    params: Promise<{ countryCode: string; handle: string }>
+  }
+) {
+  const params = await props.params;
   const cart = await fetchCart()
   const customer = await getCustomer()
 

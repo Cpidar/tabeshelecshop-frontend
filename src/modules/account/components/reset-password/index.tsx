@@ -1,10 +1,7 @@
 "use client"
 
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useActionState } from "react";
 
-// import Input from "@modules/common/components/input"
-
-import { useFormState } from "react-dom"
 import { LOGIN_VIEW } from "../../templates/login-template"
 import ButtonPrimary from "@/components/Button/ButtonPrimary"
 import Input from "@/components/Input/Input"
@@ -22,7 +19,7 @@ const ChangePasswordForm: React.FC<Props> = ({ token, email }) => {
   const [errorMessage, setErrorMessage] = useState("")
   const [successState, setSuccessState] = useState(false)
 
-  const [state, formAction] = useFormState(resetPassword, {
+  const [state, formAction] = useActionState(resetPassword, {
     email,
     token,
     success: false,

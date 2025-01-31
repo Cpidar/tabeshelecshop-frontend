@@ -11,11 +11,17 @@ export const metadata: Metadata = {
 
 const i18nNamespaces = ["common"]
 
-export default async function Login({
-  params: { countryCode },
-}: {
-  params: { countryCode: string }
-}) {
+export default async function Login(
+  props: {
+    params: Promise<{ countryCode: string }>
+  }
+) {
+  const params = await props.params;
+
+  const {
+    countryCode
+  } = params;
+
   const { t, resources } = await initTranslations(countryCode, i18nNamespaces)
 
   return (

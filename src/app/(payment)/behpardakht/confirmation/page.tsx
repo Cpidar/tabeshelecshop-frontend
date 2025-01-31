@@ -3,20 +3,21 @@ import PaymentConfirmation from "@/modules/checkout/templates/payment-confirmati
 import { cookies } from "next/headers"
 
 type Props = {
-  searchParams: {
+  searchParams: Promise<{
     cartId?: string
     ResCode?: string
     RefId: string
     SaleOrderId: string
     SaleReferenceId: string
-  }
+  }>
 }
 
-export default async function OrderConfirmedPage({ searchParams }: Props) {
+export default async function OrderConfirmedPage(props: Props) {
+  const searchParams = await props.searchParams;
   const { SaleOrderId, SaleReferenceId, RefId, ResCode } = searchParams
 
   const providerId = "behpardakht"
-  const cartId = cookies().get("_medusa_cart_id")?.value
+  const cartId = (await cookies()).get("_medusa_cart_id")?.value
 
   if (ResCode && (["0", "43"].indexOf(ResCode) === -1)) {
     console.log(ResCode, BehpardakhtErrors[ResCode])
