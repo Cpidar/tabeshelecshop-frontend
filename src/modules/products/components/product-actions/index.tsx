@@ -43,7 +43,8 @@ export default function ProductActions({
   const [quantitySelected, setQualitySelected] = useState(1)
   const { cart, addCartItem } = useCart()
 
-  const countryCode = useParams().countryCode as string
+  const countryCode = useParams()!.countryCode as string
+  const disablePurchasing = process.env.NEXT_PUBLIC_DISABLE_PURCHASING === 'true'
 
   const variants = product.variants
 
@@ -214,7 +215,7 @@ export default function ProductActions({
 
             <Button
               type="submit"
-              disabled={!inStock || !variant || !!disabled || isAdding}
+              disabled={!inStock || !variant || !!disabled || isAdding || disablePurchasing}
               variant="primary"
               className="flex-1 flex-shrink-0 rounded-full"
               isLoading={isAdding}
@@ -222,7 +223,9 @@ export default function ProductActions({
             >
               <BagIcon className="hidden sm:inline-block w-5 h-5 mb-0.5" />
               <span className="ml-3">
-                {!variant
+                {disablePurchasing
+                  ? "امکان خرید موقتا وجود ندارد"
+                  : !variant
                   ? "یک گزینه را انتخاب کنید"
                   : !inStock
                   ? "اتمام موجودی"
@@ -239,7 +242,7 @@ export default function ProductActions({
             inStock={inStock}
             handleAddToCart={handleAddToCart}
             isAdding={isAdding}
-            show={!inView}
+            show={!inView || !disablePurchasing}
             optionsDisabled={!!disabled || isAdding}
             inStockQty={inStockQty}
             quantitySelected={quantitySelected}

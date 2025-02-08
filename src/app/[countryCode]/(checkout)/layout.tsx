@@ -5,6 +5,7 @@ import initTranslations from "@/app/i18n"
 import Logo from "@/shared/Logo/Logo"
 import { CartProvider } from "@/modules/cart/components/cart-context"
 import { retrieveCart } from "@/modules/cart/actions"
+import { redirect } from "next/navigation"
 
 export default async function CheckoutLayout({
   params: { countryCode },
@@ -13,6 +14,12 @@ export default async function CheckoutLayout({
   params: { countryCode: string }
   children: React.ReactNode
 }) {
+  const disablePurchasing =
+    process.env.NEXT_PUBLIC_DISABLE_PURCHASING === "true"
+  if (disablePurchasing) {
+    redirect("/")
+  }
+
   const { t } = await initTranslations(countryCode, ["common"])
   const cart = retrieveCart()
 
