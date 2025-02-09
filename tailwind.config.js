@@ -350,9 +350,6 @@ module.exports = {
         vendorSidebar:
           "0px 1px 2px rgba(0, 0, 0, 0.03), 0px 1px 3px rgba(0, 0, 0, 0.05)",
       },
-      transitionProperty: {
-        height: "height",
-      },
       transitionTimingFunction: {
         "in-expo": "cubic-bezier(0.04, 0.62, 0.23, 0.98)",
       },

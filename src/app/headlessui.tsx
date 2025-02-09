@@ -2,7 +2,9 @@
 
 export {
   Transition,
+  TransitionChild,
   Dialog,
+  DialogPanel,
   Disclosure,
   Switch,
   Popover,

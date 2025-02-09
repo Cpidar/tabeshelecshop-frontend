@@ -1,10 +1,6 @@
 'use client'
 import React, { createRef } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-    XMarkIcon,
-    MagnifyingGlassIcon,
-  } from "@heroicons/react/24/outline"
 import cn from 'classnames';
 import { useRouter } from "next/navigation";
 

@@ -19,6 +19,7 @@ const NotifyAddTocart = ({
       <Transition
         appear
         show={t.visible}
+        as="div"
         className="p-4 max-w-md w-full bg-white dark:bg-slate-800 shadow-lg rounded-2xl pointer-events-auto ring-1 ring-black/5 dark:ring-white/10 text-slate-900 dark:text-slate-200"
         enter="transition-all duration-150"
         enterFrom="opacity-0 translate-x-20"

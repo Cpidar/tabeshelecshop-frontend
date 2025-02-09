@@ -4,7 +4,7 @@ import SearchIcon from "@/components/Icons/SearchIcon"
 import logoImg from "@/images/logo.svg"
 import Image from "next/image"
 import React, { FC, useState, Fragment } from "react"
-import { Transition, Dialog } from "@/app/headlessui"
+import { Transition, Dialog, TransitionChild, DialogPanel } from "@/app/headlessui"
 import MobileSearchPanel from "../mobile-search-panel"
 
 interface BagIconProps {
@@ -27,7 +27,7 @@ const MobileSearchButton: FC<BagIconProps> = ({ className = "w-5 h-5" }) => {
         >
           <div className="fixed right-0 top-0 bottom-0 w-full max-w-md md:w-auto z-max outline-none focus:outline-none">
             <React.Fragment>
-              <Transition.Child
+              <TransitionChild
                 as={Fragment}
                 enter="transition duration-300 transform"
                 enterFrom="opacity-100 translate-y-full"
@@ -36,12 +36,12 @@ const MobileSearchButton: FC<BagIconProps> = ({ className = "w-5 h-5" }) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-100 translate-y-full"
               >
-                <div className="z-20 relative">
+                <DialogPanel className="z-20 relative">
                   <MobileSearchPanel onClickClose={handleCloseMenu} />
-                </div>
-              </Transition.Child>
+                </DialogPanel>
+              </TransitionChild>
 
-              <Transition.Child
+              <TransitionChild
                 as={Fragment}
                 enter=" duration-300"
                 enterFrom="opacity-0"
@@ -50,8 +50,8 @@ const MobileSearchButton: FC<BagIconProps> = ({ className = "w-5 h-5" }) => {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Dialog.Overlay className="fixed inset-0 bg-neutral-900/60" />
-              </Transition.Child>
+                <div className="fixed inset-0 bg-neutral-900/60" />
+              </TransitionChild>
             </React.Fragment>
           </div>
         </Dialog>
