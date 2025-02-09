@@ -20,7 +20,10 @@
       "@/*": ["./*"],
       "@lib/*": ["lib/*"],
       "@modules/*": ["modules/*"],
-      "@pages/*": ["pages/*"]
+      "@pages/*": ["pages/*"],
+      "@payload-config": [
+        "./payload.config.ts"
+      ]
     },
     "plugins": [
       {
@@ -28,7 +31,7 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js", "check-env-variables.js"],
   "exclude": [
     "node_modules",
     ".next",

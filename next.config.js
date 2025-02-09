@@ -1,6 +1,7 @@
-const checkEnvVariables = require("./check-env-variables")
+// const checkEnvVariables = require("./check-env-variables")
+import { withPayload } from '@payloadcms/next/withPayload'
 
-checkEnvVariables()
+// checkEnvVariables()
 /**
  * @type {import('next').NextConfig}
  */
@@ -9,6 +10,7 @@ const nextConfig = {
     serverComponentsExternalPackages: [
       "@medusajs/pricing",
     ],
+    reactCompiler: false
   },
   rewrites: async() => {
     return [
@@ -48,4 +50,4 @@ const nextConfig = {
   },
 }
 
-module.exports = nextConfig
+export default withPayload(nextConfig) 
