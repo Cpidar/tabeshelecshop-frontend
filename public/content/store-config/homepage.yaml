@@ -19,7 +19,7 @@ homePageCategories:
       href: /categories
       icon: /assets/images/homePageCategories/items/1/icon.webp
     - name: ابزار آلات
-      href: /categories/tools
+      href: https://tabeshelecshop.ir/ir/categories/tools
       icon: /assets/images/homePageCategories/items/2/icon.webp
     - name: کلیدهای حفاظتی
       href: '#'

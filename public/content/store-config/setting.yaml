@@ -6,9 +6,9 @@ header:
   topBar:
     discriminant: true
     value:
-      description: 20% تخفیف ویژه کالاهای گروه لامپ، روشنایی وریسه چهارشنبه هر هفته
-      buttonText: همین الان سفارش دهید
-      buttonLink: '#'
+      description: با توجه به نوسانات بازار، خرید از سایت موقتا امکان پذیر نیست.
+      buttonText: به صفحه اصلی بروید
+      buttonLink: /
   navigationMenu:
     - name: خانه
       href: /
@@ -29,4 +29,8 @@ footer:
     محصول را برای ما بفرستید تا نسبت به تهیه آن اقدام شود.
   socials:
     - icon: /assets/footer/socials/0/icon.png
-      name: tabesh
+      name: instagram
+      href: https://www.instagram.com/tabeshelecshop
+    - icon: /assets/footer/socials/1/icon.webp
+      name: telegram
+      href: https://www.telegram.com/tabeshelecshop

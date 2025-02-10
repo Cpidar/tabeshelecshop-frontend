@@ -4,10 +4,10 @@ import { ProductCategory } from "@medusajs/medusa"
 import { wrapper } from "@keystatic/core/content-components"
 
 export default config({
-  // storage: {
-  //   kind: 'github',
-  //   repo: 'Cpidar/keystatic-test-repo',
-  // },
+  storage: {
+    kind: 'github',
+    repo: 'Cpidar/tabeshelecshop-frontend',
+  },
   ui: {
     brand: {
       name: "Dev: Next.js (app)",
@@ -17,9 +17,9 @@ export default config({
       "Store Config": ["settings", "homepage", "about"],
     },
   },
-  storage: {
-    kind: "local",
-  },
+  // storage: {
+  //   kind: "local",
+  // },
   collections: {
     singlefileposts: collection({
       label: "Posts",
