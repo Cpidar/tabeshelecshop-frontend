@@ -3,10 +3,7 @@ import SocialsList1 from "@/shared/SocialsList1/SocialsList1"
 import { CustomLink } from "@/data/types"
 import React from "react"
 import Image from "next/image"
-import { createReader } from "@keystatic/core/reader"
-import keystaticConfig from "../../../keystatic.config"
-
-const reader = createReader(process.cwd(), keystaticConfig)
+import { reader } from "@/app/keystatic-reader"
 
 export interface WidgetFooterMenu {
   id: string

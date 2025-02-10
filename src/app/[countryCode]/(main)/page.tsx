@@ -21,11 +21,9 @@ import SectionHero4, {
 import initTranslations from "@/app/i18n"
 import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
 import { createReader } from "@keystatic/core/reader"
-import keystaticConfig from "../../../../keystatic.config"
 import SectionIncredibleOffer from "@/modules/home/components/SectionIncredibleOffer"
 import SectionTripleBanners from "@/modules/home/components/SectionTripleBanners"
-
-const reader = createReader(process.cwd(), keystaticConfig)
+import { reader } from "@/app/keystatic-reader"
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await reader.singletons.settings.read()

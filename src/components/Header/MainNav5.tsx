@@ -13,11 +13,9 @@ import ButtonPrimary from "@/shared/Button/ButtonPrimary"
 import ButtonSecondary from "@/shared/Button/ButtonSecondary"
 import MobileSearchHeader from "../../modules/layout/components/mobile-header"
 import { PhoneIcon, PhoneArrowUpRightIcon } from "@heroicons/react/24/solid"
-import keystaticConfig from "../../../keystatic.config"
 import { createReader } from "@keystatic/core/reader"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
-
-const reader = createReader(process.cwd(), keystaticConfig)
+import { reader } from "@/app/keystatic-reader"
 
 export interface MainNav2LoggedProps {}
 

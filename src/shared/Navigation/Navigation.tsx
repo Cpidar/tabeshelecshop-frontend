@@ -2,9 +2,7 @@ import React from "react";
 import NavigationItem from "./NavigationItem";
 import { NAVIGATION_MENU } from "@/data/navigation";
 import { createReader } from '@keystatic/core/reader';
-import keystaticConfig from '../../../keystatic.config';
-
-const reader = createReader(process.cwd(), keystaticConfig);
+import { reader } from "@/app/keystatic-reader";
 
 async function Navigation() {
   const  settings = await reader.singletons.settings.read();

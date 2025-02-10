@@ -3,9 +3,7 @@ import MainNav5 from "./MainNav5"
 import HighlightedBar from "./highlighted-bar"
 import Link from "next/link"
 import { createReader } from "@keystatic/core/reader"
-import keystaticConfig from "../../../keystatic.config"
-
-const reader = createReader(process.cwd(), keystaticConfig)
+import { reader } from "@/app/keystatic-reader"
 
 export interface HeaderLoggedProps {}
 

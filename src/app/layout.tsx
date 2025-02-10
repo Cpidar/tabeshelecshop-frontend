@@ -5,12 +5,10 @@ import { Metadata } from "next"
 import HolyLoader from "holy-loader"
 import { IRANSans } from "@/styles/font"
 import { createReader } from "@keystatic/core/reader"
-import keystaticConfig from "../../keystatic.config"
+import { reader } from "./keystatic-reader"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
 const { TWITTER_CREATOR, TWITTER_SITE, SITE_NAME } = process.env
-
-const reader = createReader(process.cwd(), keystaticConfig)
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await reader.singletons.settings.read()
