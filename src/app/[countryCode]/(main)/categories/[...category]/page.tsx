@@ -47,17 +47,14 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
   const decodedCatParams = params.category.map((c) => decodeURI(c))
 
   try {
-    const product_categories = await getCategoryByHandle(
+    const productCategory = await getCategoryByHandle(
       decodedCatParams
     )
-    const title = product_categories
-      .filter((c) => c)
-      .map((category: StoreProductCategory) => category.name)
-      .join(" | ")
+    const title = productCategory.name + " | " + process.env.SITE_NAME
 
-    const description =
-      product_categories[product_categories.length - 1]?.description ??
-      `${title} category.`
+
+    const description = productCategory.description ?? `${title}`
+
 
     return {
       title: `${title} | ${process.env.SITE_NAME}`,
@@ -78,17 +75,17 @@ export default async function CategoryPage(props: Props) {
   const { sortBy, page } = searchParams
   const decodedCatParams = params.category.map((c) => decodeURI(c))
 
-  const product_categories = await getCategoryByHandle(
+  const productCategory = await getCategoryByHandle(
     decodedCatParams
   )
 
-  if (!product_categories) {
+  if (!productCategory) {
     notFound()
   }
 
   return (
     <CategoryTemplate
-      categories={product_categories}
+      category={productCategory}
       sortBy={sortBy}
       page={page}
       countryCode={params.countryCode}

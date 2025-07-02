@@ -10,12 +10,12 @@ import PaginatedProducts from "@modules/store/templates/paginated-products"
 import LocalizedClientLink from "@modules/common/components/localized-client-link"
 
 export default function CategoryTemplate({
-  categories,
+  category,
   sortBy,
   page,
   countryCode,
 }: {
-  categories: HttpTypes.StoreProductCategory[]
+  category: HttpTypes.StoreProductCategory
   sortBy?: SortOptions
   page?: string
   countryCode: string
@@ -23,10 +23,19 @@ export default function CategoryTemplate({
   const pageNumber = page ? parseInt(page) : 1
   const sort = sortBy || "created_at"
 
-  const category = categories[categories.length - 1]
-  const parents = categories.slice(0, categories.length - 1)
+  // const category = categories[categories.length - 1]
+  const parents = [] as HttpTypes.StoreProductCategory[]
 
   if (!category || !countryCode) notFound()
+
+  const getParents = (category: HttpTypes.StoreProductCategory) => {
+    if (category.parent_category) {
+      parents.push(category.parent_category)
+      getParents(category.parent_category)
+    }
+  }
+
+  getParents(category)
 
   return (
     <div
