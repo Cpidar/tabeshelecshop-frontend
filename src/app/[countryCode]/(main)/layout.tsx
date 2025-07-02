@@ -2,36 +2,27 @@ import { Metadata } from "next"
 // import "@/fonts/line-awesome-1.3.0/css/line-awesome.css"
 import "@/styles/index.scss"
 import "rc-slider/assets/index.css"
-import Footer from "@/components/Footer/Footer"
+import { Footer } from "@/modules/footer/Component"
 import CommonClient from "./CommonClient"
-import HeaderLogged from "@/modules/layout/templates/nav"
+import HeaderLogged from "@/modules/header"
 import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
 import initTranslations from "@/app/i18n"
-import MobileHeader from "@/modules/layout/components/mobile-header"
-import MobileNavigation from "@/modules/layout/components/mobile-navigation"
-import { CartProvider } from "@/modules/cart/components/cart-context"
 import { getBaseURL } from "@lib/util/env"
-import { getOrSetCart, retrieveCart } from "@/lib/data/cart"
+import { retrieveCart } from "@/lib/data/cart"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
 }
 
-export default async function PageLayout(
-  props: {
-    children: React.ReactNode
-    params: Promise<{ countryCode: string }>
-  }
-) {
-  const params = await props.params;
+export default async function PageLayout(props: {
+  children: React.ReactNode
+  params: Promise<{ countryCode: string }>
+}) {
+  const params = await props.params
 
-  const {
-    countryCode
-  } = params;
+  const { countryCode } = params
 
-  const {
-    children
-  } = props;
+  const { children } = props
 
   const i18nNamespaces = ["common"]
 
@@ -49,12 +40,10 @@ export default async function PageLayout(
       resources={resources}
     >
       <HeaderLogged countryCode={countryCode} />
-      <MobileHeader />
       {/* <SecondNav2 /> */}
       {children}
       <CommonClient />
-      <Footer />
-      <MobileNavigation cart={cart!} />
+      <Footer cart={cart!} />
     </TranslationsProvider>
   )
 }

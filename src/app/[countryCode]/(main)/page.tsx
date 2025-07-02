@@ -3,26 +3,26 @@ import { Metadata } from "next"
 import { getCollectionsWithProducts } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 
-import SectionHowItWork from "@/modules/home/components/SectionHowItWork/SectionHowItWork"
+import SectionHowItWork from "@/blocks/SectionHowItWork/SectionHowItWork"
 import BackgroundSection from "@/modules/home/components/BackgroundSection/BackgroundSection"
-import SectionPromo1 from "@/modules/home/components/SectionPromo1"
+import SectionPromo1 from "@/blocks/Promo01/SectionPromo1"
 import SectionSliderProductCard from "@/modules/home/components/SectionSliderProductCard"
-import SectionPromo2 from "@/modules/home/components/SectionPromo2"
+import SectionPromo2 from "@/blocks/Promo02/SectionPromo2"
 import SectionSliderCategories, {
   CardCategoryData,
-} from "@/modules/home/components/SectionSliderCategories/SectionSliderCategories"
-import SectionPromo3 from "@/modules/home/components/SectionPromo3"
+} from "@/blocks/CategorySlider01/component"
+import SectionPromo3 from "@/blocks/Promo03/SectionPromo3"
 import Heading from "@/components/Heading/Heading"
 import ButtonSecondary from "@/components/Button/ButtonSecondary"
 import ProductCard from "@modules/products/components/product-preview/ProductCard"
 import SectionHero4, {
   SectionHeroProps,
-} from "@/modules/home/components/SectionHero/SectionHero4"
+} from "@/modules/heros/TwoColumn"
 import initTranslations from "@/app/i18n"
 import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
 import { createReader } from "@keystatic/core/reader"
 import keystaticConfig from "../../../../keystatic.config"
-import SectionIncredibleOffer from "@/modules/home/components/SectionIncredibleOffer"
+import SectionIncredibleOffer from "@/blocks/IncredibleOffer/component.client"
 import SectionTripleBanners, {
   SectionPromo1Data,
 } from "@/modules/home/components/SectionTripleBanners"

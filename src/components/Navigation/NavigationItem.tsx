@@ -6,6 +6,9 @@ import React, { FC, Fragment, useState } from "react";
 import { Route } from "@/routers/types";
 import LocalizedClientLink from "@/modules/common/components/localized-client-link";
 import CardCategory3 from "@/modules/categories/components/categories-card/CardCategory3";
+import type { Header, Setting } from '@/payload-types'
+
+type Flatten<T> = T extends any[] ? T[number] : T;
 
 export interface NavItemType {
   id: string;
@@ -52,7 +55,7 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
             <div className="container">
               <div className="flex text-sm border-t border-slate-200 dark:border-slate-700 py-14">
                 <div className="flex-1 grid grid-cols-4 gap-6 xl:gap-8 pr-6 xl:pr-8">
-                  {menu.children.map((item, index) => (
+                  {menu.children?.map((item, index) => (
                     <div key={index}>
                       <p className="font-medium text-slate-900 dark:text-neutral-200">
                         {item.name}
@@ -235,6 +238,8 @@ const NavigationItem: FC<NavigationItemProps> = ({ menuItem }) => {
         <li className="menu-item flex-shrink-0">{renderMainItem(menuItem)}</li>
       );
   }
+
+
 };
 
 export default NavigationItem;

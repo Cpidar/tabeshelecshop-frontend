@@ -2,7 +2,7 @@
 
 import React from "react";
 import ButtonClose from "@/components/ButtonClose/ButtonClose";
-import Logo from "@/components/Logo/Logo";
+import { Logo } from "@/components/Logo/Logo";
 import { Disclosure } from "@/app/headlessui";
 import { NavItemType } from "./NavigationItem";
 import { NAVIGATION_MENU } from "@/data/navigation";

@@ -22,7 +22,7 @@
       "@modules/*": ["modules/*"],
       "@pages/*": ["pages/*"],
       "@payload-config": [
-        "./payload.config.ts"
+        "payload.config.ts"
       ]
     },
     "plugins": [

@@ -1,52 +1,69 @@
-import React from "react"
-import logoImg from "@/images/logo.svg"
-import logoLightImg from "@/images/logo-light.svg"
-import Link from "next/link"
-import Image from "next/image"
-import LocalizedClientLink from "@/modules/common/components/localized-client-link"
+'use client'
 
-export interface LogoProps {
-  img?: string
-  imgLight?: string
+import { Media, Setting } from '@/payload-types'
+import { themeLocalStorageKey } from '@/providers/Theme/ThemeSelector/types'
+import clsx from 'clsx'
+import React, { useCallback, useEffect, useMemo, useState } from 'react'
+
+interface Props {
   className?: string
+  loading?: 'lazy' | 'eager'
+  priority?: 'auto' | 'high' | 'low'
+  dataTheme?: 'dark' | 'light'
+  width?: number
+  height?: number
 }
 
-const Logo: React.FC<LogoProps> = ({
-  img = logoImg,
-  imgLight = logoLightImg,
-  className = "flex-shrink-0",
-}) => {
+export const Logo = (props: Props) => {
+  const { loading: loadingFromProps, priority: priorityFromProps, className } = props
+  const [settings, setSettings] = useState<undefined | Setting>()
+  const [value, setValue] = useState('')
+
+  React.useEffect(() => {
+    const preference = window.localStorage.getItem(themeLocalStorageKey)
+    setValue(preference ?? 'auto')
+  }, [])
+
+  const loading = loadingFromProps || 'lazy'
+  const priority = priorityFromProps || 'low'
+
+  const fetchSettings = useCallback(async () => {
+    try {
+      const res = await fetch('/api/globals/settings')
+      const data = await res.json()
+      setSettings(data)
+    } catch (error) {}
+  }, [])
+
+  useEffect(() => {
+    fetchSettings()
+  }, [fetchSettings])
+
+  const computedLogo = useMemo(() => {
+    // Use dataTheme prop if provided, otherwise use the local state "value"
+    const themeUsed = props.dataTheme || value
+    const logoString = themeUsed === 'light' ? 'logoDark' : 'logoLight'
+
+    if (settings && settings[logoString]) {
+      const media = settings[logoString] as Media
+      if (typeof media.url === 'string') {
+        return media.url
+      }
+    }
+    return '/api/media/file/Standard - Primaryw300px-300x160.png'
+  }, [settings, value, props.dataTheme])
+
   return (
-    <LocalizedClientLink
-      href="/"
-      className={`ttnc-logo inline-block text-slate-600 ${className}`}
-    >
-      {/* THIS USE FOR MY CLIENT */}
-      {/* PLEASE UN COMMENT BELLOW CODE AND USE IT */}
-      {img ? (
-        <Image
-          className={`block h-8 sm:h-10 w-auto ${
-            imgLight ? "dark:hidden" : ""
-          }`}
-          src={img}
-          alt="Logo"
-          sizes="200px"
-          priority
-        />
-      ) : (
-        "Logo Here"
-      )}
-      {imgLight && (
-        <Image
-          className="hidden h-8 sm:h-10 w-auto dark:block"
-          src={imgLight}
-          alt="Logo-Light"
-          sizes="200px"
-          priority
-        />
-      )}
-    </LocalizedClientLink>
+    /* eslint-disable @next/next/no-img-element */
+    <img
+      alt="Payload Logo"
+      width={props.width ?? 100}
+      height={props.height ?? 34}
+      loading={loading}
+      fetchPriority={priority}
+      decoding="async"
+      className={clsx('object-contain', className)}
+      src={computedLogo}
+    />
   )
 }
-
-export default Logo

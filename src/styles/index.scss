@@ -1,7 +1,7 @@
-@import "./_theme_colors";
-@import "./_theme_custom";
+@use "_theme_colors";
+@use "_theme_custom";
 //
-@import "./header";
-@import './font';
+@use "header";
+@use 'font';
 
-@import "node_modules/@glidejs/glide/src/assets/sass/glide.core";
+@use "/node_modules/@glidejs/glide/src/assets/sass/glide.core";

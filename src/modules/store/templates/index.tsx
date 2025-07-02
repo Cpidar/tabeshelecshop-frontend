@@ -5,7 +5,7 @@ import RefinementList from "@modules/store/components/refinement-list"
 
 import PaginatedProducts from "./paginated-products"
 import SectionSliderCollections from "@/components/SectionSliderLargeProduct"
-import SectionPromo1 from "@modules/home/components/SectionPromo1"
+import SectionPromo1 from "@/blocks/Promo01/SectionPromo1"
 import SidebarFilters from "@/components/SidebarFilters"
 export type SortOptions = "price_asc" | "price_desc" | "created_at"
 import { ShopFilters } from "@/components/search/filters"
