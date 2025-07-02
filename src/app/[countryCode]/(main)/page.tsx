@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 
-import { getCollectionsWithProducts } from "@lib/data/collections"
+import { getCollectionByHandle, listCollections } from "@lib/data/collections"
 import { getRegion } from "@lib/data/regions"
 
 import SectionHowItWork from "@/blocks/SectionHowItWork/SectionHowItWork"
@@ -59,11 +59,11 @@ export default async function Home(
   // from keystatic cms
   const homepageContent = await reader.singletons.homepage.read()
 
-  const allCollections = await getCollectionsWithProducts(countryCode)
-  const incredibleOffers = allCollections?.filter(
-    (c) => c.handle === "incredible_offer"
-  )[0]
-  const collections = allCollections?.filter(
+  const allCollections = await listCollections({
+    fields: "*products",
+  })
+  const incredibleOffers = await getCollectionByHandle("incredible_offer")
+  const collections = allCollections?.collections.filter(
     (c) => c.handle !== "incredible_offer"
   )
   const region = await getRegion(countryCode)

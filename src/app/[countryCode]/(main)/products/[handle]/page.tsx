@@ -2,12 +2,12 @@ import { Metadata } from "next"
 import { notFound } from "next/navigation"
 
 import { getRegion, listRegions } from "@lib/data/regions"
-import { getProductByHandle } from "@lib/data/products"
 import { sdk } from "@lib/config"
 
 import ProductTemplate from "@modules/products/templates"
 import ScrollToTop from "@/components/utils/scrollToTop"
 import { getProductPrice } from "@/lib/util/get-product-price"
+import { listProducts } from "@/lib/data/products"
 
 type Props = {
   params: Promise<{ countryCode: string; handle: string }>
@@ -24,19 +24,27 @@ export async function generateStaticParams() {
       return []
     }
 
-    const { products } = await sdk.store.product.list(
-      { fields: "handle" },
-      { next: { tags: ["products"] } }
-    )
+    const promises = countryCodes.map(async (country) => {
+      const { response } = await listProducts({
+        countryCode: country,
+        queryParams: { limit: 100, fields: "handle" },
+      })
 
-    return countryCodes
-      .map((countryCode) =>
-        products.map((product) => ({
-          countryCode,
+      return {
+        country,
+        products: response.products,
+      }
+    })
+
+    const countryProducts = await Promise.all(promises)
+
+    return countryProducts
+      .flatMap((countryData) =>
+        countryData.products.map((product) => ({
+          countryCode: countryData.country,
           handle: product.handle,
         }))
       )
-      .flat()
       .filter((param) => param.handle)
   } catch (error) {
     console.error(
@@ -58,8 +66,11 @@ export async function generateMetadata(props: Props): Promise<Metadata> {
     notFound()
   }
 
-  const product = await getProductByHandle(handle, region.id)
-
+  const product = await listProducts({
+    countryCode: params.countryCode,
+    queryParams: { handle },
+  }).then(({ response }) => response.products[0])
+  
   if (!product) {
     notFound()
   }
@@ -105,7 +116,10 @@ export default async function ProductPage(props: Props) {
   if (!region) {
     notFound()
   }
-  const pricedProduct = await getProductByHandle(params.handle, region.id)
+  const pricedProduct = await listProducts({
+    countryCode: params.countryCode,
+    queryParams: { handle: params.handle },
+  }).then(({ response }) => response.products[0])
 
   if (!pricedProduct) {
     notFound()

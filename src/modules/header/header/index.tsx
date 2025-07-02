@@ -9,7 +9,7 @@ import ButtonPrimary from "@/components/Button/ButtonPrimary"
 import ButtonSecondary from "@/components/Button/ButtonSecondary"
 import { PhoneArrowUpRightIcon } from "@heroicons/react/24/solid"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
-import { getCustomer } from "@/lib/data/customer"
+import { retrieveCustomer } from "@/lib/data/customer"
 import { retrieveCart } from "@/lib/data/cart"
 import { CartProvider } from "@/modules/cart/components/cart-context"
 import type { Header, Setting } from "@/payload-types"
@@ -29,7 +29,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async ({
   // const inputRef = createRef<HTMLInputElement>()
   // const router = useRouter()
 
-  const customer = await getCustomer()
+  const customer = await retrieveCustomer()
   const cart = await retrieveCart()
   const navItems = data?.navItems || []
   const {

@@ -1,6 +1,6 @@
 import { listCategories } from "@/lib/data/categories";
-import { getCollectionsList } from "@/lib/data/collections";
-import { getProductsList } from "@/lib/data/products";
+import { listCollections } from "@/lib/data/collections";
+import { listProducts } from "@/lib/data/products";
 
 export const dynamic = 'force-dynamic'
 export const revalidate = 0
@@ -10,14 +10,14 @@ const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://zackproser.com';
 export default async function sitemap() {
     const {
         response: { products },
-    } = await getProductsList({
+    } = await listProducts({
         pageParam: 0,
         queryParams: { limit: 9999 },
         countryCode: 'ir'
     })
 
     const categories = await listCategories()
-    const { collections } = await getCollectionsList()
+    const { collections } = await listCollections()
 
     return [
         {

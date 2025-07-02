@@ -48,7 +48,7 @@ const PaymentConfirmation = ({
 
     await initiatePaymentSession(cart, {
       provider_id: providerId,
-      context: {
+      data: {
         SaleReferenceId,
         RefId,
       }

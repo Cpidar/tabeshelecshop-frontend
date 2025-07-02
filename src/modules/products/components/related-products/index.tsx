@@ -1,7 +1,7 @@
-import { getProductsList } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import { HttpTypes } from "@medusajs/types"
 import Product from "../product-preview"
+import { listProducts } from "@/lib/data/products"
 
 type RelatedProductsProps = {
   product: HttpTypes.StoreProduct
@@ -19,7 +19,7 @@ export default async function RelatedProducts({
   }
 
   // edit this function to define your related products logic
-  const queryParams: HttpTypes.StoreProductParams = {}
+  const queryParams: HttpTypes.StoreProductListParams = {}
   if (region?.id) {
     queryParams.region_id = region.id
   }
@@ -33,7 +33,7 @@ export default async function RelatedProducts({
   }
   queryParams.is_giftcard = false
 
-  const products = await getProductsList({
+  const products = await listProducts({
     queryParams,
     countryCode,
   }).then(({ response }) => {

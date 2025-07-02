@@ -23,9 +23,7 @@ import type {AddToCartEventPayload} from "./event-bus";
 import {addToCartEventBus} from "./event-bus";
 import { addToCart, deleteLineItem, updateLineItem } from "@/lib/data/cart";
 
-type Cart = {
-  promotions?: StorePromotion[];
-} & StoreCart;
+type Cart = StoreCart;
 
 const CartContext = createContext<
   | {

@@ -7,7 +7,7 @@ import InCardProductPrice from "../product-price/inCard"
 import { getProductPrice } from "@/lib/util/get-product-price"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
 import { HttpTypes } from "@medusajs/types"
-import { getProductsById } from "@/lib/data/products"
+import { listProducts } from "@/lib/data/products"
 import { RenderGroupButtons } from "../product-actions/overlay-actions"
 
 export interface ProductCardProps {
@@ -23,10 +23,10 @@ const ProductCard = async ({
   region,
   isLiked,
 }: ProductCardProps) => {
-  const [pricedProduct] = await getProductsById({
-    ids: [product.id!],
+  const [pricedProduct] = await listProducts({
+    queryParams: {id: [product.id!]},
     regionId: region.id,
-  })
+  }).then(({ response }) => response.products)
 
   if (!pricedProduct) {
     return null

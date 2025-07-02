@@ -7,7 +7,7 @@ import ProfileName from "@modules/account/components/profile-name"
 import ProfilePassword from "@modules/account/components/profile-password"
 
 import { listRegions } from "@lib/data/regions"
-import { getCustomer } from "@lib/data/customer"
+import { retrieveCustomer } from "@lib/data/customer"
 import { notFound } from "next/navigation"
 
 export const metadata: Metadata = {
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 }
 
 export default async function Profile() {
-  const customer = await getCustomer()
+  const customer = await retrieveCustomer()
   const regions = await listRegions()
 
   if (!customer || !regions) {

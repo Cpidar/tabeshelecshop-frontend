@@ -3,7 +3,7 @@ import { notFound } from "next/navigation"
 
 import {
   getCollectionByHandle,
-  getCollectionsList,
+  listCollections,
 } from "@lib/data/collections"
 import { listRegions } from "@lib/data/regions"
 import { StoreCollection, StoreRegion } from "@medusajs/types"
@@ -21,8 +21,10 @@ type Props = {
 const PRODUCT_LIMIT = 12
 
 export async function generateStaticParams() {
-  const { collections } = await getCollectionsList()
-
+  const { collections } = await listCollections({
+    fields: "*products",
+  })
+  
   if (!collections) {
     return []
   }

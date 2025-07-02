@@ -1,8 +1,8 @@
 
 import { getProductPrice } from "@lib/util/get-product-price"
-import { getProductsById } from "@lib/data/products"
 import { HttpTypes } from "@medusajs/types"
 import ProductCard from "./ProductCard"
+import { listProducts, retrieveProductsById } from "@/lib/data/products"
 
 export default async function ProductPreview({
   product,
@@ -13,10 +13,10 @@ export default async function ProductPreview({
   isFeatured?: boolean
   region: HttpTypes.StoreRegion
 }) {
-  const [pricedProduct] = await getProductsById({
-    ids: [product.id!],
+  const [pricedProduct] = await listProducts({
+    queryParams: {id: [product.id!]},
     regionId: region.id,
-  })
+  }).then(({ response }) => response.products)
 
   if (!pricedProduct) {
     return null

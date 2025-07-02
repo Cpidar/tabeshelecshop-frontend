@@ -1,32 +1,17 @@
 import { Metadata } from "next"
+import { notFound } from "next/navigation"
 
 import CartTemplate from "@modules/cart/templates"
 
-import { enrichLineItems, retrieveCart } from "@lib/data/cart"
-import { HttpTypes } from "@medusajs/types"
-import { getCustomer } from "@lib/data/customer"
-import { useParams } from "next/navigation"
+import { retrieveCart } from "@lib/data/cart"
 import { CartProvider } from "@/modules/cart/components/cart-context"
+import { retrieveCustomer } from "@lib/data/customer"
 
 export const metadata: Metadata = {
   title: "سبد خرید",
   description: "سبد خرید خود را مشاهده کنید",
 }
 
-const fetchCart = async () => {
-  const cart = await retrieveCart()
-
-  if (!cart) {
-    return null
-  }
-
-  if (cart?.items?.length) {
-    const enrichedItems = await enrichLineItems(cart?.items, cart?.region_id!)
-    cart.items = enrichedItems as HttpTypes.StoreCartLineItem[]
-  }
-
-  return cart
-}
 
 export default async function Cart(
   props: {
@@ -34,8 +19,12 @@ export default async function Cart(
   }
 ) {
   const params = await props.params;
-  const cart = await fetchCart()
-  const customer = await getCustomer()
+  const cart = await retrieveCart().catch((error) => {
+    console.error(error)
+    return notFound()
+  })
+
+  const customer = await retrieveCustomer()
 
   return (
     <CartProvider countryCode={params.countryCode} cart={cart}>
