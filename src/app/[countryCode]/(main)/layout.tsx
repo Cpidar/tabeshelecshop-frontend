@@ -8,7 +8,11 @@ import HeaderLogged from "@/modules/header"
 import TranslationsProvider from "@/modules/translationProvider/TranslationsProvider"
 import initTranslations from "@/app/i18n"
 import { getBaseURL } from "@lib/util/env"
-import { retrieveCart } from "@/lib/data/cart"
+import { listCartOptions, retrieveCart } from "@/lib/data/cart"
+import CartMismatchBanner from "@/modules/cart/components/cart-mismatch-banner"
+import { StoreCartShippingOption } from "@medusajs/types"
+import { retrieveCustomer } from "@/lib/data/customer"
+import FreeShippingPriceNudge from "@/modules/shipping/components/free-shipping-price-nudge"
 
 export const metadata: Metadata = {
   metadataBase: new URL(getBaseURL()),
@@ -19,6 +23,9 @@ export default async function PageLayout(props: {
   params: Promise<{ countryCode: string }>
 }) {
   const params = await props.params
+  const customer = await retrieveCustomer()
+  let cart = await retrieveCart()
+  let shippingOptions: StoreCartShippingOption[] = []
 
   const { countryCode } = params
 
@@ -27,11 +34,12 @@ export default async function PageLayout(props: {
   const i18nNamespaces = ["common"]
 
   const { t, resources } = await initTranslations(countryCode, ["common"])
-  let cart = await retrieveCart()
 
-  // if (!cart) {
-  //   cart = await getOrSetCart(countryCode)
-  // }
+  if (cart) {
+    const { shipping_options } = await listCartOptions()
+
+    shippingOptions = shipping_options
+  }
 
   return (
     <TranslationsProvider
@@ -40,6 +48,17 @@ export default async function PageLayout(props: {
       resources={resources}
     >
       <HeaderLogged countryCode={countryCode} />
+      {customer && cart && (
+        <CartMismatchBanner customer={customer} cart={cart} />
+      )}
+
+      {cart && (
+        <FreeShippingPriceNudge
+          variant="popup"
+          cart={cart}
+          shippingOptions={shippingOptions}
+        />
+      )}
       {/* <SecondNav2 /> */}
       {children}
       <CommonClient />
