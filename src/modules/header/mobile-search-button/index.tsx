@@ -1,21 +1,32 @@
 "use client"
 
 import SearchIcon from "@/components/Icons/SearchIcon"
-import logoImg from "@/images/logo.svg"
-import Image from "next/image"
 import React, { FC, useState, Fragment } from "react"
-import { Transition, Dialog, TransitionChild, DialogPanel } from "@/app/(frontend)/headlessui"
+import {
+  Transition,
+  Dialog,
+  TransitionChild,
+  DialogPanel,
+} from "@/app/(frontend)/headlessui"
 import MobileSearchPanel from "../mobile-search-panel"
+import type { Setting } from "@/payload-types"
+import { Media } from "@/components/Media"
 
 interface BagIconProps {
   className?: string
+  settings: Setting
 }
 
-const MobileSearchButton: FC<BagIconProps> = ({ className = "w-5 h-5" }) => {
+const MobileSearchButton: FC<BagIconProps> = ({
+  className = "w-5 h-5",
+  settings,
+}) => {
   const [isVisable, setIsVisable] = useState(false)
 
   const handleOpenMenu = () => setIsVisable(true)
   const handleCloseMenu = () => setIsVisable(false)
+
+  const media = settings?.logoSearchInput
 
   const renderContent = () => {
     return (
@@ -78,13 +89,14 @@ const MobileSearchButton: FC<BagIconProps> = ({ className = "w-5 h-5" }) => {
                   جستجو در
                 </span>
                 <div>
-                  <Image
-                    className={`block h-4 sm:h-10 w-auto`}
-                    src={logoImg || null}
-                    alt="Logo"
-                    sizes="200px"
-                    priority
-                  />
+                  {media && typeof media === "object" && (
+                    <Media
+                      className={`block h-4 sm:h-10 w-auto`}
+                      resource={media}
+                      alt="Logo"
+                      priority
+                    />
+                  )}
                 </div>
               </div>
             </div>

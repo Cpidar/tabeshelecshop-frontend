@@ -93,6 +93,16 @@ export const Settings: GlobalConfig = {
                     description: 'This is the logo that will be used on light backgrounds.',
                   },
                 },
+                {
+                  name: 'logoSearchInput',
+                  type: 'upload',
+                  relationTo: 'media',
+                  required: false,
+                  label: 'Logo (Search Input)',
+                  admin: {
+                    description: 'This is the logo that will be used in the search input in mobile screen.',
+                  },
+                },
               ],
             },
             {

@@ -14,9 +14,6 @@ importers:
       '@headlessui/react':
         specifier: ^2.2.0
         version: 2.2.4(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
-      '@heroicons/react':
-        specifier: ^2.1.5
-        version: 2.2.0(react@19.0.0)
       '@lexical/selection':
         specifier: ^0.32.1
         version: 0.32.1
@@ -36,16 +33,16 @@ importers:
         specifier: ^3.44.0
         version: 3.44.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@payloadcms/db-postgres':
-        specifier: ^3.22.0
+        specifier: ^3.44.0
         version: 3.44.0(payload@3.44.0(graphql@16.11.0)(typescript@5.8.3))
       '@payloadcms/email-nodemailer':
-        specifier: ^3.22.0
+        specifier: ^3.44.0
         version: 3.44.0(payload@3.44.0(graphql@16.11.0)(typescript@5.8.3))
       '@payloadcms/live-preview-react':
         specifier: ^3.44.0
         version: 3.44.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       '@payloadcms/next':
-        specifier: ^3.22.0
+        specifier: ^3.44.0
         version: 3.44.0(@types/react@19.0.8)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.3.4(@babel/core@7.27.7)(@playwright/test@1.53.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.2))(payload@3.44.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.3)
       '@payloadcms/plugin-form-builder':
         specifier: ^3.44.0
@@ -63,7 +60,7 @@ importers:
         specifier: ^3.44.0
         version: 3.44.0(@types/react@19.0.8)(monaco-editor@0.52.2)(next@15.3.4(@babel/core@7.27.7)(@playwright/test@1.53.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.2))(payload@3.44.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.3)
       '@payloadcms/richtext-lexical':
-        specifier: ^3.22.0
+        specifier: 3.44.0
         version: 3.44.0(@faceless-ui/modal@3.0.0-beta.2(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@faceless-ui/scroll-info@2.0.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0))(@payloadcms/next@3.44.0(@types/react@19.0.8)(graphql@16.11.0)(monaco-editor@0.52.2)(next@15.3.4(@babel/core@7.27.7)(@playwright/test@1.53.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.2))(payload@3.44.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.3))(@types/react@19.0.8)(monaco-editor@0.52.2)(next@15.3.4(@babel/core@7.27.7)(@playwright/test@1.53.1)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(sass@1.89.2))(payload@3.44.0(graphql@16.11.0)(typescript@5.8.3))(react-dom@19.0.0(react@19.0.0))(react@19.0.0)(typescript@5.8.3)(yjs@13.6.27)
       '@payloadcms/translations':
         specifier: ^3.44.0
@@ -1547,11 +1544,6 @@ packages:
     peerDependencies:
       react: ^18 || ^19 || ^19.0.0-rc
       react-dom: ^18 || ^19 || ^19.0.0-rc
-
-  '@heroicons/react@2.2.0':
-    resolution: {integrity: sha512-LMcepvRaS9LYHJGsF0zzmgKCUim/X3N/DQKc4jepAXJ7l8QxJ1PmxJzqplF2Z3FE4PqBAIGyJAQ/w4B5dsqbtQ==}
-    peerDependencies:
-      react: '>= 16 || ^19.0.0-rc'
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -9203,10 +9195,6 @@ snapshots:
       react-dom: 19.0.0(react@19.0.0)
       use-sync-external-store: 1.5.0(react@19.0.0)
 
-  '@heroicons/react@2.2.0(react@19.0.0)':
-    dependencies:
-      react: 19.0.0
-
   '@humanfs/core@0.19.1': {}
 
   '@humanfs/node@0.16.6':
@@ -9423,8 +9411,8 @@ snapshots:
 
   '@jridgewell/source-map@0.3.6':
     dependencies:
-      '@jridgewell/gen-mapping': 0.3.8
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/gen-mapping': 0.3.12
+      '@jridgewell/trace-mapping': 0.3.29
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
@@ -16293,7 +16281,7 @@ snapshots:
 
   terser-webpack-plugin@5.3.14(esbuild@0.25.5)(webpack@5.99.9(esbuild@0.25.5)):
     dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
+      '@jridgewell/trace-mapping': 0.3.29
       jest-worker: 27.5.1
       schema-utils: 4.3.2
       serialize-javascript: 6.0.2

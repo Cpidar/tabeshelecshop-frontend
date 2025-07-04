@@ -33,7 +33,7 @@ const HeaderLogged: FC<HeaderLoggedProps> = async ({ countryCode }) => {
           settings={settings}
         />
       </div>
-      <MobileHeader />
+      <MobileHeader settings={settings} />
     </>
   )
 }

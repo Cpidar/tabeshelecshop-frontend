@@ -3516,6 +3516,10 @@ export interface Setting {
    * This is the logo that will be used on light backgrounds.
    */
   logoDark?: (number | null) | Media;
+  /**
+   * This is the logo that will be used in the search input in mobile screen.
+   */
+  logoSearchInput?: (number | null) | Media;
   logoWidth?: number | null;
   logoHeight?: number | null;
   favicon?: (number | null) | Media;
@@ -3860,6 +3864,7 @@ export interface SettingsSelect<T extends boolean = true> {
       };
   logoLight?: T;
   logoDark?: T;
+  logoSearchInput?: T;
   logoWidth?: T;
   logoHeight?: T;
   favicon?: T;
