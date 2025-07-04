@@ -2,7 +2,7 @@ import React, { FC, ReactNode } from "react";
 import ButtonPrimary from "@/components/Button/ButtonPrimary";
 import ButtonSecondary from "@/components/Button/ButtonSecondary";
 import rightImg from "@/images/about-hero-right.png";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import { SearchIcon } from "lucide-react";
 import Image from "next/image";
 
 export interface SectionHeroProps {
@@ -32,7 +32,7 @@ const SectionHero: FC<SectionHeroProps> = ({
           <div className="pt-7 flex  space-x-4">
             <ButtonPrimary href="/search">
               <span className="">Explore</span>
-              <MagnifyingGlassIcon className="w-5 h-5 ml-2.5" />
+              <SearchIcon className="w-5 h-5 ml-2.5" />
             </ButtonPrimary>
             <ButtonSecondary href="/search">
               <span>Create</span>

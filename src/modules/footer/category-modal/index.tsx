@@ -1,6 +1,6 @@
 "use client"
 
-import { SquaresPlusIcon } from "@heroicons/react/24/outline"
+import { BlocksIcon } from "lucide-react"
 import { useState } from "react";
 import { Drawer } from "vaul"
 import { useModal } from "../modal-context";
@@ -15,7 +15,7 @@ const { isOpen, toggleModal } = useModal()
     <Drawer.Root dismissible={false} open={isOpen} onOpenChange={toggleModal}>
       <Drawer.Trigger>
         <div className="flex justify-center">
-          <SquaresPlusIcon className="w-6 h-6 text-neutral-500" />
+          <BlocksIcon className="w-6 h-6 text-neutral-500" />
         </div>
         {/* <p className="text-xs text-neutral-500">دسته بندی</p> */}
       </Drawer.Trigger>

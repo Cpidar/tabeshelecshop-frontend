@@ -1,8 +1,8 @@
 import {
-  NoSymbolIcon,
+  BanIcon,
   ClockIcon,
   SparklesIcon,
-} from "@heroicons/react/24/outline";
+} from "lucide-react";
 import React, { FC } from "react";
 import IconDiscount from "@/components/Icons/IconDiscount";
 
@@ -39,7 +39,7 @@ const ProductStatus: FC<Props> = ({
     if (status === "Sold Out") {
       return (
         <div className={CLASSES}>
-          <NoSymbolIcon className="w-3.5 h-3.5" />
+          <BanIcon className="w-3.5 h-3.5" />
           <span className="ms-1 leading-none">{status}</span>
         </div>
       );
