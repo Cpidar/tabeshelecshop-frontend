@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next"
 import { SubmitHandler, useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "@/images/logo.svg"
-import { ArrowRightIcon } from "@heroicons/react/24/solid"
+import { ArrowRightIcon } from "lucide-react"
 import ButtonSecondary from "@/components/Button/ButtonSecondary"
 import SubmitButton from "../submit-button"
 type Props = {

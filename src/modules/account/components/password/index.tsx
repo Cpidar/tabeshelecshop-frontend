@@ -8,7 +8,7 @@ import Link from "next/link"
 import { useFormStatus } from "react-dom";
 import Image from "next/image"
 import logo from "@/images/logo.svg"
-import { ArrowRightIcon } from "@heroicons/react/24/solid"
+import { ArrowRightIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
 import Loading from "../loading"
 import SubmitButton from "../submit-button"

@@ -7,7 +7,7 @@ import CategoriesButton from "@/modules/header/categories-button"
 import Link from "next/link"
 import ButtonPrimary from "@/components/Button/ButtonPrimary"
 import ButtonSecondary from "@/components/Button/ButtonSecondary"
-import { PhoneArrowUpRightIcon } from "@heroicons/react/24/solid"
+import { PhoneOutgoingIcon } from "lucide-react"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
 import { retrieveCustomer } from "@/lib/data/customer"
 import { retrieveCart } from "@/lib/data/cart"
@@ -171,7 +171,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async ({
                 <Link href={`tel:${settings.phoneNumber}`}>
                   <ButtonPrimary className="font-bold px-4 xl:px-6 py-2 xl:py-3 rounded flex-shrink-0 flex items-center">
                     <span className="ml-2 text-sm">{settings.phoneNumber}</span>
-                    <PhoneArrowUpRightIcon className="w-6 h-6 p-1" />
+                    <PhoneOutgoingIcon className="w-6 h-6 p-1" />
                   </ButtonPrimary>
                 </Link>
               </div>

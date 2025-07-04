@@ -1,6 +1,6 @@
 "use client"
 
-import { XMarkIcon } from "@heroicons/react/24/solid"
+import { XIcon } from "lucide-react"
 import { useState } from "react"
 
 type HighlightedBarProps = {
@@ -40,7 +40,7 @@ const HighlightedBar: React.FunctionComponent<HighlightedBarProps> = ({
             aria-label="Close Button"
             className="absolute flex items-center justify-end transition-colors duration-200 rounded-full outline-none w-7 md:w-8 h-7 md:h-8 ltr:right-0 rtl:left-0 ltr:mr-2 rtl:ml-2 md:ltr:mr-3 md:rtl:ml-3 hover:bg-brand-light hover:bg-opacity-10 focus:text-brand-light focus:bg-opacity-10"
           >
-            <XMarkIcon className="w-6 h-6" />
+            <XIcon className="w-6 h-6" />
           </button>
         </div>
       )}

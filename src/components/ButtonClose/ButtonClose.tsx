@@ -1,5 +1,5 @@
 import React from "react";
-import { XMarkIcon } from "@heroicons/react/24/solid";
+import { XIcon } from "lucide-react";
 import twFocusClass from "@/utils/twFocusClass";
 
 export interface ButtonCloseProps {
@@ -22,7 +22,7 @@ const ButtonClose: React.FC<ButtonCloseProps> = ({
       onClick={onClick}
     >
       <span className="sr-only">Close</span>
-      <XMarkIcon className={IconclassName} />
+      <XIcon className={IconclassName} />
     </button>
   );
 };

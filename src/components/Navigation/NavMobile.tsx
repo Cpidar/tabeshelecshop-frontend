@@ -8,7 +8,7 @@ import { NavItemType } from "./NavigationItem";
 import { NAVIGATION_MENU } from "@/data/navigation";
 import ButtonPrimary from "@/components/Button/ButtonPrimary";
 import SocialsList from "@/components/SocialsList/SocialsList";
-import { ChevronDownIcon } from "@heroicons/react/24/solid";
+import { ChevronDownIcon } from "lucide-react";
 import SwitchDarkMode from "@/components/SwitchDarkMode/SwitchDarkMode";
 import Link from "next/link";
 import SearchModal from "@/modules/search/templates/search-modal";

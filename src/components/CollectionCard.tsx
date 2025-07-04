@@ -1,4 +1,4 @@
-import { StarIcon } from "@heroicons/react/24/solid";
+import { StarIcon } from "lucide-react";
 import { productImgs } from "@/data/fakeData";
 import React, { FC } from "react";
 import NcImage from "@/components/NcImage/NcImage";

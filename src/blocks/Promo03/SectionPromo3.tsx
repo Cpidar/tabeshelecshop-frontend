@@ -5,7 +5,7 @@ import backgroundLineSvg from "@/images/BackgroundLine.svg";
 import Badge from "@/components/Badge/Badge";
 import Input from "@/components/Input/Input";
 import ButtonCircle from "@/components/Button/ButtonCircle";
-import { PhoneArrowUpRightIcon } from "@heroicons/react/24/solid";
+import { PhoneOutgoingIcon } from "lucide-react";
 import Image from "next/image";
 
 export interface SectionPromo3Props {
@@ -65,7 +65,7 @@ const SectionPromo3: FC<SectionPromo3Props> = ({ className = "lg:pt-10" }) => {
               type="submit"
               className="absolute transform top-1/2 -translate-y-1/2 left-1"
             >
-              <PhoneArrowUpRightIcon className="w-6 h-6" />
+              <PhoneOutgoingIcon className="w-6 h-6" />
             </ButtonCircle>
           </form>
         </div>

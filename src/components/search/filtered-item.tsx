@@ -1,6 +1,6 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import isEmpty from 'lodash/isEmpty';
-import { XMarkIcon } from 'lucide-react';
+import { X } from 'lucide-react';
 
 interface Props {
   itemKey: string;
@@ -40,7 +40,7 @@ export const FilteredItem = ({ itemKey, itemValue, itemName }: Props) => {
       onClick={handleClose}
     >
       {itemName}
-      <XMarkIcon className="text-sm h-4 w-4 text-body ltr:ml-2 rtl:mr-2 shrink-0 ltr:-mr-0.5 rtl:-ml-0.5 mt-0.5 transition duration-200 ease-in-out group-hover:text-heading" />
+      <X className="text-sm h-4 w-4 text-body ltr:ml-2 rtl:mr-2 shrink-0 ltr:-mr-0.5 rtl:-ml-0.5 mt-0.5 transition duration-200 ease-in-out group-hover:text-heading" />
     </div>
   );
 };
