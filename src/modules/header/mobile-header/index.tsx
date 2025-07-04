@@ -1,11 +1,13 @@
 import React, { FC } from "react"
 import MobileSearchButton from "../mobile-search-button"
+import type { Setting } from "@/payload-types"
 
 interface BagIconProps {
   className?: string
+  settings: Setting
 }
 
-const MobileHeader: FC<BagIconProps> = ({ className = "w-5 h-5" }) => {
+const MobileHeader: FC<BagIconProps> = ({ className = "w-5 h-5", settings }) => {
   return (
     <div className="sticky top-0 left-0 w-full z-30 bg-white">
       <div>
@@ -16,7 +18,7 @@ const MobileHeader: FC<BagIconProps> = ({ className = "w-5 h-5" }) => {
                 data-cro-id="searchbox-click"
                 className="flex items-center SearchInput_SearchInput__HB9qi SearchInput_SearchInput__searchInput__CEpaj ellipsis  h-10 border-none bg-neutral-100 grow rounded px-0 lg:px-4 text-body-2"
               >
-                <MobileSearchButton />
+                <MobileSearchButton settings={settings} />
               </div>
             </div>
           </div>

@@ -59,9 +59,10 @@ export default function DropdownCategories({
   items,
   className,
 }: {
-  items: HttpTypes.StoreProductCategory
+  items: HttpTypes.StoreProductCategory[]
   className?: string
 }) {
+
   return (
     <Menu
       align={"end"}
@@ -76,7 +77,7 @@ export default function DropdownCategories({
         </MenuButton>
       }
     >
-      {items?.category_children && items.category_children?.map((item, itemIdx) =>
+      {items && items.map((item, itemIdx) =>
         item.category_children?.length > 0 ? (
           <SubMenu direction="left" gap={10} key={`item_${itemIdx}`} label={item.name}>
             {item.category_children.map((subItem, subItemIdx) => (

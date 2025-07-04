@@ -6,7 +6,7 @@ import MenuBar from "@/components/MenuBar/MenuBar"
 import CategoryModal from "../category-modal"
 import { CategoryModalContent } from "../category-accordion"
 import { ModalProvider } from "../modal-context"
-import { getCategoryByHandle } from "@/lib/data/categories"
+import { getCategoryByHandle, listCategories } from "@/lib/data/categories"
 import { HttpTypes } from "@medusajs/types"
 
 export default async function MobileNavigation({
@@ -14,7 +14,7 @@ export default async function MobileNavigation({
 }: {
   cart: HttpTypes.StoreCart
 }) {
-  const product_categories = await getCategoryByHandle(["main"])
+  const product_categories = await listCategories()
   const totalItems =
     cart?.items?.reduce((acc, item) => {
       return acc + item.quantity
