@@ -144,7 +144,7 @@ export const Header: GlobalConfig = {
               admin: {
                 initCollapsed: true,
                 components: {
-                  RowLabel: '@/Header/RowLabel#RowLabel',
+                  RowLabel: '@/modules/header/RowLabel#RowLabel',
                 },
               },
             },

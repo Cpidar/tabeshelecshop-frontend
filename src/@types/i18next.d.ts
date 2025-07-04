@@ -1,4 +1,4 @@
-import { resources, defaultNS } from "@/app/i18n";
+import { resources, defaultNS } from "@/app/(frontend)/i18n";
 import ns1 from '@/locales/en/common.json'
 
 declare module "i18next" {

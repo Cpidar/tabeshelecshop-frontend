@@ -29,7 +29,7 @@ export type CMSLinkType = {
       | string
       | number
   } | null
-  size?: ButtonProps['size'] | null
+  size?: ButtonProps['size']
   type?: 'custom' | 'reference' | null
   url?: string | null
   onClick?: () => void
@@ -82,7 +82,7 @@ export const CMSLink: React.FC<CMSLinkType> = ({
   }
 
   /* ------------------------------------------------ button styles ------ */
-  const size = appearance === 'link' ? 'clear' : sizeFromProps
+  const size = appearance === 'link' ? 'default' : sizeFromProps
 
   return (
     <Button

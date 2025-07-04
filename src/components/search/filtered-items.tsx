@@ -16,7 +16,7 @@ const walkBFS = (root: any[]) => {
   return ans
 }
 
-export const FilteredItems: React.FC<{items: any[]}> = ({items}) => {
+export const FilteredItems: React.FC<{items: any}> = ({items}) => {
   const router = useRouter()
   const pathname = usePathname()
   const searchParams = useSearchParams()

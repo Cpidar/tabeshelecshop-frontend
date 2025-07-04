@@ -114,8 +114,10 @@ export async function middleware(request: NextRequest) {
   const checkoutStep = searchParams.get("step")
   const onboardingCookie = request.cookies.get("_medusa_onboarding")
   const cartIdCookie = request.cookies.get("_medusa_cart_id")
-  const excludedUrl = ['keystatic', 'sitemap.xml', 'robots.txt', 'assets', 'behpardakht', 'api', 'calc', "site.webmanifest"]
+  const excludedUrl = ['admin', 'sitemap.xml', 'robots.txt', 'assets', 'behpardakht', 'api', 'calc', "site.webmanifest", 'favicon']
   const protectedUrl = ['checkout', 'account']
+  const { pathname } = request.nextUrl;
+
   // I18nMiddleware (request)
 
   const token = request.cookies.get("_medusa_jwt")?.value
@@ -132,6 +134,24 @@ export async function middleware(request: NextRequest) {
   // exclude sitemap
   const urlHasExcluded = excludedUrl.some(exurl => request.nextUrl.pathname.split("/")[1].includes(exurl))
   const isUrlProtected = protectedUrl.some(prurl => request.nextUrl.pathname.split("/").includes(prurl))
+
+    // Skip middleware for admin and API paths
+  if (
+    pathname.startsWith('/admin') ||
+    pathname.startsWith('/api') ||
+    pathname.startsWith('/_next') ||
+    pathname.startsWith('/_vercel') ||
+    pathname.startsWith('/graphql-playground') ||
+    pathname.startsWith('/graphql') ||
+    pathname.startsWith('/next')
+  ) {
+    return NextResponse.next();
+  }
+
+  // Skip for static assets
+  if (pathname.includes('.')) {
+    return NextResponse.next();
+  }
 
   if (!token && isUrlProtected) {
     return NextResponse.redirect(`${request.nextUrl.origin}/${countryCode}/auth`, 307)

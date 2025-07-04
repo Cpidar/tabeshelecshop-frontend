@@ -2,7 +2,7 @@
 
 import React from "react"
 import toast from "react-hot-toast"
-import { Transition } from "@/app/headlessui"
+import { Transition } from "@/app/(frontend)/headlessui"
 import { RenderProductCartOnNotify } from "../product-preview/RenderProductCartOnNotify"
 
 const NotifyAddTocart = ({

@@ -1,6 +1,6 @@
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import isEmpty from 'lodash/isEmpty';
-import { XMarkIcon } from '@heroicons/react/16/solid';
+import { XMarkIcon } from 'lucide-react';
 
 interface Props {
   itemKey: string;

@@ -1,8 +1,9 @@
 "use client";
 import React, { FC, Fragment, ReactNode, useEffect, useState } from "react";
-import { Dialog, Transition } from "@/app/headlessui";
+import { Dialog, Transition } from "@/app/(frontend)/headlessui";
 import ButtonClose from "@/components/ButtonClose/ButtonClose";
 import Button from "@/components/Button/Button";
+import { DialogBackdrop, DialogTitle, TransitionChild } from "@headlessui/react";
 
 export interface NcModalProps {
   renderContent: () => ReactNode;
@@ -59,7 +60,7 @@ const NcModal: FC<NcModalProps> = ({
           onClose={closeModal}
         >
           <div className="min-h-screen px-1 text-center md:px-4">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-75"
               enterFrom="opacity-0"
@@ -68,8 +69,8 @@ const NcModal: FC<NcModalProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Dialog.Overlay className="fixed inset-0 bg-neutral-900 bg-opacity-50 dark:bg-opacity-80" />
-            </Transition.Child>
+              <DialogBackdrop className="fixed inset-0 bg-neutral-900 bg-opacity-50 dark:bg-opacity-80" />
+            </TransitionChild>
 
             {/* This element is to trick the browser into centering the modal contents. */}
             <span
@@ -78,7 +79,7 @@ const NcModal: FC<NcModalProps> = ({
             >
               &#8203;
             </span>
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-75"
               enterFrom="opacity-0 scale-95"
@@ -96,17 +97,17 @@ const NcModal: FC<NcModalProps> = ({
                     className="absolute left-2 top-1/2 transform -translate-y-1/2 sm:left-4"
                   />
                   {modalTitle && (
-                    <Dialog.Title
+                    <DialogTitle
                       as="h3"
                       className="text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 mx-10"
                     >
                       {modalTitle}
-                    </Dialog.Title>
+                    </DialogTitle>
                   )}
                 </div>
                 <div className={contentPaddingClass}>{renderContent()}</div>
               </div>
-            </Transition.Child>
+            </TransitionChild>
           </div>
         </Dialog>
       </Transition>

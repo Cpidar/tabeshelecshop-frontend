@@ -4,7 +4,7 @@ import React, { FC, useEffect, useRef, useState } from "react"
 // @ts-ignore
 import Glide from "@glidejs/glide/dist/glide.esm"
 import Image from "next/image"
-import { ChevronLeftIcon } from "@heroicons/react/16/solid"
+import { ChevronLeftIcon } from "lucide-react"
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
 
 export interface SectionSliderProductCardProps {

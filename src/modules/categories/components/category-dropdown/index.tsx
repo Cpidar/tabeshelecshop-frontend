@@ -1,6 +1,6 @@
 "use client"
 
-import { Bars3Icon, ChevronLeftIcon } from "@heroicons/react/16/solid"
+import { Bars3Icon, ChevronLeftIcon } from "lucide-react"
 import { HttpTypes } from "@medusajs/types"
 import {
   Menu,
@@ -59,7 +59,7 @@ export default function DropdownCategories({
   items,
   className,
 }: {
-  items: HttpTypes.StoreProductCategory[]
+  items: HttpTypes.StoreProductCategory
   className?: string
 }) {
   return (
@@ -76,7 +76,7 @@ export default function DropdownCategories({
         </MenuButton>
       }
     >
-      {items?.map((item, itemIdx) =>
+      {items?.category_children && items.category_children?.map((item, itemIdx) =>
         item.category_children?.length > 0 ? (
           <SubMenu direction="left" gap={10} key={`item_${itemIdx}`} label={item.name}>
             {item.category_children.map((subItem, subItemIdx) => (

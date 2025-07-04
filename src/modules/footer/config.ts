@@ -170,7 +170,7 @@ export const Footer: GlobalConfig = {
                   admin: {
                     initCollapsed: true,
                     components: {
-                      RowLabel: '@/Footer/RowLabel#RowLabel',
+                      RowLabel: '@/modules/footer/RowLabel#RowLabel',
                     },
                     condition: (data, siblingData) =>
                       siblingData.columnType === 'menu' && siblingData.menuType === 'custom',

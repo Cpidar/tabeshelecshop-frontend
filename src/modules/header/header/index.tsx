@@ -105,7 +105,11 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async ({
         <div className="w-full border-b hidden lg:block">
           <div className="container h-20 flex justify-between">
             <div className="lg:flex-1 flex items-center">
-              <Logo className="flex-shrink-0" />
+              <Logo
+                className="flex-shrink-0"
+                width={settings.logoWidth ?? undefined}
+                height={settings.logoHeight ?? undefined}
+              />
             </div>
 
             {/* <div className="flex-[2] hidden lg:flex justify-center mx-4"> */}

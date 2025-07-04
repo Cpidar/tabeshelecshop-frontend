@@ -31,7 +31,7 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.js", "check-env-variables.js"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "tailwind.config.mjs", "check-env-variables.js"],
   "exclude": [
     "node_modules",
     ".next",

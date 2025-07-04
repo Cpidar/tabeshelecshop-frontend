@@ -1,9 +1,10 @@
 "use client"
 
 import React, { useState, Fragment } from "react"
-import { Transition, Dialog } from "@/app/headlessui"
+import { Transition, Dialog, TransitionChild, DialogPanel } from "@/app/(frontend)/headlessui"
 import NavMobile from "@/components/Navigation/NavMobile"
 import MenuIcon from "../Icons/MenuIcon"
+import { DialogBackdrop } from "@headlessui/react"
 
 export interface MenuBarProps {}
 const MenuBar: React.FC<MenuBarProps> = () => {
@@ -22,7 +23,7 @@ const MenuBar: React.FC<MenuBarProps> = () => {
         >
           <div className="fixed left-0 top-0 bottom-0 w-full max-w-md md:w-auto z-max outline-none focus:outline-none">
             <React.Fragment>
-              <Transition.Child
+              <TransitionChild
                 as={Fragment}
                 enter="transition duration-100 transform"
                 enterFrom="opacity-0 -translate-x-14"
@@ -34,9 +35,9 @@ const MenuBar: React.FC<MenuBarProps> = () => {
                 <div className="z-20 relative">
                   <NavMobile onClickClose={handleCloseMenu} />
                 </div>
-              </Transition.Child>
+              </TransitionChild>
 
-              <Transition.Child
+              <TransitionChild
                 as={Fragment}
                 enter=" duration-300"
                 enterFrom="opacity-0"
@@ -45,8 +46,8 @@ const MenuBar: React.FC<MenuBarProps> = () => {
                 leaveFrom="opacity-100"
                 leaveTo="opacity-0"
               >
-                <Dialog.Overlay className="fixed inset-0 bg-neutral-900/60" />
-              </Transition.Child>
+                <DialogBackdrop className="fixed inset-0 bg-neutral-900/60" />
+              </TransitionChild>
             </React.Fragment>
           </div>
         </Dialog>

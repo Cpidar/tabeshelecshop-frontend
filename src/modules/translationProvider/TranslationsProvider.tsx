@@ -1,7 +1,7 @@
 "use client"
 
 import { I18nextProvider } from "react-i18next"
-import initTranslations from "@/app/i18n"
+import initTranslations from "@/app/(frontend)/i18n"
 import { Resource, createInstance } from "i18next"
 
 export default function TranslationsProvider({

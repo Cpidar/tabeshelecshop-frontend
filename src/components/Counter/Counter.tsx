@@ -1,5 +1,5 @@
 'use client'
-import { MinusIcon, PlusIcon } from '@heroicons/react/16/solid';
+import { MinusIcon, PlusIcon } from 'lucide-react';
 import cn from 'classnames';
 import { useTranslation } from 'react-i18next';
 

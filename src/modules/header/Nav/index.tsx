@@ -3,13 +3,10 @@ import type { Header as HeaderType, Media, Setting } from '@/payload-types'
 import { CMSLink } from '@/components/Link'
 import Image from 'next/image'
 import { ArrowUpRight, ChevronDown } from 'lucide-react'
-import { usePathname } from 'next/navigation'
 import clsx from 'clsx'
 
 export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
   const navItems = data?.navItems || []
-
-  const pathname = usePathname()
 
   return (
     <nav className="gap-x-6 items-center hidden lg:flex flex-wrap">

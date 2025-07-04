@@ -1,6 +1,6 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
-@import "tailwindcss/utils";
+@import "tailwindcss/utilities";
 
 @layer utils {
   /* Chrome, Safari and Opera */

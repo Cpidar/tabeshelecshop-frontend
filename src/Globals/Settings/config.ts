@@ -17,6 +17,16 @@ export const Settings: GlobalConfig = {
           label: 'General',
           fields: [
             {
+              name: 'siteTitle',
+              type: 'textarea',
+              label: 'Site Title',
+            },
+            {
+              name: 'description',
+              type: 'textarea',
+              label: 'Description',
+            },
+            {
               name: 'businessAddress',
               type: 'textarea',
               label: 'Address',

@@ -4,7 +4,7 @@ import SearchIcon from "@/components/Icons/SearchIcon"
 import logoImg from "@/images/logo.svg"
 import Image from "next/image"
 import React, { FC, useState, Fragment } from "react"
-import { Transition, Dialog, TransitionChild, DialogPanel } from "@/app/headlessui"
+import { Transition, Dialog, TransitionChild, DialogPanel } from "@/app/(frontend)/headlessui"
 import MobileSearchPanel from "../mobile-search-panel"
 
 interface BagIconProps {
@@ -80,7 +80,7 @@ const MobileSearchButton: FC<BagIconProps> = ({ className = "w-5 h-5" }) => {
                 <div>
                   <Image
                     className={`block h-4 sm:h-10 w-auto`}
-                    src={logoImg}
+                    src={logoImg || null}
                     alt="Logo"
                     sizes="200px"
                     priority

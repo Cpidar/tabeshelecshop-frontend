@@ -6,7 +6,7 @@ import { HttpTypes } from '@medusajs/types';
 export const CategoryFilter = ({
   product_categories
 }: {
-  product_categories: HttpTypes.StoreProductCategory[]
+  product_categories: HttpTypes.StoreProductCategory
 }) => {
 
   // if (product_categories?.length) {
@@ -27,7 +27,7 @@ export const CategoryFilter = ({
         {/* <Scrollbar className="w-full category-filter-scrollbar"> */}
         <div className="w-full category-filter-scrollbar">
 
-          {product_categories?.length ? (
+          {product_categories ? (
             <CategoryFilterMenu items={product_categories} />
           ) : (
             <div className="min-h-full pt-6 pb-8 px-9 lg:p-8">

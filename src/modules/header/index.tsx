@@ -1,8 +1,6 @@
 import React, { FC } from "react"
 import MainNav5 from "./header"
 import HighlightedBar from "./topbar"
-import Link from "next/link"
-import keystaticConfig from "../../../keystatic.config"
 import type { Header, Setting } from "@/payload-types"
 import RichText from "@/components/RichText"
 import { getCachedGlobal } from "@/utils/getGlobals"

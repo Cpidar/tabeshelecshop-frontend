@@ -31,7 +31,15 @@ export const SplitVisualHero: React.FC<Page['hero']> = ({
             <ul className="flex flex-wrap gap-4">
               {links.map(({ link }, i) => (
                 <li key={i}>
-                  <CMSLink {...link} />
+                  <CMSLink
+                    {...{
+                      ...link,
+                      appearance:
+                        link.appearance === 'dark'
+                          ? 'default'
+                          : link.appearance,
+                    }}
+                  />
                 </li>
               ))}
             </ul>

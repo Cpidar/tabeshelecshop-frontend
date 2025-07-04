@@ -5,8 +5,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import { Product, ProductCategory, ProductImage } from '@/payload-types'
 import SingleProduct from '../SingleProduct/component'
-import { Button } from '@/components/ui/button'
-import ItemLoaderShimmer from '@/components/Loaders/ItemLoaderShimmer'
+import { Button } from '@medusajs/ui'
+import ItemLoaderShimmer from '@/components/loaders/ItemLoaderShimmer'
 
 interface CategoryShowcaseProps {
   category: ProductCategory

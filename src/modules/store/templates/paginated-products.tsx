@@ -1,5 +1,4 @@
 import LocalizedClientLink from "@/modules/common/components/localized-client-link"
-import { getProductsListWithSort } from "@lib/data/products"
 import { getRegion } from "@lib/data/regions"
 import ProductPreview from "@modules/products/components/product-preview"
 import { Pagination } from "@modules/store/components/pagination"
@@ -7,6 +6,7 @@ import { SortOptions } from "@modules/store/components/refinement-list/sort-prod
 import { isArray } from "lodash"
 import Link from "next/link"
 import LoadMore from "../components/load-more"
+import { listProductsWithSort } from "@/lib/data/products"
 
 const PRODUCT_LIMIT = 12
 
@@ -62,7 +62,7 @@ export default async function PaginatedProducts({
   let {
     response: { products, count },
     nextPage,
-  } = await getProductsListWithSort({
+  } = await listProductsWithSort({
     page,
     queryParams,
     sortBy,

@@ -7,7 +7,7 @@ import { HttpTypes } from "@medusajs/types"
 export const CategoryModalContent = ({
   product_categories,
 }: {
-  product_categories: HttpTypes.StoreProductCategory[]
+  product_categories: HttpTypes.StoreProductCategory
 }) => {
   const { toggleModal } = useModal()
 
