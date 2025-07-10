@@ -143,7 +143,8 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith('/_vercel') ||
     pathname.startsWith('/graphql-playground') ||
     pathname.startsWith('/graphql') ||
-    pathname.startsWith('/next')
+    pathname.startsWith('/next') ||
+    pathname.startsWith('/font')
   ) {
     return NextResponse.next();
   }

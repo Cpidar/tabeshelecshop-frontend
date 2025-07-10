@@ -10,15 +10,17 @@ import {
   getCacheOptions,
   getCacheTag,
   getCartId,
+  getTempAuthHeaders,
   removeAuthToken,
   removeCartId,
   setAuthToken,
+  setTempAuthToken,
 } from "./cookies"
 
 export const retrieveCustomer =
   async (): Promise<HttpTypes.StoreCustomer | null> => {
     const authHeaders = await getAuthHeaders()
-
+    console.log(authHeaders)
     if (!authHeaders) return null
 
     const headers = {
@@ -37,7 +39,7 @@ export const retrieveCustomer =
         },
         headers,
         next,
-        cache: "force-cache",
+        cache: "default",
       })
       .then(({ customer }) => customer)
       .catch(() => null)
@@ -59,13 +61,26 @@ export const updateCustomer = async (body: HttpTypes.StoreUpdateCustomer) => {
   return updateRes
 }
 
-export async function signup(_currentState: unknown, formData: FormData) {
-  const password = formData.get("password") as string
+
+// change by me: convert from formdata to react hook form
+export async function signup({
+  firstName,
+  lastName,
+  phone,
+  email,
+  password
+}: {
+  firstName: string
+  lastName: string
+  phone: string
+  email: string
+  password: string
+}) {
   const customerForm = {
-    email: formData.get("email") as string,
-    first_name: formData.get("first_name") as string,
-    last_name: formData.get("last_name") as string,
-    phone: formData.get("phone") as string,
+    email,
+    firstName,
+    lastName,
+    phone
   }
 
   try {
@@ -107,7 +122,7 @@ export async function signup(_currentState: unknown, formData: FormData) {
 export async function login(_currentState: unknown, formData: FormData) {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
-
+console.log(email, password)
   try {
     await sdk.auth
       .login("customer", "emailpass", { email, password })
@@ -285,3 +300,137 @@ export async function resetPassword(
     return error.toString()
   }
 }
+
+export const checkCustomerExits = async ({
+  firstName,
+  lastName,
+  phone,
+}: {
+  firstName: string
+  lastName: string
+  phone: string
+}) => {
+  try {
+    const { token: regToken } = await sdk.client.fetch<
+      { token: string }
+    >(`/auth/customer/phone-auth/register`, {
+      method: "POST",
+      body: {
+        phone,
+      },
+    })
+
+
+  } catch (error: any) {
+    return error.toString()
+  }
+}
+
+export const authenticateWithPhone = async (phone: string) => {
+  try {
+    const response = await sdk.auth.login("customer", "phone-auth", {
+      phone,
+    })
+
+    if (
+      typeof response === "string" ||
+      !response.location
+    ) {
+      throw new Error("Failed to login")
+    }
+
+    return response
+  } catch (error: any) {
+    return error.toString()
+  }
+}
+
+export const verifyOtp = async ({
+  otp,
+  phone,
+}: {
+  otp: string
+  phone: string
+}) => {
+  try {
+    const token = await sdk.auth.callback("customer", "phone-auth", {
+      phone,
+      otp,
+    })
+
+    await setAuthToken(token)
+
+    const customerCacheTag = await getCacheTag("customers")
+    revalidateTag(customerCacheTag)
+
+    await transferCart()
+
+    return true
+  } catch (e: any) {
+    return e.toString()
+  }
+}
+
+export const registerWithPhone = async ({
+  firstName,
+  lastName,
+  phone,
+  email,
+  password
+}: {
+  firstName: string
+  lastName: string
+  phone: string
+  email: string
+  password: string
+}) => {
+  try {
+    const { token: regToken } = await sdk.client.fetch<
+      { token: string }
+    >(`/auth/customer/phone-auth/register`, {
+      method: "POST",
+      body: {
+        phone,
+        password
+      },
+    })
+    
+    
+    const res = await sdk.client.fetch<
+      { token: string }
+    >(`/auth/customer/emailpass/register`, {
+      method: "POST",
+      body: {
+        email,
+        password
+      },
+  })
+
+
+
+    await setTempAuthToken(regToken as string)
+    const headers = {
+      ...(await getTempAuthHeaders()),
+    }
+
+    // const email = `${phone}@gmail.com`
+    const customerData = {
+      email,
+      first_name: firstName,
+      last_name: lastName,
+      phone,
+    }
+
+    await sdk.store.customer.update(
+      customerData,
+      {},
+      headers
+    )
+
+    return await authenticateWithPhone(phone)
+    // return true
+  } catch (error: any) {
+    return error.toString()
+  }
+}
+

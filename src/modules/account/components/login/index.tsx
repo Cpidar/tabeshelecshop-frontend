@@ -7,6 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "@/images/logo.svg"
 import { ArrowRightIcon } from "lucide-react"
+import { authenticateWithPhone } from "@/lib/data/customer"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -15,15 +16,15 @@ type Props = {
   previousView: LOGIN_VIEW
 }
 
-interface IFormInput {
-  phone: String
+export interface IFormInput {
+  phone: string
 }
 
 const PageLogin = ({ setCurrentView, setPhone, setEmail }: Props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<IFormInput>({
     defaultValues: {
       phone: "",
@@ -40,46 +41,65 @@ const PageLogin = ({ setCurrentView, setPhone, setEmail }: Props) => {
       phone,
       step,
     }
-    setPhone(phone as string)
+    setPhone(phone)
+    setEmail(`${phone}@${process.env.NEXT_PUBLIC_EMAIL_DOMAIN}`)
 
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/phone/${rawFormData.phone}`,
-        {
-          method: "GET",
-        }
-      )
-      const { exists, email } = await response.json()
-      if (exists) {
-        // means customer exist go to password input view
-        setCurrentView(LOGIN_VIEW.PASSWORD)
-        setPhone(rawFormData.phone as string)
-        setEmail(email)
-      } else {
-        // means new customer go to otp input view
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/otp/send`,
-          {
-            method: "POST",
-            body: JSON.stringify(rawFormData),
-            headers: {
-              "content-type": "application/json; charset=utf-8",
-            },
-          }
-        )
+    //medusa 2 version
 
-        if (response.status === 200) {
-          // new customer
-          setCurrentView(LOGIN_VIEW.OTP)
-        } else {
-          // show error
-        }
-      }
-    } catch (e) {
-      console.error(e)
+    const response = await authenticateWithPhone(phone)
+    console.log(response)
+    if (typeof response === "string") {
+      throw new Error(response)
     }
-    // ...
+
+    const { location } = response
+    console.log(response)
+
+    location === "register"
+      ? setCurrentView(LOGIN_VIEW.REGISTER)
+      : setCurrentView(LOGIN_VIEW.PASSWORD)
   }
+
+  // medusa 1 version
+
+  // try {
+  //   const response = await fetch(
+  //     `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/phone/${rawFormData.phone}`,
+  //     {
+  //       method: "GET",
+  //     }
+  //   )
+  //   const { exists, email } = await response.json()
+  //   if (exists) {
+  //     // means customer exist go to password input view
+  //     setCurrentView(LOGIN_VIEW.PASSWORD)
+  //     setPhone(rawFormData.phone as string)
+  //     setEmail(email)
+  //   } else {
+  //     // means new customer go to otp input view
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/otp/send`,
+  //       {
+  //         method: "POST",
+  //         body: JSON.stringify(rawFormData),
+  //         headers: {
+  //           "content-type": "application/json; charset=utf-8",
+  //         },
+  //       }
+  //     )
+
+  //     if (response.status === 200) {
+  //       // new customer
+  //       setCurrentView(LOGIN_VIEW.OTP)
+  //     } else {
+  //       // show error
+  //     }
+  //   }
+  // } catch (e) {
+  //   console.error(e)
+  // }
+  // ...
+
   return (
     <div className="nc-PageLogin mb-8 p-5 lg:mb-10 flex flex-col items-center lg:justify-center">
       <div className="w-full relative flex items-center justify-center">
@@ -119,6 +139,7 @@ const PageLogin = ({ setCurrentView, setPhone, setEmail }: Props) => {
                     message: "شماره تلفن بدرستی وارد نشده است",
                   },
                 })}
+                disabled={isSubmitting}
               />
             </label>
             {errors.phone?.message && (
@@ -126,7 +147,11 @@ const PageLogin = ({ setCurrentView, setPhone, setEmail }: Props) => {
                 {t(errors.phone.message)}
               </p>
             )}
-            <ButtonPrimary className="w-full mt-6 lg:mt-8" type="submit">
+            <ButtonPrimary
+              className="w-full mt-6 lg:mt-8"
+              type="submit"
+              loading={isSubmitting}
+            >
               {t("text-continue")}
             </ButtonPrimary>
           </form>

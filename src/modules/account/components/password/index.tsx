@@ -62,7 +62,7 @@ const PageLogin = ({ setCurrentView, email, phone }: Props) => {
   }
   const onSubmit = async (_currentState: unknown, formData: FormData) => {
     if (!formData.get("email")) formData.append("email", email)
-
+console.log(email, formData.get('password'))
     return login(_currentState, formData)
       // .then(() => router.replace("/"))
       // .catch((e) => e.toString())
@@ -110,10 +110,10 @@ const PageLogin = ({ setCurrentView, email, phone }: Props) => {
           <SubmitButton>ورود</SubmitButton>
         </form>
         <button
-          onClick={() => forgetPassword()}
+          onClick={() => setCurrentView(LOGIN_VIEW.OTP)}
           className="text-sm text-green-600"
         >
-          فراموشی رمز عبور
+          ورود از طریق رمز یک بار مصرف
         </button>
       </div>
     </div>

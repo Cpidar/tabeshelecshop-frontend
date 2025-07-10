@@ -1,6 +1,6 @@
 "use client"
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react"
 import Input from "@modules/common/components/input"
 import { LOGIN_VIEW } from "@/modules/account/templates/login-template"
 import ErrorMessage from "@modules/checkout/components/error-message"
@@ -10,20 +10,88 @@ import Image from "next/image"
 import logo from "@/images/logo.svg"
 import { ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { signup } from "@lib/data/customer"
+import { registerWithPhone, signup } from "@lib/data/customer"
+import { SubmitHandler, useForm } from "react-hook-form"
+import React from "react"
+import { IFormInput } from "../login"
+import ButtonPrimary from "@/components/Button/ButtonPrimary"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
   phone: string
 }
 
+type FormData = {
+  firstName: string
+  lastName: string
+  email: string
+  phone: string
+  password: string
+}
+
 const Register = ({ setCurrentView, phone }: Props) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+    setError,
+    reset,
+  } = useForm<FormData>()
+
+  const [submit_error, setSubmitError] = useState<string | null>(null)
+  const [submit_success, setSubmitSuccess] = useState(false)
   const router = useRouter()
-  const onFormAction = (_currentState: unknown, formData: FormData) => {
-    if (!formData.get("phone")) formData.append("phone", phone)
-    if (!formData.get("email")) formData.append("email", `${phone}@tabeshelecshop.ir`)
-    signup(_currentState, formData)
-    router.replace("/")
+  
+  // const onFormAction = (_currentState: unknown, formData: FormData) => {
+
+  //   if (!formData.get("phone")) formData.append("phone", phone)
+  //   if (!formData.get("email"))
+  //     formData.append("email", `${phone}@tabeshelecshop.ir`)
+  //   signup(_currentState, formData)
+  //   router.replace("/")
+  // }
+
+  const onSubmit = async (data: FormData) => {
+    const { firstName, lastName, phone, email, password } = data
+    setSubmitError(null)
+    setSubmitSuccess(false)
+    let errorMsg = null
+    try {
+      const response = await Promise.all([
+        registerWithPhone({
+          firstName,
+          lastName,
+          phone,
+          email,
+          password
+        }).catch((err) => {
+          errorMsg = err?.message || 'Registration failed.'
+          return errorMsg
+        }),
+        signup({
+          firstName,
+          lastName,
+          phone,
+          email,
+          password
+        }).catch((err) => {
+          errorMsg = err?.message || 'Signup failed.'
+          return errorMsg
+        })
+      ])
+
+      if (typeof response[0] === "string") {
+        setSubmitError(response[0] || errorMsg)
+        return
+      }
+      if (typeof response[1] === "string") {
+        setSubmitError(response[1] || errorMsg)
+        return
+      }
+      setCurrentView(LOGIN_VIEW.OTP)
+    } catch (err: any) {
+      setSubmitError(err?.message || "An unexpected error occurred. Please try again.")
+    }
   }
 
   const [message, formAction] = useActionState(signup, null)
@@ -39,30 +107,69 @@ const Register = ({ setCurrentView, phone }: Props) => {
         />
       </div>
       <div className="w-full mx-auto space-y-6">
+        {submit_success && (
+          <div className="mb-4 p-3 bg-green-100 text-green-700 rounded">
+            Registration successful! Welcome aboard.
+          </div>
+        )}
+
+        {submit_error && (
+          <div className="mb-4 p-3 bg-red-100 text-red-700 rounded">
+            {submit_error}
+          </div>
+        )}
         <h1 className="text-h4 text-neutral-900 text-right w-full mt-6">
           مشخصات خود را وارد نمایید
         </h1>
-        <form className="w-full flex flex-col" action={formAction}>
+        <form
+          className="w-full flex flex-col"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <div className="flex flex-col w-full gap-y-2">
             <Input
               label="نام"
-              name="first_name"
+              id="firstName"
               required
               autoComplete="given-name"
               data-testid="first-name-input"
+              {...register("firstName", {
+                required: "First name is required",
+                minLength: {
+                  value: 2,
+                  message: "Must be at least 2 characters",
+                },
+              })}
+              disabled={isSubmitting}
+              errors={errors.firstName}
             />
             <Input
               label="نام خانوادگی"
-              name="last_name"
+              id="lastName"
+              {...register("lastName", {
+                required: "Last name is required",
+                minLength: {
+                  value: 2,
+                  message: "Must be at least 2 characters",
+                },
+              })}
+              disabled={isSubmitting}
               required
               autoComplete="family-name"
               data-testid="last-name-input"
             />
             <Input
               label="ایمیل"
-              value={`${phone}@tabeshelecshop.ir`}
-              name="email"
+              value={`${phone}@${process.env.NEXT_PUBLIC_EMAIL_DOMAIN}`}
+              id="email"
               type="email"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                  message: "Invalid email address",
+                },
+              })}
+              disabled={isSubmitting}
               autoComplete="email"
               data-testid="email-input"
               hidden
@@ -70,29 +177,56 @@ const Register = ({ setCurrentView, phone }: Props) => {
             <Input
               label="Phone"
               value={phone}
-              name="phone"
+              id="phone"
               type="tel"
+              {...register("phone", {
+                pattern: {
+                  value: /^[+]?[(]?[0-9]{1,4}[)]?[-\s./0-9]*$/,
+                  message: "Invalid phone number",
+                },
+              })}
+              disabled={isSubmitting}
               autoComplete="tel"
               data-testid="phone-input"
               hidden
             />
             <Input
               label="رمز عبور"
-              name="password"
-              required
+              id="password"
               type="password"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 8,
+                  message: "Password must be at least 8 characters",
+                },
+                validate: {
+                  hasNumber: (value) =>
+                    /[0-9]/.test(value) || "At least one number",
+                  hasSpecialChar: (value) =>
+                    /[!@#$%^&*(),.?":{}|<>]/.test(value) ||
+                    "At least one special character",
+                },
+              })}
+              disabled={isSubmitting}
+              required
               autoComplete="new-password"
               data-testid="password-input"
             />
+            {errors.password && (
+              <p className="mt-1 text-sm text-red-600">
+                {errors.password.message}
+              </p>
+            )}
           </div>
           <ErrorMessage error={message} data-testid="register-error" />
           <span className="text-center text-ui-fg-base text-small-regular mt-6">
-          ورود شما به معنای پذیرش شرایط{" "}
+            ورود شما به معنای پذیرش شرایط{" "}
             <LocalizedClientLink
               href="/content/privacy-policy"
               className="underline"
             >
-               تابش الکتریک 
+              تابش الکتریک
             </LocalizedClientLink>{" "}
             و{" "}
             <LocalizedClientLink
@@ -103,9 +237,13 @@ const Register = ({ setCurrentView, phone }: Props) => {
             </LocalizedClientLink>
             .
           </span>
-          <SubmitButton className="w-full mt-6" data-testid="register-button">
+          <ButtonPrimary
+            className="w-full mt-6 lg:mt-8"
+            type="submit"
+            loading={isSubmitting}
+          >
             ورود
-          </SubmitButton>
+          </ButtonPrimary>
         </form>
         {/* <span className="text-center text-ui-fg-base text-small-regular mt-6">
           Already a member?{" "}

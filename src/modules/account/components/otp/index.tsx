@@ -11,6 +11,8 @@ import logo from "@/images/logo.svg"
 import { ArrowRightIcon } from "lucide-react"
 import ButtonSecondary from "@/components/Button/ButtonSecondary"
 import SubmitButton from "../submit-button"
+import { authenticateWithPhone, verifyOtp } from "@/lib/data/customer"
+
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
   setToken: (token: string) => void
@@ -19,7 +21,7 @@ type Props = {
 }
 
 interface IFormInput {
-  otp: String
+  otp: string
 }
 
 const PageLogin = ({
@@ -39,6 +41,8 @@ const PageLogin = ({
       otp: "",
     },
   })
+    const [submitError, setSubmitError] = useState<string | null>(null)
+
   const [minutes, setMinutes] = useState(3)
   const [seconds, setSeconds] = useState(0)
 
@@ -53,18 +57,18 @@ const PageLogin = ({
 
       if (seconds === 0) {
         if (minutes === 0) {
-          fetch(
-            `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/otp/invalidate`,
-            {
-              method: "POST",
-              body: JSON.stringify({
-                phone,
-              }),
-              headers: {
-                "content-type": "application/json; charset=utf-8",
-              },
-            }
-          )
+          // fetch(
+          //   `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/otp/invalidate`,
+          //   {
+          //     method: "POST",
+          //     body: JSON.stringify({
+          //       phone,
+          //     }),
+          //     headers: {
+          //       "content-type": "application/json; charset=utf-8",
+          //     },
+          //   }
+          // )
           clearInterval(interval)
         } else {
           setSeconds(59)
@@ -79,15 +83,16 @@ const PageLogin = ({
   }, [seconds])
 
   const resendOTP = () => {
-    fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/otp/send`, {
-      method: "POST",
-      body: JSON.stringify({
-        phone,
-      }),
-      headers: {
-        "content-type": "application/json; charset=utf-8",
-      },
-    })
+    authenticateWithPhone(phone)
+    // fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/otp/send`, {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     phone,
+    //   }),
+    //   headers: {
+    //     "content-type": "application/json; charset=utf-8",
+    //   },
+    // })
     setMinutes(3)
     setSeconds(0)
   }
@@ -103,37 +108,49 @@ const PageLogin = ({
       token: otp,
       step,
     }
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/otp/verify`,
-        {
-          method: "POST",
-          body: JSON.stringify(rawFormData),
-          headers: {
-            "content-type": "application/json; charset=utf-8",
-          },
-        }
-      )
 
-      if (response.status === 200) {
-        // customer exist go to reset password
-        const { token } = await response.json()
-        setToken(token)
-        setCurrentView(LOGIN_VIEW.RESET_PASSWORD)
-      } else if (response.status === 401) {
-        const { message } = await response.json()
+    // medusa v2 version
+    const response = await verifyOtp({
+      otp,
+      phone,
+    })
 
-        setError("otp", {
-          type: "manual",
-          message,
-        })
-      } else if (response.status === 404) {
-        // new customer go to register
-        setCurrentView(LOGIN_VIEW.REGISTER)
-      }
-    } catch (e) {
-      console.error(e)
+    if (typeof response === "string") {
+      setSubmitError(response)
     }
+
+    // medusa v1 version
+    // try {
+    //   const response = await fetch(
+    //     `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/otp/verify`,
+    //     {
+    //       method: "POST",
+    //       body: JSON.stringify(rawFormData),
+    //       headers: {
+    //         "content-type": "application/json; charset=utf-8",
+    //       },
+    //     }
+    //   )
+
+    //   if (response.status === 200) {
+    //     // customer exist go to reset password
+    //     const { token } = await response.json()
+    //     setToken(token)
+    //     setCurrentView(LOGIN_VIEW.RESET_PASSWORD)
+    //   } else if (response.status === 401) {
+    //     const { message } = await response.json()
+
+    //     setError("otp", {
+    //       type: "manual",
+    //       message,
+    //     })
+    //   } else if (response.status === 404) {
+    //     // new customer go to register
+    //     setCurrentView(LOGIN_VIEW.REGISTER)
+    //   }
+    // } catch (e) {
+    //   console.error(e)
+    // }
     // ...
   }
 

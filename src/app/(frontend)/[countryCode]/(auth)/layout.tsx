@@ -3,6 +3,7 @@ import { Metadata } from "next"
 import "@/styles/index.scss"
 import { redirect } from "next/navigation"
 import { cookies } from "next/headers"
+import { retrieveCustomer } from "@/lib/data/customer"
 // import "rc-slider/assets/index.css"
 
 export const metadata: Metadata = {
@@ -16,8 +17,9 @@ export default async function PageLayout({
   children: React.ReactNode
 }) {
   const token = (await cookies()).get("_medusa_jwt")?.value
+  
   if (token) {
-    redirect("/")
+    redirect("/account")
   }
   return (
     <section className="h-screen flex items-center justify-center bg-no-repeat inset-0 bg-cover bg-[url('/assets/images/bg.png')]">

@@ -18,6 +18,23 @@ export const getAuthHeaders = async (): Promise<
   }
 }
 
+export const getTempAuthHeaders = async (): Promise<
+  { authorization: string } | {}
+> => {
+  try {
+    const cookies = await nextCookies()
+    const token = cookies.get("_medusa_jwt_tmp")?.value
+
+    if (!token) {
+      return {}
+    }
+
+    return { authorization: `Bearer ${token}` }
+  } catch {
+    return {}
+  }
+}
+
 export const getCacheTag = async (tag: string): Promise<string> => {
   try {
     const cookies = await nextCookies()
@@ -47,6 +64,16 @@ export const getCacheOptions = async (
   }
 
   return { tags: [`${cacheTag}`] }
+}
+
+export const setTempAuthToken = async (token: string) => {
+  const cookies = await nextCookies()
+  cookies.set("_medusa_jwt_tmp", token, {
+    maxAge: 60 * 5,
+    httpOnly: true,
+    sameSite: "strict",
+    secure: process.env.NODE_ENV === "production",
+  })
 }
 
 export const setAuthToken = async (token: string) => {
