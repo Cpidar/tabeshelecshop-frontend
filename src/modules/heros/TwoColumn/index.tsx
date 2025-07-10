@@ -19,13 +19,13 @@ export interface SectionHeroProps {
 
 let TIME_OUT: NodeJS.Timeout | null = null
 
-const SectionHero: FC<{
-  className?: string
-  sliderHero: Array<Page["hero"]>
-  rightHero: Page["hero"]
-}> = ({ className, sliderHero, rightHero }) => {
-  const { media: rightMedia, rightColumnText } = rightHero
-
+const SectionHero: FC<Page["hero"]> = ({
+  rightColumnMedia: rightMedia,
+  rightColumnText,
+  media: sliderMedia,
+  richText,
+}) => {
+  const sliderHero = [{ sliderMedia, richText }]
   let rightMediaSrc: StaticImageData | string = ""
 
   if (rightMedia && typeof rightMedia === "object") {
@@ -88,12 +88,11 @@ const SectionHero: FC<{
   const renderItem = (index: number) => {
     const isActive = indexActive === index
     const item = sliderHero[index]
-    const { media: sliderMedia, richText, links } = item
     let sliderMediaSrc: StaticImageData | string = ""
 
-    if (sliderMedia && typeof sliderMedia === "object") {
-      const url = sliderMedia.url
-      const cacheTag = sliderMedia.updatedAt
+    if (item.sliderMedia && typeof item.sliderMedia === "object") {
+      const url = item.sliderMedia.url
+      const cacheTag = item.sliderMedia.updatedAt
       sliderMediaSrc = `${getClientSideURL()}${url}?${cacheTag}`
     }
     if (!isActive) {
@@ -103,8 +102,9 @@ const SectionHero: FC<{
       <section className="bg-gray-100 bg-opacity-90 py-10" key={index}>
         <div className="container mx-auto px-4 flex flex-col lg:flex-row">
           {/* left */}
+          {/* add className prop to the parent div */}
           <div
-            className={`nc-SectionHero2Item nc-SectionHero2Item--animation lg:w-2/3 flex flex-col-reverse lg:flex-col relative overflow-hidden ${className}`}
+            className={`nc-SectionHero2Item nc-SectionHero2Item--animation lg:w-2/3 flex flex-col-reverse lg:flex-col relative overflow-hidden`}
           >
             {sliderMedia && typeof sliderMedia === "object" && (
               <div
