@@ -33,7 +33,6 @@ const nextConfig = {
       {
         protocol: "http",
         hostname: "localhost",
-        port: '8000'
       },
       {
         protocol: "https",
@@ -53,14 +52,15 @@ const nextConfig = {
       },
     ],
   },
-  webpack(config) {
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ["@svgr/webpack"],
-    })
+  // webpack(config) {
+  //   config.module.rules.push({
+  //     test: /\.svg$/,
+  //     issuer: /\.[jt]sx?$/,
+  //     use: ["@svgr/webpack"],
+  //   })
 
-    return config
-  },
+  //   return config
+  // },
   redirects,
 }
 

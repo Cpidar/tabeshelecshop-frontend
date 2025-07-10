@@ -3,6 +3,6 @@ import { getCategoryByHandle, listCategories } from "@/lib/data/categories"
 
 
 export default async function CategoriesButton() {
-    const product_categories = await listCategories()
+    const product_categories = await listCategories({parent_category_id: null})
     return (<DropdownCategories items={product_categories} />)
 }
