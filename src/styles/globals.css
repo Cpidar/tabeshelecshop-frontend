@@ -59,6 +59,33 @@
   }
 }
 
+body,
+div,
+button,
+span,
+p,
+li,
+a {
+  font-family: var(--iransans), "Segoe UI", Tahoma, FontAwesome, Iransans-bold,
+    Iransans-medium sans-serif !important;
+}
+
+h1 {
+    font-family: var(--iransans), "Segoe UI", Tahoma, FontAwesome, Iransans-bold,
+    Iransans-medium sans-serif !important;
+    font-weight: 500;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--iransans), "Segoe UI", Tahoma, FontAwesome, Iransans-bold,
+  Iransans-medium sans-serif !important;
+  font-weight: 300;
+}
+
 @layer utils {
   /* Chrome, Safari and Opera */
   .no-scrollbar::-webkit-scrollbar {

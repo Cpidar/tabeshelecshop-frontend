@@ -1,6 +1,6 @@
 import { Metadata } from "next"
 // import "@/fonts/line-awesome-1.3.0/css/line-awesome.css"
-import "@/styles/index.scss"
+// import "@/styles/index.scss"
 import "rc-slider/assets/index.css"
 import { Footer } from "@/modules/footer/Component"
 import CommonClient from "./CommonClient"

@@ -1,7 +1,7 @@
 import "@/styles/globals.css"
-import "@/styles/index.scss"
+// import "@/styles/index.scss"
 import "@glidejs/glide/dist/css/glide.core.min.css"
-// import "rc-slider/assets/index.css"
+import "rc-slider/assets/index.css"
 import { Metadata } from "next"
 import HolyLoader from "holy-loader"
 import { IRANSans } from "@/styles/font"
@@ -34,7 +34,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const settings = await getSettings()
 
   return (
-    <html lang="en" dir="rtl" className={IRANSans.variable}>
+    <html lang="fa" dir="rtl" className={IRANSans.variable} suppressHydrationWarning>
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link
