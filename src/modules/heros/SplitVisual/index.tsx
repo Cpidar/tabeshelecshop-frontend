@@ -21,7 +21,7 @@ export const SplitVisualHero: React.FC<Page['hero']> = ({
   }, [])
 
   return (
-    <section className="-mt-[10.4rem] pt-8 text-foreground flex items-center justify-center bg-gradient-to-b from-tertiary/50 to-background">
+    <section className="-mt-[10.4rem] pt-8 text-foreground flex items-center justify-center bg-linear-to-b from-tertiary/50 to-background">
       <div className="mt-0 lg:mt-56 container mx-auto grid grid-cols-1 lg:grid-cols-2 items-center gap-8">
         {/* Left Column – Text */}
         <div className="pt-64 lg:pt-0 max-w-xl">

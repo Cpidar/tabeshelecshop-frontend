@@ -106,13 +106,13 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async ({
           <div className="container h-20 flex justify-between">
             <div className="lg:flex-1 flex items-center">
               <Logo
-                className="flex-shrink-0"
+                className="shrink-0"
                 width={settings.logoWidth ?? undefined}
                 height={settings.logoHeight ?? undefined}
               />
             </div>
 
-            {/* <div className="flex-[2] hidden lg:flex justify-center mx-4"> */}
+            {/* <div className="flex-2 hidden lg:flex justify-center mx-4"> */}
             {/* {renderSearchForm()} */}
             <SearchModal />
             {/* <SearchForm /> */}
@@ -156,7 +156,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async ({
         <div className="w-full">
           <div className="container h-20 hidden lg:flex justify-between">
             {/* <div className="lg:flex-1 flex items-center">
-            <Logo className="flex-shrink-0" />
+            <Logo className="shrink-0" />
           </div> */}
             <div className="hidden lg:flex items-center">
               <CategoriesButton />
@@ -169,7 +169,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async ({
             {showPhone && settings.phoneNumber && (
               <div className="flex items-center">
                 <Link href={`tel:${settings.phoneNumber}`}>
-                  <ButtonPrimary className="font-bold px-4 xl:px-6 py-2 xl:py-3 rounded flex-shrink-0 flex items-center">
+                  <ButtonPrimary className="font-bold px-4 xl:px-6 py-2 xl:py-3 rounded shrink-0 flex items-center">
                     <span className="ml-2 text-sm">{settings.phoneNumber}</span>
                     <PhoneOutgoingIcon className="w-6 h-6 p-1" />
                   </ButtonPrimary>

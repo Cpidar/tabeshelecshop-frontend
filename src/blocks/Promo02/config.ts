@@ -5,58 +5,44 @@ import {
   InlineToolbarFeature,
   lexicalEditor,
 } from '@payloadcms/richtext-lexical'
+import { editor } from '@/modules/footer/config'
 
-export const CategorySlider: Block = {
-  slug: 'categorySlider',
+export const PromoSection02: Block = {
+  slug: 'promoSection02',
+  interfaceName: 'PromoSection02',
+
   fields: [
     {
-      name: 'promoType',
+      name: "PromoType",
       type: 'select',
       options: [
-        { label: 'Type 01', value: 'type01' },
-        { label: 'Type 02', value: 'type02' },
-        { label: 'Type 03', value: 'type03' },
+        { label: 'Promo1', value: 'promo1' },
+        { label: 'Promo2', value: 'promo2' },
+        { label: 'Promo3', value: 'promo3' },
       ],
-      defaultValue: 'card01',
+    },
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+      localized: true,
+    },
+    {
+      name: 'description',
+      type: 'richText',     
+      required: true,
+      localized: true,
+    },
+    {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
       required: true,
     },
     {
-      name: 'heading',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-        },
-      }),
-      label: false,
-      required: true,
+      name: 'imageDark',
+      type: 'upload',
+      relationTo: 'media',
     },
-    {
-      name: 'subHeading',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-        },
-      }),
-      label: false,
-      required: false,
-    },
-
-    {
-      name: 'data',
-      type: 'array',
-      fields: [
-        {
-          name: 'category',
-          type: 'relationship',
-          relationTo: 'product-categories',
-          required: true,
-          hasMany: true,
-        },
-      ]
-    }
-
   ],
-  interfaceName: 'CategorySlider',
 }

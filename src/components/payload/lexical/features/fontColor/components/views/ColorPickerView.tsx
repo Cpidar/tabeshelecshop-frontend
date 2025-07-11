@@ -137,7 +137,7 @@ export const ColorPickerView = ({ fontColor, onFontColorChange, onApplyStyles }:
             }}
           />
           <div className="flex gap-2 items-center w-full ">
-            <div className="flex-grow w-full"></div>
+            <div className="grow w-full"></div>
             <Label htmlFor="hex-color-picker-input">HEX</Label>
             <Input
               value={cleanInput(inputs.hex.value)}

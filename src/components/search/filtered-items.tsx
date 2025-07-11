@@ -32,7 +32,7 @@ export const FilteredItems: React.FC<{items: any}> = ({items}) => {
               filters
             </h3>
             <button
-              className="flex-shrink transition duration-150 ease-in text-13px focus:outline-none hover:text-brand-dark"
+              className="shrink transition duration-150 ease-in text-13px focus:outline-none hover:text-brand-dark"
               aria-label="Clear All"
               onClick={() => {
                 router.push(pathname || "")

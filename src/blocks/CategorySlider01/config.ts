@@ -26,23 +26,23 @@ export const CategorySlider: Block = {
     },
     {
       name: 'heading',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-        },
-      }),
+      type: 'text',
+      // editor: lexicalEditor({
+      //   features: ({ rootFeatures }) => {
+      //     return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
+      //   },
+      // }),
       label: false,
       required: true,
     },
     {
       name: 'subHeading',
-      type: 'richText',
-      editor: lexicalEditor({
-        features: ({ rootFeatures }) => {
-          return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
-        },
-      }),
+      type: 'text',
+      // editor: lexicalEditor({
+      //   features: ({ rootFeatures }) => {
+      //     return [...rootFeatures, FixedToolbarFeature(), InlineToolbarFeature()]
+      //   },
+      // }),
       label: false,
       required: false,
     },

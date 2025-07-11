@@ -11,7 +11,7 @@ const MobileHeader: FC<BagIconProps> = ({ className = "w-5 h-5", settings }) => 
   return (
     <div className="sticky top-0 left-0 w-full z-30 bg-white">
       <div>
-        <header className="lg:hidden px-4 lg:py-2 py-3 relative flex items-center z-5 bg-white shadow-none border-solid border-b-[1px] border-0 border-neutral-100 shadow-1-bottom">
+        <header className="lg:hidden px-4 lg:py-2 py-3 relative flex items-center z-5 bg-white shadow-none border-solid border-b border-0 border-neutral-100 shadow-1-bottom">
           <div className="relative ml-0 w-full">
             <div className="BaseLayoutSearch_BaseLayoutSearch__QHPTB">
               <div

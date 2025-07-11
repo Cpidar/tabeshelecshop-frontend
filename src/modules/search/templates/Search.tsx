@@ -47,7 +47,7 @@ const Search = React.forwardRef<HTMLDivElement, Props>(
 
     return (
       
-        <div className="relative z-30 flex-[2] hidden lg:flex justify-center mx-4 transition-all duration-200 ease-in-out">
+        <div className="relative z-30 flex-2 hidden lg:flex justify-center mx-4 transition-all duration-200 ease-in-out">
           <div className="flex flex-col w-full mx-auto">
             <SearchBox
               searchId={searchId}

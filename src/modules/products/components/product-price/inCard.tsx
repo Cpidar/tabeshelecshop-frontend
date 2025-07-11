@@ -21,8 +21,8 @@ export default function InCardProductPrice({
       <div className="flex justify-between px-4 pb-4">
         {selectedPrice.price_type === "sale" ? (
           <>
-            <div className="min-w-6 lg:min-w-7 flex h-[17px] !items-center justify-center gap-1 rounded-[3px] px-1 lg:h-[19px] bg-red-600">
-              <span className="flex !items-center justify-center pt-[1px] text-center text-sm font-semiBold leading-4 text-white lg:pt-[3px]">
+            <div className="min-w-6 lg:min-w-7 flex h-[17px] items-center! justify-center gap-1 rounded-[3px] px-1 lg:h-[19px] bg-red-600">
+              <span className="flex items-center! justify-center pt-px text-center text-sm font-semiBold leading-4 text-white lg:pt-[3px]">
                 % {selectedPrice.percentage_diff}
               </span>
             </div>
@@ -33,7 +33,7 @@ export default function InCardProductPrice({
                     تومان
                   </span> */}
               </p>
-              <div className="flex pl-[1px]">
+              <div className="flex pl-px">
                 <p className="text-sm leading-5 text-gray-600 line-through">
                   {selectedPrice.original_price}
                 </p>
@@ -57,7 +57,7 @@ export default function InCardProductPrice({
 
         {/* <Prices price={price} /> */}
         {/* <div className="hidden lg:flex items-center mb-0.5">
-            <StarIcon className="w-5 h-5 pb-[1px] text-amber-400" />
+            <StarIcon className="w-5 h-5 pb-px text-amber-400" />
             <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">
               {rating || ""} ({numberOfReviews || 0} reviews)
             </span>

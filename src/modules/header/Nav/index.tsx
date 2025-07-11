@@ -58,7 +58,7 @@ export const HeaderNav: React.FC<{ data: HeaderType }> = ({ data }) => {
                 <ChevronDown className="group-hover:rotate-180 transition-transform" />{' '}
               </span>
               {/* Mega Menu Content */}
-              <div className="container absolute left-1/2 -translate-x-1/2 z-[1] hidden group-hover:flex bg-background shadow-lg p-6 w-full flex-col gap-6 rounded-lg border">
+              <div className="container absolute left-1/2 -translate-x-1/2 z-1 hidden group-hover:flex bg-background shadow-lg p-6 w-full flex-col gap-6 rounded-lg border">
                 <div className="grid grid-cols-3 gap-6">
                   {item.mega.children?.map((megaChild, k) => {
                     // Mega Standard Section

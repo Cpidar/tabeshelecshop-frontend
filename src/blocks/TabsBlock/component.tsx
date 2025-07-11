@@ -106,8 +106,8 @@ export default function TabsBlockClient({
     <div className="w-full gap-8">
       {intro && <RichText data={intro} className="max-w-[800px] mb-8" />}
       <div className="relative container">
-        <div className="pointer-events-none absolute left-0 top-0 h-full w-10 bg-gradient-to-r from-background z-30" />
-        <div className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-gradient-to-l from-background z-30" />
+        <div className="pointer-events-none absolute left-0 top-0 h-full w-10 bg-linear-to-r from-background z-30" />
+        <div className="pointer-events-none absolute right-0 top-0 h-full w-10 bg-linear-to-l from-background z-30" />
 
         <div
           ref={scrollRef}

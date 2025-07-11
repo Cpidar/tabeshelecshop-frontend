@@ -25,15 +25,13 @@ import CategoryShowcase from "./CategoryShowcase/component"
 import BackgroundImageBlock from "./BackgroundImage/component"
 import CategorySlider from "./CategorySlider01/component"
 import SectionIncredibleOffer from "./IncredibleOffer/component.client"
-import SectionPromo1 from "./Promo01/SectionPromo1"
-import SectionPromo2 from "./Promo02/SectionPromo2"
-import SectionPromo3 from "./Promo03/SectionPromo3"
+import {RenderPromo} from "./PromoPrimary/RenderPromo"
 
 const blockComponents = {
   archive: ArchiveBlock,
   backgroundImageBlock: BackgroundImageBlock,
   categoryShowcase: CategoryShowcase,
-  // categorySlider: CategorySlider,
+  categorySlider: CategorySlider,
   contactSection: ContactSection,
   content: ContentBlock,
   cta: CallToActionBlock,
@@ -48,9 +46,7 @@ const blockComponents = {
   infoCardBlock: InfoCardBlock,
   logoCarouselBlock: LogoCarouselBlock,
   mediaBlock: MediaBlock,
-  // promo1: SectionPromo1,
-  // promo2: SectionPromo2,
-  // promo3: SectionPromo3,
+  promoBlock: RenderPromo,
   staffImageSpielBlock: StaffImageSpielBlock,
   stepItemGrid: StepItemGrid,
   tabsBlock: TabsBlock,

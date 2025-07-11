@@ -179,7 +179,7 @@ const SectionHero: FC<Page["hero"]> = ({
                 <Image
                   fill
                   sizes="(max-width: 768px) 100vw, 50vw"
-                  className="w-full h-full object-contain object-right-bottom nc-SectionHero2Item__image"
+                  className="w-full h-full object-contain object-bottom-right nc-SectionHero2Item__image"
                   src={imageRightPng}
                   alt={""}
                   priority

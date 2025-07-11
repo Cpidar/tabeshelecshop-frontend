@@ -101,7 +101,7 @@ const ImageWithTextBlock: React.FC<ImageWithTextBlockProps> = ({
             <RichText
               data={text}
               enableGutter={false}
-              className={clsx(meta.primaryBackgroundColor && '!text-white prose-invert')}
+              className={clsx(meta.primaryBackgroundColor && 'text-white! prose-invert')}
             />
             {callToAction && <CMSLink {...link} />}
           </div>

@@ -72,7 +72,7 @@ export const RenderGroupButtons = ({
         </div>
 
         {/* <ButtonSecondary
-          className="ms-1.5 bg-white hover:!bg-gray-100 hover:text-slate-900 transition-colors shadow-lg"
+          className="ms-1.5 bg-white hover:bg-gray-100! hover:text-slate-900 transition-colors shadow-lg"
           fontSize="text-xs"
           sizeClass="py-2 px-4"
           onClick={() => setShowModalQuickView(true)}

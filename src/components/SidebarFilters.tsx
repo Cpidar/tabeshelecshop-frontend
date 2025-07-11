@@ -228,7 +228,7 @@ const SidebarFilters = () => {
             defaultChecked={sortOrderStates === item.id}
             sizeClassName="w-5 h-5"
             onChange={setSortOrderStates}
-            className="!text-sm"
+            className="text-sm!"
           />
         ))}
       </div>

@@ -25,7 +25,7 @@ const SocialsList1: FC<SocialsList1Props> = ({ className = "space-y-3" }) => {
         className="flex items-center text-2xl text-neutral-700 hover:text-black dark:text-neutral-300 dark:hover:text-white leading-none space-x-2 group"
         key={index}
       >
-        <div className="flex-shrink-0 w-5 ">
+        <div className="shrink-0 w-5 ">
           <Image sizes="40px" src={item.icon} alt="" />
         </div>
         <span className="hidden lg:block text-sm">{item.name}</span>

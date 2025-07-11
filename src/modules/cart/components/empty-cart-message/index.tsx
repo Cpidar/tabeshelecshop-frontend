@@ -11,7 +11,7 @@ const EmptyCartMessage = () => {
       >
         سبد خرید
       </Heading>
-      <Text className="text-base-regular mt-4 mb-6 max-w-[32rem]">
+      <Text className="text-base-regular mt-4 mb-6 max-w-lg">
       شما چیزی در سبد خرید ندارید. بیایید آن را تغییر دهیم، از پیوند زیر برای شروع مرور محصولات ما استفاده کنید.
       </Text>
       <div>

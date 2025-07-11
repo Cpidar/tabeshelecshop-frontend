@@ -5,7 +5,6 @@ import RefinementList from "@modules/store/components/refinement-list"
 
 import PaginatedProducts from "./paginated-products"
 import SectionSliderCollections from "@/components/SectionSliderLargeProduct"
-import SectionPromo1 from "@/blocks/Promo01/SectionPromo1"
 import SidebarFilters from "@/components/SidebarFilters"
 export type SortOptions = "price_asc" | "price_desc" | "created_at"
 import { ShopFilters } from "@/components/search/filters"
@@ -37,7 +36,7 @@ const StoreTemplate = ({
                 {/* <ShopFilters /> */}
                 {/* <SidebarFilters /> */}
               </div>
-              <div className="flex-shrink-0 mb-10 lg:mb-0 lg:mx-4 border-t lg:border-t-0"></div>
+              <div className="shrink-0 mb-10 lg:mb-0 lg:mx-4 border-t lg:border-t-0"></div>
               <div className="flex-1 ">
                 <Suspense fallback={<SkeletonProductGrid />}>
                   <PaginatedProducts
@@ -59,7 +58,7 @@ const StoreTemplate = ({
         <hr className="border-slate-200 dark:border-slate-700" />
 
         {/* SUBCRIBES */}
-        <SectionPromo1 />
+        {/* <SectionPromo1 /> */}
       </div>
     </div>
   )

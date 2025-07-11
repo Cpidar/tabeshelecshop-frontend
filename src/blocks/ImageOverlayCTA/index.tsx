@@ -24,7 +24,7 @@ const ImageOverlayCTA: React.FC<ImageOverlayCTAProps> = ({
       {testprop}
       <Image src="" alt="" fill className="object-cover rounded-2xl w-full h-full" />
       {/* overlay */}
-      <div className="absolute pt-32 w-full h-full bg-black bg-opacity-20 z-[1]">
+      <div className="absolute pt-32 w-full h-full bg-black bg-opacity-20 z-1">
         <Image
           src={backgroundImage.url as string}
           alt={backgroundImage.alt ?? ''}

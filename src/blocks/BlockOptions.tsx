@@ -18,9 +18,9 @@ import { LinkBlock } from './Link/config'
 import { LogoCarouselBlock } from './LogoCarousel/config'
 import { MediaBlock } from './MediaBlock/config'
 import SectionIncredibleOffer from './IncredibleOffer/component.client'
-import SectionPromo1 from './Promo01/SectionPromo1'
-import SectionPromo2 from './Promo02/SectionPromo2'
-import SectionPromo3 from './Promo03/SectionPromo3'
+import { PromoBlock } from './PromoPrimary/config'
+import SectionPromo2 from './PromoPrimary/SectionPromo2'
+import SectionPromo3 from './PromoPrimary/SectionPromo3'
 import { ReviewCard } from './ReviewCard/config'
 import { SingleProduct } from './SingleProduct/config'
 import { StaffImageSpielBlock } from './StaffImageSpielBlock/config'
@@ -34,7 +34,7 @@ export const DefaultBlockOptions = [
   BackgroundImageBlock,
   CallToAction,
   CategoryShowcase,
-  // CategorySlider,
+  CategorySlider,
   ContactSectionBlock,
   Content,
   FAQBlock,
@@ -46,7 +46,7 @@ export const DefaultBlockOptions = [
   LogoCarouselBlock,
   MediaBlock,
   // SectionIncredibleOffer,
-  // SectionPromo1,
+  PromoBlock,
   // SectionPromo2,
   // SectionPromo3,
   StepItemGridBlock,

@@ -63,7 +63,7 @@ export const GalleryBlock: FC<GalleryBlockProps> = ({ gallery }) => {
   if (error) {
     return (
       <div className="my-[200px]">
-        <div className="max-w-[var(--max-width)] mx-auto w-11/12">
+        <div className="max-w-(--max-width) mx-auto w-11/12">
           <div className="text-red-500">
             <p>Error: {error}</p>
           </div>
@@ -92,8 +92,8 @@ export const GalleryBlock: FC<GalleryBlockProps> = ({ gallery }) => {
       <div className="container text-card-foreground">
         {!galleryContent ? (
           <div className="border py-16 rounded border-border bg-card container ">
-            <ItemLoaderShimmer className="h-14 !w-96 !mb-6" />
-            <ItemLoaderShimmer className="h-36 w-full !mb-6" />
+            <ItemLoaderShimmer className="h-14 w-96! mb-6!" />
+            <ItemLoaderShimmer className="h-36 w-full mb-6!" />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {Array.from({ length: imagesPerPage }).map((_, index) => (
                 <div key={index} className="animated-background" style={{ height: '200px' }}></div>

@@ -94,7 +94,7 @@ const SectionIncredibleOffer: FC<SectionSliderProductCardProps> = ({
             href={`/collections/${handle}`}
           >
             <div className="flex items-center cursor-pointer">
-              <p className="text-xs font-semiBold font-semiBold !text-white lg:text-lg">
+              <p className="text-xs font-semiBold font-semiBold text-white! lg:text-lg">
                 نمایش همه
               </p>
               <ChevronLeftIcon className="text-white w-6 h-6 lg:w-8 lg:h-8" />

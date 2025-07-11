@@ -109,13 +109,13 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
         </div>
 
         <Prev
-          className="absolute start-1 sm:start-5 top-3/4 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
+          className="absolute start-1 sm:start-5 top-3/4 sm:top-1/2 sm:-translate-y-1/2 z-10 text-slate-700!"
           btnClassName="w-12 h-12 hover:border-slate-400 dark:hover:border-slate-400"
           svgSize="w-6 h-6"
           onClickPrev={handleClickPrev}
         />
         <Next
-          className="absolute end-1 sm:end-5 top-3/4 sm:top-1/2 sm:-translate-y-1/2 z-10 !text-slate-700"
+          className="absolute end-1 sm:end-5 top-3/4 sm:top-1/2 sm:-translate-y-1/2 z-10 text-slate-700!"
           btnClassName="w-12 h-12 hover:border-slate-400 dark:hover:border-slate-400"
           svgSize="w-6 h-6"
           onClickNext={handleClickNext}
@@ -134,13 +134,13 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
 
         <div className="relative container pb-0 pt-14 sm:pt-20 lg:py-44">
           <div
-            className={`relative z-[1] w-full max-w-3xl space-y-8 sm:space-y-14 nc-SectionHero2Item__left`}
+            className={`relative z-1 w-full max-w-3xl space-y-8 sm:space-y-14 nc-SectionHero2Item__left`}
           >
             <div className="space-y-5 sm:space-y-6">
               <span className="nc-SectionHero2Item__subheading block text-base md:text-xl text-slate-700 font-medium">
                 {item.subHeading}
               </span>
-              <h2 className="nc-SectionHero2Item__heading font-semibold text-3xl sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl !leading-[114%] text-slate-900">
+              <h2 className="nc-SectionHero2Item__heading font-semibold text-3xl sm:text-4xl md:text-5xl xl:text-6xl 2xl:text-7xl leading-[114%]! text-slate-900">
                 {item.heading}
               </h2>
             </div>
@@ -175,7 +175,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
             <Image
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
-              className="w-full h-full object-contain object-right-bottom nc-SectionHero2Item__image"
+              className="w-full h-full object-contain object-bottom-right nc-SectionHero2Item__image"
               src={item.image}
               alt={item.heading}
               priority

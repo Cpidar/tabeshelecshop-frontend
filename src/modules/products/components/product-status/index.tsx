@@ -52,11 +52,11 @@ export default function ProductStatus({
       {timeLeft.seconds > 0 && (
         <div className="mb-3.5 h-5 w-full lg:mb-4">
           <div className="flex items-center justify-between pt-0.5 text-red-600">
-            <p className="font-semiBold leading-4 text-xs lg:text-[13px] lg:!leading-5 line-clamp-1 max-w-[60%]">
+            <p className="font-semiBold leading-4 text-xs lg:text-[13px] lg:leading-5! line-clamp-1 max-w-[60%]">
               {title}
             </p>
             {endAt && (
-              <time className=" whitespace-nowrap text-base font-semiBold !leading-4 lg:text-base lg:!leading-5">
+              <time className=" whitespace-nowrap text-base font-semiBold leading-4! lg:text-base lg:leading-5!">
                 {`${timeLeft.days}:${timeLeft.hours}:${timeLeft.minutes}:${timeLeft.seconds}`}
               </time>
             )}

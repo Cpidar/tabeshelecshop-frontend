@@ -80,7 +80,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                     <div className="flex items-center space-x-3">
                       <Avatar imgUrl={avatarImgs[7]} sizeClass="w-12 h-12" />
 
-                      <div className="flex-grow">
+                      <div className="grow">
                         <h4 className="font-semibold">{`${customer?.first_name} ${customer?.last_name}`}</h4>
                         <p className="text-xs mt-0.5">{customer?.phone}</p>
                       </div>
@@ -94,7 +94,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
-                      <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
+                      <div className="flex items-center justify-center shrink-0 text-neutral-500 dark:text-neutral-300">
                         <svg
                           width="24"
                           height="24"
@@ -129,7 +129,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
-                      <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
+                      <div className="flex items-center justify-center shrink-0 text-neutral-500 dark:text-neutral-300">
                         <svg
                           width="24"
                           height="24"
@@ -183,7 +183,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
-                      <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
+                      <div className="flex items-center justify-center shrink-0 text-neutral-500 dark:text-neutral-300">
                         <svg
                           width="24"
                           height="24"
@@ -211,7 +211,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                     {/* ------------------ 2 --------------------- */}
                     {/* <div className="flex items-center justify-between p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
                       <div className="flex items-center">
-                        <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
+                        <div className="flex items-center justify-center shrink-0 text-neutral-500 dark:text-neutral-300">
                           <svg
                             width="24"
                             height="24"
@@ -255,7 +255,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
-                      <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
+                      <div className="flex items-center justify-center shrink-0 text-neutral-500 dark:text-neutral-300">
                         <svg
                           width="24"
                           height="24"
@@ -320,7 +320,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                         close()
                       }}
                     >
-                      <div className="flex items-center justify-center flex-shrink-0 text-neutral-500 dark:text-neutral-300">
+                      <div className="flex items-center justify-center shrink-0 text-neutral-500 dark:text-neutral-300">
                         <svg
                           width="24"
                           height="24"

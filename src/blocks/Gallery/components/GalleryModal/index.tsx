@@ -104,7 +104,7 @@ const GalleryModal: React.FC<GalleryModalProps> = ({ isOpen, onClose, children }
                                     w-min
                                     sm:my-8
                                     sm:w-full
-                                    max-w-[var(--max-width)]
+                                    max-w-(--max-width)
                                     lg:w-max
                                     sm:p-6
                                 "

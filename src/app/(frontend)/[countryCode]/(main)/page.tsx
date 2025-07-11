@@ -107,7 +107,7 @@ export { generateMetadata }
 //                 <li key={index} className="glide__slide">
 //                   <div className="relative lg:flex lg:justify-center lg:pl-[10px]">
 //                     <ProductCard product={item} region={region} />
-//                     <div className=" absolute left-0 top-[30px] w-[1px] bg-gray-100 xl:top-[54px] xl:w-[2px]  h-[320px]"></div>
+//                     <div className=" absolute left-0 top-[30px] w-px bg-gray-100 xl:top-[54px] xl:w-[2px]  h-[320px]"></div>
 //                   </div>
 //                 </li>
 //               ))}
@@ -129,7 +129,7 @@ export { generateMetadata }
 //                 <li key={index} className="glide__slide">
 //                   <div className="relative lg:flex lg:justify-center lg:pl-[10px]">
 //                     <ProductCard product={item} region={region} />
-//                     <div className=" absolute left-0 top-[30px] w-[1px] bg-gray-100 xl:top-[54px] xl:w-[2px]  h-[320px]"></div>
+//                     <div className=" absolute left-0 top-[30px] w-px bg-gray-100 xl:top-[54px] xl:w-[2px]  h-[320px]"></div>
 //                   </div>
 //                 </li>
 //               ))}

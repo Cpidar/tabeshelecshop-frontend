@@ -19,7 +19,7 @@ export interface NcModalProps {
 const NcModal: FC<NcModalProps> = ({
   renderTrigger,
   renderContent,
-  contentExtraClass = "max-w-screen-xl",
+  contentExtraClass = "max-w-(--breakpoint-xl)",
   contentPaddingClass = "py-4 px-6 md:py-5",
   triggerText = "Open Modal",
   modalTitle = "Modal title",

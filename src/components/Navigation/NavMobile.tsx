@@ -44,12 +44,12 @@ const NavMobile: React.FC<NavMobileProps> = ({
               </span>
               {i.children && (
                 <span
-                  className="flex items-center flex-grow"
+                  className="flex items-center grow"
                   onClick={(e) => e.preventDefault()}
                 >
                   <Disclosure.Button
                     as="span"
-                    className="flex justify-end flex-grow"
+                    className="flex justify-end grow"
                   >
                     <ChevronDownIcon
                       className="ml-2 h-4 w-4 text-slate-500"
@@ -94,12 +94,12 @@ const NavMobile: React.FC<NavMobileProps> = ({
           </span>
           {item.children && (
             <span
-              className="block flex-grow"
+              className="block grow"
               onClick={(e) => e.preventDefault()}
             >
               <Disclosure.Button
                 as="span"
-                className="flex justify-end flex-grow"
+                className="flex justify-end grow"
               >
                 <ChevronDownIcon
                   className="ml-2 h-4 w-4 text-neutral-500"
@@ -194,7 +194,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
         {data.map(_renderItem)}
       </ul>
       <div className="flex items-center justify-between py-6 px-5 space-x-2">
-        <ButtonPrimary href={"/"} className="!px-10">
+        <ButtonPrimary href={"/"} className="px-10!">
           Buy this template
         </ButtonPrimary>
       </div>

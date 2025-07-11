@@ -19,7 +19,7 @@ const PostCardMeta: FC<PostCardMetaProps> = ({
     >
       <Link
         href={"/blog"}
-        className="flex-shrink-0 relative flex items-center space-x-2"
+        className="shrink-0 relative flex items-center space-x-2"
       >
         {!hiddenAvatar && (
           <Avatar radius="rounded-full" sizeClass={"h-7 w-7 text-sm"} />

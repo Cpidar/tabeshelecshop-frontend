@@ -13,10 +13,10 @@ const Comment: FC<CommentProps> = ({ isSmall }) => {
       <div className="pt-1">
         <Avatar sizeClass={`w-6 h-6 ${!isSmall ? "sm:h-8 sm:w-8 " : ""}`} />
       </div>
-      <div className="flex-grow flex flex-col p-4 ml-2 text-sm border border-neutral-200 rounded-xl sm:ml-3 sm:text-base dark:border-neutral-700">
+      <div className="grow flex flex-col p-4 ml-2 text-sm border border-neutral-200 rounded-xl sm:ml-3 sm:text-base dark:border-neutral-700">
         <div className="relative flex items-center pr-6">
           <a
-            className="flex-shrink-0 font-semibold text-neutral-800 dark:text-neutral-100"
+            className="shrink-0 font-semibold text-neutral-800 dark:text-neutral-100"
             href="/ncmaz/author/the-demo-author-slug"
           >
             {_getPersonNameRd()}

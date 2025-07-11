@@ -177,7 +177,7 @@ export default function ProductActions({
               onClick={handleAddToCart}
               disabled={!inStock || !selectedVariant || !!disabled || isAdding}
               variant="primary"
-              className="flex-1 flex-shrink-0 rounded-full"
+              className="flex-1 shrink-0 rounded-full"
               isLoading={isAdding}
               data-testid="add-product-button"
             >

@@ -53,7 +53,7 @@ export default function SearchModal({
   // }, [])
 
   return (
-    <div className="relative z-30 flex-[2] flex justify-center mx-4 transition-all duration-200 ease-in-out">
+    <div className="relative z-30 flex-2 flex justify-center mx-4 transition-all duration-200 ease-in-out">
       {showBackdrop && (
         <div className="hidden lg:block fixed inset-0 bg-opacity-75 backdrop-blur-md opacity-100 h-screen w-screen" />
       )}

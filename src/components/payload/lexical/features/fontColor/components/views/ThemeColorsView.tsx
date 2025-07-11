@@ -90,17 +90,17 @@ const ThemeColorButton = ({
         if (!backgroundColor) return
         onFontColorChange(translateColor(backgroundColor, 'HEX'), `hsl(var(${variable}))`)
       }}
-      className="border-none outiline-none flex gap-2 items-center cursor-pointer p-1 rounded-md bg-[var(--theme-elevation-0)] hover:bg-[var(--theme-elevation-50)]"
+      className="border-none outiline-none flex gap-2 items-center cursor-pointer p-1 rounded-md bg-(--theme-elevation-0) hover:bg-(--theme-elevation-50)"
     >
       <div className="flex items-center w-full gap-2">
         <div
           style={{ backgroundColor: `hsl(var(${variable}))` }}
           ref={colorRef}
-          className={`h-9 w-9 rounded-full border-white border-[1px] border-solid`}
+          className={`h-9 w-9 rounded-full border-white border border-solid`}
         ></div>
         <div className="leading-none">{createSentenceFromCamelCase(variableName, 15)}</div>
       </div>
-      <div className="leading-none whitespace-nowrap bg-[var(--theme-elevation-150)] mr-2 p-2 rounded-sm">
+      <div className="leading-none whitespace-nowrap bg-(--theme-elevation-150) mr-2 p-2 rounded-sm">
         {backgroundColor}
       </div>
     </button>
@@ -116,7 +116,7 @@ const RadioGroupList = ({ onValueChange, value }: RadioGroupListProps) => {
     <RadioGroup
       onValueChange={onValueChange}
       value={value}
-      className="flex p-2 rounded-md w-fit bg-[var(--theme-elevation-50)]"
+      className="flex p-2 rounded-md w-fit bg-(--theme-elevation-50)"
     >
       <div className="flex items-center gap-1">
         <RadioGroupItem value="hex" id="hex" />

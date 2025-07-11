@@ -393,6 +393,7 @@ export interface Page {
     | BackgroundImageBlock
     | CallToActionBlock
     | CategoryShowcase
+    | CategorySlider
     | ContactSectionBlock
     | ContentBlock
     | {
@@ -430,6 +431,7 @@ export interface Page {
     | ImageWithTextBlock
     | LogoCarousel
     | MediaBlock
+    | PromoBlock
     | {
         items?:
           | {
@@ -823,6 +825,24 @@ export interface ProductCategory {
     | null;
   updatedAt: string;
   createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CategorySlider".
+ */
+export interface CategorySlider {
+  categoryCardType: 'card01' | 'card02' | 'card03' | 'card04' | 'card05' | 'card06' | 'card07';
+  heading: string;
+  subHeading?: string | null;
+  data?:
+    | {
+        category: (number | ProductCategory)[];
+        id?: string | null;
+      }[]
+    | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'categorySlider';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1639,6 +1659,34 @@ export interface LogoCarousel {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PromoBlock".
+ */
+export interface PromoBlock {
+  PromoType?: ('promo1' | 'promo2' | 'promo3') | null;
+  title: string;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  image: number | Media;
+  imageDark?: (number | null) | Media;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'promoBlock';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "orders".
  */
 export interface Order {
@@ -2162,6 +2210,7 @@ export interface PagesSelect<T extends boolean = true> {
         backgroundImageBlock?: T | BackgroundImageBlockSelect<T>;
         cta?: T | CallToActionBlockSelect<T>;
         categoryShowcase?: T | CategoryShowcaseSelect<T>;
+        categorySlider?: T | CategorySliderSelect<T>;
         contactSection?: T | ContactSectionBlockSelect<T>;
         content?: T | ContentBlockSelect<T>;
         faqBlock?:
@@ -2205,6 +2254,7 @@ export interface PagesSelect<T extends boolean = true> {
         imageWithTextBlock?: T | ImageWithTextBlockSelect<T>;
         logoCarouselBlock?: T | LogoCarouselSelect<T>;
         mediaBlock?: T | MediaBlockSelect<T>;
+        promoBlock?: T | PromoBlockSelect<T>;
         stepItemGrid?:
           | T
           | {
@@ -2417,6 +2467,23 @@ export interface CategoryShowcaseSelect<T extends boolean = true> {
         threshold?: T;
         duration?: T;
         delay?: T;
+      };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "CategorySlider_select".
+ */
+export interface CategorySliderSelect<T extends boolean = true> {
+  categoryCardType?: T;
+  heading?: T;
+  subHeading?: T;
+  data?:
+    | T
+    | {
+        category?: T;
+        id?: T;
       };
   id?: T;
   blockName?: T;
@@ -2828,6 +2895,19 @@ export interface LogoCarouselSelect<T extends boolean = true> {
         duration?: T;
         delay?: T;
       };
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PromoBlock_select".
+ */
+export interface PromoBlockSelect<T extends boolean = true> {
+  PromoType?: T;
+  title?: T;
+  description?: T;
+  image?: T;
+  imageDark?: T;
   id?: T;
   blockName?: T;
 }

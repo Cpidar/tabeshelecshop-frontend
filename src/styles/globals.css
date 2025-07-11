@@ -1,6 +1,5 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+@import "tailwindcss";
+@config "../../tailwind.config.mjs";
 
 @layer base {
   :root {
@@ -101,10 +100,10 @@ h6 {
     scrollbar-width: none; /* Firefox */
   }
 
-  input:focus ~ label,
+  /* input:focus ~ label,
   input:not(:placeholder-shown) ~ label {
     @apply -translate-y-2 text-xsmall-regular;
-  }
+  } */
 
   input:focus ~ label {
     @apply left-0;

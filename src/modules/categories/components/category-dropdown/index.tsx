@@ -16,7 +16,7 @@ import {
 } from "@szhsin/react-menu"
 
 const menuClassName = ({ state }: { state: MenuState }) =>
-  `box-border z-50 text-sm bg-white p-1.5 border rounded-md shadow-lg select-none focus:outline-none min-w-[9rem] w-64 md:w-72 ${
+  `box-border z-50 text-sm bg-white p-1.5 border rounded-md shadow-lg select-none focus:outline-none min-w-36 w-64 md:w-72 ${
     state === "opening" && "animate-fadeIn"
   } ${state === "closing" && "animate-fadeOut"}`
 
@@ -71,7 +71,7 @@ export default function DropdownCategories({
       gap={5}
       menuClassName={menuClassName}
       menuButton={
-        <MenuButton className="bg-yellow-400 hover:bg-gray-700 font-bold uppercase px-4 xl:px-6 py-2 xl:py-3 rounded flex-shrink-0 flex items-center">
+        <MenuButton className="bg-yellow-400 hover:bg-gray-700 font-bold uppercase px-4 xl:px-6 py-2 xl:py-3 rounded shrink-0 flex items-center">
           <MenuIcon className="h-8 p-1" />
           <span className="ml-4">دسته بندی محصولات</span>
         </MenuButton>

@@ -69,7 +69,7 @@ export const MediumImpactHero: React.FC<Page["hero"]> = ({
         </div>
 
         {/* Overlay Shading */}
-        <div className="absolute -bottom-px bg-gradient-to-b from-transparent to-background w-full h-1/2" />
+        <div className="absolute -bottom-px bg-linear-to-b from-transparent to-background w-full h-1/2" />
       </div>
 
       {/* Image */}
