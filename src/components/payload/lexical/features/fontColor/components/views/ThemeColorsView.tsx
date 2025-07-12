@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react'
 
-import appTheme from '@/app/(frontend)/[countryCode]/(main)/theme'
+import appTheme from '@/app/(frontend)/theme'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { createSentenceFromCamelCase } from '../../utils/createSentenceFromCamelCase'
 import { translateColor } from '../../utils/translateColor'

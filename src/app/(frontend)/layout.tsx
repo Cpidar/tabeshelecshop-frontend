@@ -10,6 +10,7 @@ import { getSettings } from "@/Globals/Settings/Component"
 import { InitTheme } from "@/providers/Theme/InitTheme"
 import Script from "next/script"
 import Favicon from "@/components/Favicon"
+import { Providers } from "@/providers"
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
 const { TWITTER_CREATOR, TWITTER_SITE, SITE_NAME } = process.env
@@ -34,8 +35,15 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
   const settings = await getSettings()
 
   return (
-    <html lang="fa" dir="rtl" className={IRANSans.variable} suppressHydrationWarning>
+    <html
+      lang="fa"
+      dir="rtl"
+      className={IRANSans.variable}
+      suppressHydrationWarning
+    >
       <head>
+        <InitTheme />
+
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link
           rel="apple-touch-icon"
@@ -55,7 +63,6 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
           href="/favicon-16x16.png"
         />
         <link rel="manifest" href="/site.webmanifest"></link>
-        <InitTheme />
         <Favicon head />
 
         {/* ✅ Google Analytics for Search Console verification */}
@@ -116,7 +123,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
       </head>
       <HolyLoader color="#ff4500" speed={250} easing="linear" showSpinner />
       <body className="bg-background text-base text-foreground">
-        {props.children}
+        <Providers>{props.children}</Providers>
       </body>
     </html>
   )
