@@ -33,19 +33,19 @@ export default async function MobileNavigation({
         </CategoryModal>
         <LocalizedClientLink
           href="/"
-          className="rounded-lg text-neutral-700 dark:text-neutral-300 focus:outline-none flex items-center justify-center"
+          className="rounded-lg text-foreground focus:outline-none flex items-center justify-center"
         >
           <HomeIcon />
         </LocalizedClientLink>
         <LocalizedClientLink
           href="/cart"
-          className="rounded-lg text-neutral-700 dark:text-neutral-300 focus:outline-none flex items-center justify-center"
+          className="rounded-lg text-foreground focus:outline-none flex items-center justify-center"
         >
           <BagIcon2withBadge badgeNumber={totalItems} />
         </LocalizedClientLink>
         <LocalizedClientLink
           href="/account"
-          className="rounded-lg text-neutral-700 dark:text-neutral-300 focus:outline-none flex items-center justify-center"
+          className="rounded-lg text-foreground focus:outline-none flex items-center justify-center"
         >
           <UserIcon />
         </LocalizedClientLink>

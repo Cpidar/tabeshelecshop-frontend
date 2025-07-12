@@ -89,9 +89,9 @@ const NcModal: FC<NcModalProps> = ({
               leaveTo="opacity-0 scale-95"
             >
               <div
-                className={`inline-block w-full my-5 overflow-hidden text-left align-middle transition-all transform bg-white border border-black border-opacity-5 shadow-xl rounded-2xl sm:my-8 dark:bg-neutral-800 dark:border-neutral-700 text-neutral-900 dark:text-neutral-300 ${contentExtraClass}`}
+                className={`inline-block w-full my-5 overflow-hidden text-left align-middle transition-all transform bg-background border border-border shadow-xl rounded-2xl sm:my-8 text-foreground ${contentExtraClass}`}
               >
-                <div className="py-4 px-6 text-center relative border-b border-neutral-100 dark:border-neutral-700 md:py-5">
+                <div className="py-4 px-6 text-center relative border-b border-border md:py-5">
                   <ButtonClose
                     onClick={closeModal}
                     className="absolute left-2 top-1/2 transform -translate-y-1/2 sm:left-4"
@@ -99,7 +99,7 @@ const NcModal: FC<NcModalProps> = ({
                   {modalTitle && (
                     <DialogTitle
                       as="h3"
-                      className="text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 mx-10"
+                      className="text-base font-semibold text-foreground lg:text-xl mx-10"
                     >
                       {modalTitle}
                     </DialogTitle>

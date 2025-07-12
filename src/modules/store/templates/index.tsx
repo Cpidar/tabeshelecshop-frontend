@@ -55,7 +55,7 @@ const StoreTemplate = ({
         {/* <hr className="border-slate-200 dark:border-slate-700" />
 
         <SectionSliderCollections /> */}
-        <hr className="border-slate-200 dark:border-slate-700" />
+        <hr className="border-border" />
 
         {/* SUBCRIBES */}
         {/* <SectionPromo1 /> */}

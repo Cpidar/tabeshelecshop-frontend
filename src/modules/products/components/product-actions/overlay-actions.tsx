@@ -51,7 +51,7 @@ export const RenderGroupButtons = ({
   return (
     <>
       <div className="absolute bottom-0 group-hover:bottom-4 inset-x-1 flex justify-center opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all">
-        <div className="flex items-center justify-around bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
+        <div className="flex items-center justify-around bg-muted/70 px-2 py-3 sm:p-3.5 rounded-full">
           <NcInputNumber
             max={selectedVariant.inventory_quantity}
             defaultValue={quantitySelected}

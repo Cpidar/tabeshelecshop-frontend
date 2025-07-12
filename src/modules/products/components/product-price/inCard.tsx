@@ -58,7 +58,7 @@ export default function InCardProductPrice({
         {/* <Prices price={price} /> */}
         {/* <div className="hidden lg:flex items-center mb-0.5">
             <StarIcon className="w-5 h-5 pb-px text-amber-400" />
-            <span className="text-sm ms-1 text-slate-500 dark:text-slate-400">
+            <span className="text-sm ms-1 text-muted-foreground">
               {rating || ""} ({numberOfReviews || 0} reviews)
             </span>
           </div> */}

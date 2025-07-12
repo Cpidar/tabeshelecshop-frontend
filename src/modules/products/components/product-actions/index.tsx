@@ -163,7 +163,7 @@ export default function ProductActions({
           }}
         > */}
           <div className="flex space-x-3.5">
-            <div className="flex items-center justify-center bg-slate-100/70 dark:bg-slate-800/70 px-2 py-3 sm:p-3.5 rounded-full">
+            <div className="flex items-center justify-center bg-muted/70 px-2 py-3 sm:p-3.5 rounded-full">
               <NcInputNumber
                 className="w-full"
                 max={inStockQty}

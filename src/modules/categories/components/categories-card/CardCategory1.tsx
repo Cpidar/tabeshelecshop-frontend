@@ -37,14 +37,14 @@ const CardCategory1: FC<CardCategory1Props> = ({
         <h2
           className={`${
             size === "large" ? "text-lg" : "text-base"
-          } nc-card-title text-neutral-900 dark:text-neutral-100 font-semibold`}
+          } nc-card-title text-foreground font-semibold`}
         >
           {name || _getTagNameRd()}
         </h2>
         <span
           className={`${
             size === "large" ? "text-sm" : "text-xs"
-          } block mt-[2px] text-neutral-500 dark:text-neutral-400`}
+          } block mt-[2px] text-muted-foreground`}
         >
           {desc}
         </span>

@@ -47,7 +47,7 @@ export const RenderProductCartOnNotify = ({
                 <span>
                   {variants ? variants[variantActive].name : `Natural`}
                 </span>
-                <span className="mx-2 border-s border-slate-200 dark:border-slate-700 h-4"></span>
+                <span className="mx-2 border-s border-border h-4"></span>
                 <span>{size || "XL"}</span>
               </p> */}
             </div>
@@ -55,12 +55,12 @@ export const RenderProductCartOnNotify = ({
           </div>
         </div>
         <div className="flex flex-1 items-end justify-between text-sm">
-          <p className="text-gray-500 dark:text-slate-400">تعداد {quantity}</p>
+          <p className="text-muted-foreground">تعداد {quantity}</p>
 
           <div className="flex">
             <button
               type="button"
-              className="font-medium text-primary-6000 dark:text-primary-500 "
+              className="font-medium text-primary "
               onClick={(e) => {
                 e.preventDefault()
                 router.push("/cart")

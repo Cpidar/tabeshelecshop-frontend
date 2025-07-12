@@ -13,7 +13,7 @@ export default function Loading() {
           {" "}
           <svg
             aria-hidden="true"
-            className="mr-8 h-8 w-8 animate-spin fill-blue-600 text-gray-200 dark:text-gray-600"
+            className="mr-8 h-8 w-8 animate-spin fill-blue-600 text-muted-foreground"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

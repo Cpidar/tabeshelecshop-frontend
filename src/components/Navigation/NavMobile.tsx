@@ -164,11 +164,11 @@ const NavMobile: React.FC<NavMobileProps> = ({
   };
 
   return (
-    <div className="overflow-y-auto w-full h-screen py-2 transition transform shadow-lg ring-1 dark:ring-neutral-700 bg-white dark:bg-neutral-900 divide-y-2 divide-neutral-100 dark:divide-neutral-800">
+    <div className="overflow-y-auto w-full h-screen py-2 transition transform shadow-lg ring-1 ring-border bg-background divide-y-2 divide-border">
 
       <div className="py-6 px-5">
         <Logo />
-        <div className="flex flex-col mt-5 text-slate-600 dark:text-slate-300 text-sm">
+        <div className="flex flex-col mt-5 text-muted-foreground text-sm">
           <span>
             Discover the most outstanding articles on all topics of life. Write
             your stories and share them
@@ -177,7 +177,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
           <div className="flex justify-between items-center mt-4">
             <SocialsList itemClass="w-7 h-7 sm:w-8 sm:h-8 flex items-center justify-center rounded-full text-xl" />
             <span className="block">
-              <SwitchDarkMode className="bg-neutral-100 dark:bg-neutral-800" />
+              <SwitchDarkMode className="bg-muted" />
             </span>
           </div>
         </div>

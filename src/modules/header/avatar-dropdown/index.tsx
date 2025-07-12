@@ -21,7 +21,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
         {({ open, close }) => (
           <>
             {/* <Popover.Button
-              className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none flex items-center justify-center`}
+              className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full text-foreground hover:bg-muted focus:outline-none flex items-center justify-center`}
             >
               <svg
                 className=" w-6 h-6"
@@ -76,7 +76,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
             >
               <Popover.Panel className="absolute z-10 w-screen max-w-[260px] px-4 mt-3.5 -right-10 sm:right-0 sm:px-0">
                 <div className="overflow-hidden rounded-3xl shadow-lg ring-1 ring-black ring-opacity-5">
-                  <div className="relative grid grid-cols-1 gap-6 bg-white dark:bg-neutral-800 py-7 px-6">
+                  <div className="relative grid grid-cols-1 gap-6 bg-background py-7 px-6">
                     <div className="flex items-center space-x-3">
                       <Avatar imgUrl={avatarImgs[7]} sizeClass="w-12 h-12" />
 

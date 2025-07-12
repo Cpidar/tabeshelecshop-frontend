@@ -26,7 +26,7 @@ const CardCategory4: FC<CardCategory4Props> = ({
 }) => {
   return (
     <div
-      className={`nc-CardCategory4 relative w-full aspect-w-12 aspect-h-11 h-0 rounded-3xl overflow-hidden bg-white dark:bg-neutral-900 group hover:nc-shadow-lg transition-shadow ${className}`}
+      className={`nc-CardCategory4 relative w-full aspect-w-12 aspect-h-11 h-0 rounded-3xl overflow-hidden bg-background group hover:nc-shadow-lg transition-shadow ${className}`}
     >
       <div>
         <div className="absolute bottom-0 right-0 max-w-[280px] opacity-80">
@@ -42,14 +42,14 @@ const CardCategory4: FC<CardCategory4Props> = ({
               width={80}
               height={80}
             />
-            <span className="text-xs text-slate-700 dark:text-neutral-300 font-medium">
+            <span className="text-xs text-foreground font-medium">
               {count} products
             </span>
           </div>
 
           <div className="">
             <span
-              className={`block mb-2 text-sm text-slate-500 dark:text-slate-400`}
+              className={`block mb-2 text-sm text-muted-foreground`}
             >
               {desc}
             </span>

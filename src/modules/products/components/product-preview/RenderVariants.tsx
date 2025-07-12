@@ -72,7 +72,7 @@ const getBorderClass = (Bgclass = "") => {
             onClick={() => setVariantActive(index)}
             className={`relative w-11 h-6 rounded-full overflow-hidden z-10 border cursor-pointer ${
               variantActive === index
-                ? "border-black dark:border-slate-300"
+                ? "border-foreground"
                 : "border-transparent"
             }`}
             title={variant.name}

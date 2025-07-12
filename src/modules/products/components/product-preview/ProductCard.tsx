@@ -87,7 +87,7 @@ const ProductCard = async ({
               {title}
             </h2>
             {/* <p
-              className={`hidden lg:block text-xs text-slate-500 dark:text-slate-400 mt-1 `}
+              className={`hidden lg:block text-xs text-muted-foreground mt-1 `}
             >
               {StripOffDesc}
             </p> */}

@@ -4,7 +4,7 @@
 // import animate from "tailwindcss-animate"
 
 const config = {
-  darkMode: "class",
+  darkMode: ["attribute", "data-theme"],
   presets: [require("@medusajs/ui-preset")],
   plugins: [
     require("tailwindcss-radix")(),
@@ -86,18 +86,18 @@ const config = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
-        neutral: {
-          50: 'customColors("--c-neutral-50")',
-          100: 'customColors("--c-neutral-100")',
-          200: 'customColors("--c-neutral-200")',
-          300: 'customColors("--c-neutral-300")',
-          400: 'customColors("--c-neutral-400")',
-          500: 'customColors("--c-neutral-500")',
-          700: 'customColors("--c-neutral-700")',
-          800: 'customColors("--c-neutral-800")',
-          900: 'customColors("--c-neutral-900")',
-          6000: 'customColors("--c-neutral-600")',
-        },
+        // neutral: {
+        //   50: 'customColors("--c-neutral-50")',
+        //   100: 'customColors("--c-neutral-100")',
+        //   200: 'customColors("--c-neutral-200")',
+        //   300: 'customColors("--c-neutral-300")',
+        //   400: 'customColors("--c-neutral-400")',
+        //   500: 'customColors("--c-neutral-500")',
+        //   700: 'customColors("--c-neutral-700")',
+        //   800: 'customColors("--c-neutral-800")',
+        //   900: 'customColors("--c-neutral-900")',
+        //   6000: 'customColors("--c-neutral-600")',
+        // },
         brand: {
           DEFAULT: "#02b290",
           dark: "#000000",

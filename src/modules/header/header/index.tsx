@@ -73,14 +73,14 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async ({
   const renderSearchForm = () => {
     return (
       <form
-        className="flex-1 py-2 text-slate-900 dark:text-slate-100"
+        className="flex-1 py-2 text-foreground"
         // onSubmit={(e) => {
         //   e.preventDefault()
         //   router.push("/search")
         //   inputRef.current?.blur()
         // }}
       >
-        <div className="bg-slate-50 dark:bg-slate-800 flex items-center space-x-1.5 px-5 h-full rounded">
+        <div className="bg-muted flex items-center space-x-1.5 px-5 h-full rounded">
           {renderMagnifyingGlassIcon()}
           <input
             // ref={inputRef}
@@ -118,7 +118,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async ({
             {/* <SearchForm /> */}
             {/* </div> */}
 
-            <div className="flex-1 flex items-center justify-end text-slate-700 dark:text-slate-100">
+            <div className="flex-1 flex items-center justify-end text-foreground">
               {/* {!showSearchForm && (
                 <button
                   className="hidden lg:flex w-10 h-10 sm:w-12 sm:h-12 rounded-full text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 focus:outline-none items-center justify-center"
@@ -183,7 +183,7 @@ const MainNav2Logged: FC<MainNav2LoggedProps> = async ({
   }
 
   return (
-    <div className="nc-MainNav2Logged relative z-10 bg-white dark:bg-neutral-900 border-b border-slate-100 dark:border-slate-700">
+    <div className="relative z-10 bg-background border-b border-border">
       <div className="">{renderContent()}</div>
     </div>
   )

@@ -110,13 +110,13 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
 
         <Prev
           className="absolute start-1 sm:start-5 top-3/4 sm:top-1/2 sm:-translate-y-1/2 z-10 text-slate-700!"
-          btnClassName="w-12 h-12 hover:border-slate-400 dark:hover:border-slate-400"
+          btnClassName="w-12 h-12 hover:border-border"
           svgSize="w-6 h-6"
           onClickPrev={handleClickPrev}
         />
         <Next
           className="absolute end-1 sm:end-5 top-3/4 sm:top-1/2 sm:-translate-y-1/2 z-10 text-slate-700!"
-          btnClassName="w-12 h-12 hover:border-slate-400 dark:hover:border-slate-400"
+          btnClassName="w-12 h-12 hover:border-border"
           svgSize="w-6 h-6"
           onClickNext={handleClickNext}
         />
@@ -146,7 +146,7 @@ const SectionHero2: FC<SectionHero2Props> = ({ className = "" }) => {
             </div>
 
             <ButtonPrimary
-              className="nc-SectionHero2Item__button dark:bg-slate-900"
+              className="nc-SectionHero2Item__button"
               sizeClass="py-3 px-6 sm:py-5 sm:px-9"
               href={item.btnLink}
             >

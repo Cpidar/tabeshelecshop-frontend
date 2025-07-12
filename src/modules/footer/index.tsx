@@ -139,7 +139,7 @@ export default async function Footer({ cart }: { cart: HttpTypes.StoreCart }) {
   const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
     return (
       <div key={index} className="text-sm">
-        <h2 className="font-semibold text-neutral-700 dark:text-neutral-200">
+        <h2 className="font-semibold text-foreground">
           {menu.title}
         </h2>
         <ul className="mt-5 space-y-4">
@@ -147,7 +147,7 @@ export default async function Footer({ cart }: { cart: HttpTypes.StoreCart }) {
             <li key={index}>
               <a
                 key={index}
-                className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
+                className="text-muted-foreground hover:text-foreground"
                 href={item.href}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -163,7 +163,7 @@ export default async function Footer({ cart }: { cart: HttpTypes.StoreCart }) {
 
   return (
     <>
-      <footer className="nc-Footer pt-20 lg:pt-28 pb-8 border-t border-neutral-200 dark:border-neutral-700">
+      <footer className="nc-Footer pt-20 lg:pt-28 pb-8 border-t border-border">
         <div className="mx-auto px-6 lg:px-64">
           <div className="xl:grid xl:grid-cols-4 xl:gap-8">
             <div className="space-y-4 grid grid-cols-1 gap-8 xl:col-span-2">

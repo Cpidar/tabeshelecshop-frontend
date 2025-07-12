@@ -82,7 +82,7 @@ const SectionHowItWork: FC<SectionHowItWorkProps> = ({
                 }
               />
               <h3 className="text-base font-semibold">{item.title}</h3>
-              <span className="block text-slate-600 dark:text-slate-400 text-sm leading-6">
+              <span className="block text-muted-foreground text-sm leading-6">
                 {item.desc}
               </span>
             </div>

@@ -108,7 +108,7 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
   return (
     <div className={`nc-SectionSliderLargeProduct2 ${className}`}>
       <Heading
-        className="mb-12 lg:mb-14 text-neutral-900 dark:text-neutral-50"
+        className="mb-12 lg:mb-14 text-foreground"
         fontClass="text-3xl md:text-4xl 2xl:text-5xl font-semibold"
         isCenter
         desc=""
@@ -116,7 +116,7 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
         Top List Collections.
       </Heading>
       <Nav
-        className="p-1 bg-white dark:bg-neutral-800 rounded-full shadow-lg"
+        className="p-1 bg-background rounded-full shadow-lg"
         containerClassName="mb-12 lg:mb-14 relative flex justify-center w-full text-sm md:text-base"
       >
         {[
@@ -187,7 +187,7 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
               <Link href={"/search"} className="block relative group">
                 <div className="relative flex flex-col rounded-2xl overflow-hidden">
                   <div className="relative">
-                    <div className="aspect-w-8 aspect-h-5 bg-black/5 dark:bg-neutral-800"></div>
+                    <div className="aspect-w-8 aspect-h-5 bg-muted"></div>
                     <div className="absolute inset-y-6 inset-x-10  flex flex-col items-center justify-center">
                       <div className="flex items-center justify-center relative">
                         <span className="text-xl font-semibold">
@@ -221,9 +221,9 @@ const SectionSliderLargeProduct2: FC<SectionSliderLargeProduct2Props> = ({
                     </div>
                   </div>
                   <div className="grid grid-cols-3 gap-1.5 mt-1.5">
-                    <div className="w-full h-28 bg-black/5 dark:bg-neutral-800"></div>
-                    <div className="w-full h-28 bg-black/5 dark:bg-neutral-800"></div>
-                    <div className="w-full h-28 bg-black/5 dark:bg-neutral-800"></div>
+                            <div className="w-full h-28 bg-muted"></div>
+        <div className="w-full h-28 bg-muted"></div>
+        <div className="w-full h-28 bg-muted"></div>
                   </div>
                 </div>
               </Link>

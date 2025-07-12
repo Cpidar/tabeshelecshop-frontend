@@ -30,9 +30,9 @@
     --chart-5: 27 87% 67%;
   }
 
-  .dark {
+  [data-theme="dark"] {
     --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    --foreground: 220 14% 96%;
     --card: 222.2 84% 4.9%;
     --card-foreground: 210 40% 98%;
     --popover: 222.2 84% 4.9%;
@@ -194,7 +194,7 @@ h6 {
   }
 }
 
-.juice {
+/* .juice {
   background-image: url('https://i.ibb.co/SN2Sp4T/juice.png');
 }
 
@@ -262,4 +262,4 @@ background-image: url('https://i.ibb.co/f9tpvV3/2021-11-07-14h08-32.png');
 }
 .product4 {
 background-image: url('https://i.ibb.co/42BsKQ2/2021-11-07-14h08-17.png');
-}
+} */

@@ -20,17 +20,15 @@ export const useThemeMode = () => {
 
   const toDark = () => {
     setIsDarkMode(true);
-    const root = document.querySelector("html");
-    if (!root) return;
-    !root.classList.contains("dark") && root.classList.add("dark");
+    const root = document.documentElement;
+    root.setAttribute("data-theme", "dark");
     localStorage.theme = "dark";
   };
 
   const toLight = () => {
     setIsDarkMode(false);
-    const root = document.querySelector("html");
-    if (!root) return;
-    root.classList.remove("dark");
+    const root = document.documentElement;
+    root.setAttribute("data-theme", "light");
     localStorage.theme = "light";
   };
 

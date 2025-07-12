@@ -13,7 +13,7 @@ interface Props {
 
 const ProductStatus: FC<Props> = ({
   status,
-  className = "absolute top-3 start-3 px-2.5 py-1.5 text-xs bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-300",
+      className = "absolute top-3 start-3 px-2.5 py-1.5 text-xs bg-background text-foreground",
 }) => {
   const renderStatus = () => {
     if (!status) {

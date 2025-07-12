@@ -63,10 +63,10 @@ const SearchBox = React.forwardRef<HTMLInputElement, SearchProps>(
 
     return (
       <form
-        className="flex-1 py-2 text-slate-900 dark:text-slate-100"
+        className="flex-1 py-2 text-foreground"
         onSubmit={onSubmit}
       >
-        <div className="bg-slate-50 dark:bg-slate-800 flex items-center space-x-1.5 px-5 h-full rounded">
+        <div className="bg-muted flex items-center space-x-1.5 px-5 h-full rounded">
           {renderMagnifyingGlassIcon()}
           <input
             type="text"
