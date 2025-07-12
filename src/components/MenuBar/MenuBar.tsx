@@ -59,7 +59,7 @@ const MenuBar: React.FC<MenuBarProps> = () => {
     <>
       <button
         onClick={handleOpenMenu}
-        className="rounded-lg text-neutral-700 dark:text-neutral-300 focus:outline-none flex items-center justify-center"
+        className="rounded-lg text-muted-foreground focus:outline-none flex items-center justify-center"
       >
         <MenuIcon />
       </button>

@@ -188,7 +188,7 @@ export default function RichText(props: Props) {
         {
           container: enableGutter,
           'max-w-none': !enableGutter,
-          'mx-auto prose md:prose-md dark:prose-invert h-full': enableProse,
+          'mx-auto prose md:prose-md prose-invert h-full': enableProse,
         },
         className,
       )}

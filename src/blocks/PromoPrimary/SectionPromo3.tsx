@@ -28,11 +28,11 @@ const SectionPromo3: FC<PromoBlock> = ({
   const className = "lg:pt-10"
   return (
     <div className={`nc-SectionPromo3 ${className}`}>
-      <div className="relative flex flex-col lg:flex-row bg-slate-50 dark:bg-slate-800 rounded-2xl sm:rounded-[40px] p-4 pb-0 sm:p-5 sm:pb-0 lg:p-24">
+      <div className="relative flex flex-col lg:flex-row bg-slate-50 dark:bg-muted rounded-2xl sm:rounded-[40px] p-4 pb-0 sm:p-5 sm:pb-0 lg:p-24">
         <div className="absolute inset-0">
           <Image
             fill
-            className="absolute w-full h-full object-contain object-bottom dark:opacity-5"
+            className="absolute w-full h-full object-contain object-bottom opacity-5"
             src={backgroundLineSvg}
             alt="backgroundLineSvg"
           />
@@ -40,7 +40,7 @@ const SectionPromo3: FC<PromoBlock> = ({
 
         <div className="lg:w-[50%] max-w-lg relative">
           <h2 className="font-semibold text-4xl md:text-5xl">{title}</h2>
-          <span className="block mt-5 text-neutral-500 dark:text-neutral-400">
+          <span className="block mt-5 text-neutral-500 dark:text-muted-foreground">
             {description && (
               <RichText data={description} enableGutter={false} />
             )}
@@ -48,19 +48,19 @@ const SectionPromo3: FC<PromoBlock> = ({
           <ul className="space-y-4 mt-10">
             <li className="flex items-center">
               <Badge color="purple" name="01" />
-              <span className="font-medium text-neutral-700 mr-4 dark:text-neutral-300">
+              <span className="font-medium text-neutral-700 mr-4 dark:text-foreground">
                 پرداخت امن
               </span>
             </li>
             <li className="flex items-center">
               <Badge name="02" />
-              <span className="font-medium text-neutral-700 mr-4 dark:text-neutral-300">
+              <span className="font-medium text-neutral-700 mr-4 dark:text-foreground">
                 مشاوره و پشتیبانی رایگان
               </span>
             </li>
             <li className="flex items-center">
               <Badge color="red" name="03" />
-              <span className="font-medium text-neutral-700 mr-4 dark:text-neutral-300">
+              <span className="font-medium text-neutral-700 mr-4 dark:text-foreground">
                 ارسال رایگان برای سفارشات بالای 5 میلیون تومان
               </span>
             </li>

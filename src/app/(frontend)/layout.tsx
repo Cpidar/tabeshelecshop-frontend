@@ -115,7 +115,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
         )}
       </head>
       <HolyLoader color="#ff4500" speed={250} easing="linear" showSpinner />
-      <body className="bg-white text-base dark:bg-neutral-900 text-neutral-900 dark:text-neutral-200">
+      <body className="bg-background text-base text-foreground">
         {props.children}
       </body>
     </html>

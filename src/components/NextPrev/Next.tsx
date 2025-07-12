@@ -16,11 +16,11 @@ const Next: FC<NextProps> = ({
 }) => {
   return (
     <div
-      className={`nc-Next text-slate-500 dark:text-slate-400 ${className}`}
+      className={`nc-Next text-muted-foreground ${className}`}
       data-glide-el="controls"
     >
       <button
-        className={`${btnClassName} rounded-full flex items-center justify-center border-2 hover:border-slate-200 dark:hover:border-slate-600 border-transparent`}
+        className={`${btnClassName} rounded-full flex items-center justify-center border-2 hover:border-border border-transparent`}
         onClick={onClickNext}
         title="Next"
         data-glide-dir=">"

@@ -18,7 +18,7 @@ const Heading2: React.FC<Heading2Props> = ({
       {subHeading ? (
         subHeading
       ) : (
-        <span className="block text-neutral-500 dark:text-neutral-400 mt-3">
+        <span className="block text-muted-foreground mt-3">
           233 stays
           <span className="mx-2">·</span>
           Aug 12 - 18

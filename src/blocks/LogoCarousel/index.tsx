@@ -80,7 +80,7 @@ const LogoCarouselBlock: React.FC<LogoCarouselBlockProps> = ({
               : "justify-end"
           )}
         >
-          <div className="prose dark:prose-invert mb-8">
+          <div className="prose prose-invert mb-8">
             <h2>{title}</h2>
           </div>
         </div>

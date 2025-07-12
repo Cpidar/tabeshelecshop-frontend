@@ -11,7 +11,7 @@ type HighlightedBarProps = {
 }
 
 const variantBasedClasses = {
-  dark: "bg-gray-800",
+  dark: "bg-muted",
   primary: "bg-brand",
   highlighted: "bg-yellow-300",
   highlightedTwo: "bg-yellow-200",

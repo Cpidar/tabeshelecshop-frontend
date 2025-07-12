@@ -28,7 +28,7 @@ const solutions = [
 const Heading: React.FC<HeadingProps> = ({
   children,
   desc = "",
-  className = "mb-12 lg:mb-14 text-neutral-900 dark:text-neutral-50",
+  className = "mb-12 lg:mb-14 text-foreground",
   isCenter = false,
   hasNextPrev = false,
   fontClass = "text-xl md:text-4xl font-semibold",
@@ -55,14 +55,14 @@ const Heading: React.FC<HeadingProps> = ({
           {rightDescText && (
             <>
               <span className="">{`. `}</span>
-              <span className="text-neutral-500 dark:text-neutral-400">
+              <span className="text-muted-foreground">
                 {rightDescText}
               </span>
             </>
           )}
         </h2>
         {!!desc && (
-          <span className="mt-2 md:mt-3 font-normal block text-base sm:text-xl text-neutral-500 dark:text-neutral-400">
+          <span className="mt-2 md:mt-3 font-normal block text-base sm:text-xl text-muted-foreground">
             {desc}
           </span>
         )}

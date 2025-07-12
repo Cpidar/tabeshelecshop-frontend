@@ -86,15 +86,15 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                       </div>
                     </div>
 
-                    <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
+                    <div className="w-full border-b border-border" />
 
                     {/* ------------------ 1 --------------------- */}
                     <Link
                       href={"/account"}
-                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-muted focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
-                      <div className="flex items-center justify-center shrink-0 text-neutral-500 dark:text-neutral-300">
+                      <div className="flex items-center justify-center shrink-0 text-muted-foreground">
                         <svg
                           width="24"
                           height="24"
@@ -126,10 +126,10 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                     {/* ------------------ 2 --------------------- */}
                     <Link
                       href={"/account/orders"}
-                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-muted focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
-                      <div className="flex items-center justify-center shrink-0 text-neutral-500 dark:text-neutral-300">
+                      <div className="flex items-center justify-center shrink-0 text-muted-foreground">
                         <svg
                           width="24"
                           height="24"
@@ -180,10 +180,10 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                     {/* ------------------ 2 --------------------- */}
                     <Link
                       href={"/account/addresses"}
-                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-muted focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => close()}
                     >
-                      <div className="flex items-center justify-center shrink-0 text-neutral-500 dark:text-neutral-300">
+                      <div className="flex items-center justify-center shrink-0 text-muted-foreground">
                         <svg
                           width="24"
                           height="24"
@@ -206,7 +206,7 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
                       </div>
                     </Link>
 
-                    <div className="w-full border-b border-neutral-200 dark:border-neutral-700" />
+                    <div className="w-full border-b border-border" />
 
                     {/* ------------------ 2 --------------------- */}
                     {/* <div className="flex items-center justify-between p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50">
@@ -314,13 +314,13 @@ export default function AvatarDropdown({ customer }: AvatarDropdownProps) {
 
                     {/* ------------------ 2 --------------------- */}
                     <button
-                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-700 focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
+                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-muted focus:outline-none focus-visible:ring focus-visible:ring-orange-500 focus-visible:ring-opacity-50"
                       onClick={() => {
                         signout('ir')
                         close()
                       }}
                     >
-                      <div className="flex items-center justify-center shrink-0 text-neutral-500 dark:text-neutral-300">
+                      <div className="flex items-center justify-center shrink-0 text-muted-foreground">
                         <svg
                           width="24"
                           height="24"

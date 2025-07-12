@@ -30,7 +30,7 @@ const MySwitch: FC<MySwitchProps> = ({
     >
       <div>
         <Label>{label}</Label>
-        <p className="text-neutral-500 dark:text-neutral-400  text-xs">
+        <p className="text-muted-foreground text-xs">
           {desc}
         </p>
       </div>
@@ -41,7 +41,7 @@ const MySwitch: FC<MySwitchProps> = ({
           onChange && onChange(e);
         }}
         className={`${
-          enabledState ? "bg-teal-700" : "bg-neutral-400 dark:bg-neutral-6000"
+          enabledState ? "bg-teal-700" : "bg-muted"
         }
           relative inline-flex shrink-0 h-8 w-[68px] border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
       >

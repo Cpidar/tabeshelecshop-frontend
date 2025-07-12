@@ -21,7 +21,7 @@ export interface ButtonProps {
 }
 
 const Button: FC<ButtonProps> = ({
-  className = "text-neutral-700 dark:text-neutral-200 disabled:cursor-not-allowed",
+  className = "text-foreground disabled:cursor-not-allowed",
   translate = "",
   sizeClass = "py-3 px-4 sm:py-3.5 sm:px-6",
   fontSize = "text-sm sm:text-base font-medium",

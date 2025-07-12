@@ -69,7 +69,7 @@ const NcModal: FC<NcModalProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <DialogBackdrop className="fixed inset-0 bg-neutral-900 bg-opacity-50 dark:bg-opacity-80" />
+              <DialogBackdrop className="fixed inset-0 bg-background bg-opacity-50" />
             </TransitionChild>
 
             {/* This element is to trick the browser into centering the modal contents. */}

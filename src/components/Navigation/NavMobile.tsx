@@ -24,7 +24,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
 }) => {
   const _renderMenuChild = (
     item: NavItemType,
-    itemClass = " pl-3 text-neutral-900 dark:text-neutral-200 font-medium "
+    itemClass = " pl-3 text-foreground font-medium "
   ) => {
     return (
       <ul className="nav-mobile-sub-menu pl-6 pb-1 text-base">
@@ -34,7 +34,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
               href={{
                 pathname: i.href || undefined,
               }}
-              className={`flex text-sm rounded-lg hover:bg-neutral-100 dark:hover:bg-neutral-800 mt-0.5 pr-4 ${itemClass}`}
+              className={`flex text-sm rounded-lg hover:bg-muted mt-0.5 pr-4 ${itemClass}`}
             >
               <span
                 className={`py-2.5 ${!i.children ? "block w-full" : ""}`}
@@ -63,7 +63,7 @@ const NavMobile: React.FC<NavMobileProps> = ({
               <Disclosure.Panel>
                 {_renderMenuChild(
                   i,
-                  "pl-3 text-slate-600 dark:text-slate-400 "
+                  "pl-3 text-muted-foreground "
                 )}
               </Disclosure.Panel>
             )}
@@ -78,10 +78,10 @@ const NavMobile: React.FC<NavMobileProps> = ({
       <Disclosure
         key={index}
         as="li"
-        className="text-slate-900 dark:text-white"
+        className="text-foreground"
       >
         <Link
-          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg"
+          className="flex w-full items-center py-2.5 px-4 font-medium uppercase tracking-wide text-sm hover:bg-muted rounded-lg"
           href={{
             pathname: item.href || undefined,
           }}
@@ -148,9 +148,9 @@ const NavMobile: React.FC<NavMobileProps> = ({
       <form
         action=""
         method="POST"
-        className="flex-1 text-slate-900 dark:text-slate-200"
+        className="flex-1 text-foreground"
       >
-        <div className="bg-slate-50 dark:bg-slate-800 flex items-center space-x-1 py-2 px-4 rounded-xl h-full">
+        <div className="bg-muted flex items-center space-x-1 py-2 px-4 rounded-xl h-full">
           {renderMagnifyingGlassIcon()}
           <input
             type="search"

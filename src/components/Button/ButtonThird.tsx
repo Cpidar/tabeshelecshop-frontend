@@ -4,7 +4,7 @@ import React from "react";
 export interface ButtonThirdProps extends ButtonProps {}
 
 const ButtonThird: React.FC<ButtonThirdProps> = ({
-  className = "text-neutral-700 border border-neutral-200 dark:text-neutral-200 dark:border-neutral-700",
+  className = "text-foreground border border-border",
   ...args
 }) => {
   return <Button className={`ttnc-ButtonThird ${className}`} {...args} />;

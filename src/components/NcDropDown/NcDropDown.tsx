@@ -68,9 +68,9 @@ const NcDropDown: FC<NcDropDownProps> = ({
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items
-          className={`absolute ${panelMenusClass} right-0 w-56 mt-2 bg-white dark:bg-neutral-900 rounded-2xl divide-y divide-neutral-100 shadow-lg ring-1 ring-black dark:ring-white ring-opacity-5 dark:ring-opacity-10 focus:outline-none z-30`}
+          className={`absolute ${panelMenusClass} right-0 w-56 mt-2 bg-background rounded-2xl divide-y divide-border shadow-lg ring-1 ring-border ring-opacity-5 focus:outline-none z-30`}
         >
-          <div className="px-1 py-3 text-sm text-neutral-6000 dark:text-neutral-300">
+          <div className="px-1 py-3 text-sm text-muted-foreground">
             {data.map((item) => (
               <Menu.Item
                 as={"div"}
@@ -85,7 +85,7 @@ const NcDropDown: FC<NcDropDownProps> = ({
                     <Link
                       href={item.href}
                       className={
-                        "flex items-center rounded-md w-full px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 truncate "
+                        "flex items-center rounded-md w-full px-3 py-2 hover:bg-muted hover:text-foreground truncate "
                       }
                     >
                       {!!item.icon && (
@@ -96,7 +96,7 @@ const NcDropDown: FC<NcDropDownProps> = ({
                   ) : (
                     <button
                       className={
-                        "flex items-center rounded-md w-full px-3 py-2 hover:bg-neutral-100 dark:hover:bg-neutral-800 hover:text-neutral-900 dark:hover:text-neutral-100 truncate "
+                        "flex items-center rounded-md w-full px-3 py-2 hover:bg-muted hover:text-foreground truncate "
                       }
                     >
                       {!!item.icon && (
