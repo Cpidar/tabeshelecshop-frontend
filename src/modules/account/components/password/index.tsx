@@ -23,50 +23,50 @@ type Props = {
 const PageLogin = ({ setCurrentView, email, phone }: Props) => {
   const router = useRouter()
 
-  const forgetPassword = async () => {
-    const rawFormData = {
-      phone,
-      email,
-      step: "isResetPassword",
-    }
-    try {
-      fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/customers/password-token`, {
-        method: "POST",
-        body: JSON.stringify({
-          email,
-        }),
-        headers: {
-          "content-type": "application/json; charset=utf-8",
-        },
-      })
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/otp/send`,
-        {
-          method: "POST",
-          body: JSON.stringify(rawFormData),
-          headers: {
-            "content-type": "application/json; charset=utf-8",
-          },
-        }
-      )
+  // const forgetPassword = async () => {
+  //   const rawFormData = {
+  //     phone,
+  //     email,
+  //     step: "isResetPassword",
+  //   }
+  //   try {
+  //     fetch(`${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/customers/password-token`, {
+  //       method: "POST",
+  //       body: JSON.stringify({
+  //         email,
+  //       }),
+  //       headers: {
+  //         "content-type": "application/json; charset=utf-8",
+  //       },
+  //     })
+  //     const response = await fetch(
+  //       `${process.env.NEXT_PUBLIC_MEDUSA_BACKEND_URL}/store/auth/otp/send`,
+  //       {
+  //         method: "POST",
+  //         body: JSON.stringify(rawFormData),
+  //         headers: {
+  //           "content-type": "application/json; charset=utf-8",
+  //         },
+  //       }
+  //     )
 
-      if (response.status === 200) {
-        // new customer
-        setCurrentView(LOGIN_VIEW.OTP)
-      } else {
-        // show error
-      }
-    } catch (e) {
-      console.error(e)
-    }
-  }
-  const onSubmit = async (_currentState: unknown, formData: FormData) => {
-    if (!formData.get("email")) formData.append("email", email)
-console.log(email, formData.get('password'))
-    return login(_currentState, formData)
-      // .then(() => router.replace("/"))
-      // .catch((e) => e.toString())
-  }
+  //     if (response.status === 200) {
+  //       // new customer
+  //       setCurrentView(LOGIN_VIEW.OTP)
+  //     } else {
+  //       // show error
+  //     }
+  //   } catch (e) {
+  //     console.error(e)
+  //   }
+  // }
+//   const onSubmit = async (_currentState: unknown, formData: FormData) => {
+//     if (!formData.get("email")) formData.append("email", email)
+// console.log(email, formData.get('password'))
+//     return login(_currentState, formData)
+//       // .then(() => router.replace("/"))
+//       // .catch((e) => e.toString())
+//   }
   const [message, formAction] = useActionState(login, null)
 
   return (

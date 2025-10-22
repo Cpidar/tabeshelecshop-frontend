@@ -13,12 +13,39 @@ import ButtonSecondary from "@/components/Button/ButtonSecondary"
 import SubmitButton from "../submit-button"
 import { authenticateWithPhone, verifyOtp } from "@/lib/data/customer"
 
+import { zodResolver } from "@hookform/resolvers/zod"
+// import { toast } from "sonner"
+import { z } from "zod"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form"
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+import { toast } from "react-toastify"
+import { Separator } from "@/components/ui/separator"
+
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
   setToken: (token: string) => void
   previousView: LOGIN_VIEW
   phone: string
 }
+
+const FormSchema = z.object({
+  pin: z.string().min(6, {
+    message: "کد یک بار مصرف ارسالی بایستی 6 رقم باشد.",
+  }),
+})
 
 interface IFormInput {
   otp: string
@@ -31,17 +58,15 @@ const PageLogin = ({
   previousView,
 }: Props) => {
   const { t } = useTranslation()
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setError,
-  } = useForm<IFormInput>({
+
+  const form = useForm<z.infer<typeof FormSchema>>({
+    resolver: zodResolver(FormSchema),
     defaultValues: {
-      otp: "",
+      pin: "",
     },
   })
-    const [submitError, setSubmitError] = useState<string | null>(null)
+
+  const [submitError, setSubmitError] = useState<string | null>(null)
 
   const [minutes, setMinutes] = useState(3)
   const [seconds, setSeconds] = useState(0)
@@ -102,12 +127,13 @@ const PageLogin = ({
       ? t("new-customer-welcome", { phone })
       : t("forgot-password-helper")
 
-  const onSubmit: SubmitHandler<IFormInput> = async ({ otp }) => {
-    const rawFormData = {
-      phone,
-      token: otp,
-      step,
-    }
+  async function onSubmit({ pin: otp }: z.infer<typeof FormSchema>) {
+    setSubmitError(null)
+    // const rawFormData = {
+    //   phone,
+    //   token: otp,
+    //   step,
+    // }
 
     // medusa v2 version
     const response = await verifyOtp({
@@ -116,7 +142,14 @@ const PageLogin = ({
     })
 
     if (typeof response === "string") {
-      setSubmitError(response)
+      console.log(response.includes("expired"))
+      if (response.includes("expired")) {
+        setSubmitError("کد وارد شده منقضی شده است")
+      } else if (response.includes("Invalid OTP")) {
+        setSubmitError("کد وارد شده صحیح نیست")
+      } else {
+        setSubmitError("یک خطای غیر منتظره رخ داده است")
+      }
     }
 
     // medusa v1 version
@@ -175,40 +208,54 @@ const PageLogin = ({
         <h1 className="text-h4 text-neutral-900 text-right w-full mt-6">
           کد تایید را وارد کنید
         </h1>
-        {step === "isSignUp" && (
+        {/* {step === "isSignUp" && (
           <p className="text-xs text-neutral-700 my-4 text-right w-full">{`حساب کاربری با شماره موبایل
         ${phone}
         وجود ندارد. برای ساخت حساب جدید، کد تایید برای این شماره ارسال گردید.`}</p>
-        )}
+        )} */}
         {/* FORM */}
-        <form
-          className="grid grid-cols-1 gap-6"
-          onSubmit={handleSubmit(onSubmit)}
-        >
-          <label className="block">
-            {/* <span className="text-neutral-800 dark:text-neutral-200">
-              {t("text-otp-code")}
-            </span> */}
-            <Input
-              type="number"
-              // placeholder="example@example.com"
-              className="mt-1"
-              {...register("otp", {
-                required: "enter a valid otp",
-                pattern: {
-                  value: /\d{6}/gm,
-                  message: "enter a valid otp",
-                },
-              })}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="w-full space-y-10 mx-auto"
+          >
+            <FormField
+              control={form.control}
+              name="pin"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>رمز عبور یکبار مصرف</FormLabel>
+                  <FormControl>
+                    <InputOTP maxLength={6} {...field}>
+                      <InputOTPGroup dir="ltr" className="">
+                        <InputOTPSlot index={0} />
+                        <InputOTPSlot index={1} />
+                        <InputOTPSlot index={2} />
+                        {/* </InputOTPGroup>
+                      <InputOTPSeparator />
+                      <InputOTPGroup dir="ltr"> */}
+                        <InputOTPSlot index={3} />
+                        <InputOTPSlot index={4} />
+                        <InputOTPSlot index={5} />
+                      </InputOTPGroup>
+                    </InputOTP>
+                  </FormControl>
+                  <FormDescription>
+                    کد شش رقمی ارسال شده به شماره {phone} را در باکس فوق از چپ
+                    به راست وارد نمایید.
+                    {submitError && (
+                      <span className="block mt-3 text-red-500 text-xs">
+                        {submitError}
+                      </span>
+                    )}
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
             />
-          </label>
-          {errors.otp?.message && (
-            <p className="mt-2 text-xs text-red-500 ltr:text-left rtl:text-right">
-              {t(errors.otp.message)}
-            </p>
-          )}
-          <SubmitButton>{t("text-verify-code")}</SubmitButton>
-        </form>
+            <ButtonPrimary type="submit">Submit</ButtonPrimary>
+          </form>
+        </Form>
 
         <div className="flex flex-row items-center justify-center text-center text-sm font-medium space-x-1 text-gray-500">
           {seconds > 0 || minutes > 0 ? (

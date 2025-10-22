@@ -41,7 +41,7 @@ const Register = ({ setCurrentView, phone }: Props) => {
   const [submit_error, setSubmitError] = useState<string | null>(null)
   const [submit_success, setSubmitSuccess] = useState(false)
   const router = useRouter()
-  
+
   // const onFormAction = (_currentState: unknown, formData: FormData) => {
 
   //   if (!formData.get("phone")) formData.append("phone", phone)
@@ -57,40 +57,28 @@ const Register = ({ setCurrentView, phone }: Props) => {
     setSubmitSuccess(false)
     let errorMsg = null
     try {
-      const response = await Promise.all([
-        registerWithPhone({
-          firstName,
-          lastName,
-          phone,
-          email,
-          password
-        }).catch((err) => {
-          errorMsg = err?.message || 'Registration failed.'
-          return errorMsg
-        }),
-        signup({
-          firstName,
-          lastName,
-          phone,
-          email,
-          password
-        }).catch((err) => {
-          errorMsg = err?.message || 'Signup failed.'
-          return errorMsg
-        })
-      ])
+      const response = await registerWithPhone({
+        firstName,
+        lastName,
+        phone,
+        email,
+        password,
+      })
 
-      if (typeof response[0] === "string") {
-        setSubmitError(response[0] || errorMsg)
+      if (
+        typeof response === "string" ||
+        !response.location ||
+        response.location !== "otp"
+      ) {
+        setSubmitError(response || errorMsg)
         return
       }
-      if (typeof response[1] === "string") {
-        setSubmitError(response[1] || errorMsg)
-        return
-      }
+
       setCurrentView(LOGIN_VIEW.OTP)
     } catch (err: any) {
-      setSubmitError(err?.message || "An unexpected error occurred. Please try again.")
+      setSubmitError(
+        err?.message || "An unexpected error occurred. Please try again."
+      )
     }
   }
 

@@ -1,5 +1,5 @@
 import "@/styles/globals.css"
-import "@/styles/index.scss"
+// import "@/styles/index.scss"
 import "@glidejs/glide/dist/css/glide.core.min.css"
 import "rc-slider/assets/index.css"
 import { Metadata } from "next"

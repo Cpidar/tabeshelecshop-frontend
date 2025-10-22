@@ -122,7 +122,7 @@ export async function signup({
 export async function login(_currentState: unknown, formData: FormData) {
   const email = formData.get("email") as string
   const password = formData.get("password") as string
-console.log(email, password)
+  console.log(email, password)
   try {
     await sdk.auth
       .login("customer", "emailpass", { email, password })
@@ -301,26 +301,20 @@ export async function resetPassword(
   }
 }
 
-export const checkCustomerExits = async ({
-  firstName,
-  lastName,
-  phone,
-}: {
-  firstName: string
-  lastName: string
-  phone: string
-}) => {
+export const customerHasAccount = async (phone: string) => {
   try {
-    const { token: regToken } = await sdk.client.fetch<
-      { token: string }
-    >(`/auth/customer/phone-auth/register`, {
-      method: "POST",
-      body: {
-        phone,
-      },
+    const response = await sdk.auth.login("customer", "phone-auth", {
+      phone,
     })
 
+    if (
+      typeof response === "string" || 
+      !response.location
+    ) {
+      throw new Error("Failed to login")
+    }
 
+    return response
   } catch (error: any) {
     return error.toString()
   }
@@ -333,7 +327,7 @@ export const authenticateWithPhone = async (phone: string) => {
     })
 
     if (
-      typeof response === "string" ||
+      typeof response === "string" || 
       !response.location
     ) {
       throw new Error("Failed to login")
@@ -387,31 +381,19 @@ export const registerWithPhone = async ({
   try {
     const { token: regToken } = await sdk.client.fetch<
       { token: string }
-    >(`/auth/customer/phone-auth/register`, {
-      method: "POST",
-      body: {
-        phone,
-        password
-      },
-    })
-    
-    
-    const res = await sdk.client.fetch<
-      { token: string }
     >(`/auth/customer/emailpass/register`, {
       method: "POST",
       body: {
         email,
         password
       },
-  })
+    })
 
 
-
-    await setTempAuthToken(regToken as string)
-    const headers = {
-      ...(await getTempAuthHeaders()),
-    }
+    // await setAuthToken(regToken as string)
+    // const headers = {
+    //   ...(await getAuthHeaders()),
+    // }
 
     // const email = `${phone}@gmail.com`
     const customerData = {
@@ -421,11 +403,24 @@ export const registerWithPhone = async ({
       phone,
     }
 
-    await sdk.store.customer.update(
+    const { customer: { id: customer_id } } = await sdk.store.customer.create(
       customerData,
       {},
-      headers
+      { authorization: `Bearer ${regToken}` }
     )
+
+    const { token: refreshToken } = await sdk.client.fetch<
+      { token: string }
+    >(`/auth/customer/phone-auth/register`, {
+      method: "POST",
+      body: {
+        phone,
+        password,
+        customer_id
+      },
+    })
+
+    // await setAuthToken(refreshToken as string)
 
     return await authenticateWithPhone(phone)
     // return true

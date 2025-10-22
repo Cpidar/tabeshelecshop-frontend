@@ -7,7 +7,7 @@ import { SubmitHandler, useForm } from "react-hook-form"
 import Image from "next/image"
 import logo from "@/images/logo.svg"
 import { ArrowRightIcon } from "lucide-react"
-import { authenticateWithPhone } from "@/lib/data/customer"
+import { authenticateWithPhone, customerHasAccount } from "@/lib/data/customer"
 
 type Props = {
   setCurrentView: (view: LOGIN_VIEW) => void
@@ -53,7 +53,6 @@ const PageLogin = ({ setCurrentView, setPhone, setEmail }: Props) => {
     }
 
     const { location } = response
-    console.log(response)
 
     location === "register"
       ? setCurrentView(LOGIN_VIEW.REGISTER)
