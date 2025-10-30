@@ -1446,19 +1446,22 @@ export interface SingleProduct {
  */
 export interface Product {
   id: number;
-  name: string;
-  productType: 'standard' | 'variable';
+  title: string;
+  subtitle?: string | null;
+  status: 'draft' | 'proposed' | 'published' | 'rejected';
+  type: 'regular' | 'giftcard';
   slug?: string | null;
   slugLock?: boolean | null;
   url?: string | null;
   primaryCategory: number | ProductCategory;
   categories?: (number | ProductCategory)[] | null;
   /**
-   * This is the small product description, this will be used on category pages and below the "Add to Cart" button.
+   * URL-friendly identifier that can be used in storefront
    */
-  introDescription?: string | null;
+  handle: string;
+  discountable?: boolean | null;
   /**
-   * This is the main product description, this will be below the product.
+   * A description of the Product
    */
   description: {
     root: {
@@ -1475,26 +1478,101 @@ export interface Product {
     };
     [k: string]: unknown;
   };
-  price?: number | null;
-  stock?: number | null;
+  thumbnail?: (number | null) | ProductImage;
   images?: (number | ProductImage)[] | null;
+  weight?: number | null;
+  length?: number | null;
+  width?: number | null;
+  height?: number | null;
+  /**
+   * Harmonized System code for customs
+   */
+  hs_code?: string | null;
+  origin_country?: string | null;
+  mid_code?: string | null;
+  material?: string | null;
   variants?:
     | {
-        variantName: string;
+        title: string;
         sku: string;
-        price: number;
-        stock: number;
-        image?: (number | null) | ProductImage;
+        ean?: string | null;
+        upc?: string | null;
+        barcode?: string | null;
+        inventory_quantity: number;
+        allow_backorder?: boolean | null;
+        manage_inventory?: boolean | null;
+        weight?: number | null;
+        length?: number | null;
+        width?: number | null;
+        height?: number | null;
+        origin_country?: string | null;
+        mid_code?: string | null;
+        material?: string | null;
+        metadata?:
+          | {
+              [k: string]: unknown;
+            }
+          | unknown[]
+          | string
+          | number
+          | boolean
+          | null;
+        prices?:
+          | {
+              currency_code: 'usd' | 'eur' | 'gbp' | 'irr';
+              /**
+               * Amount in smallest currency unit (e.g., cents)
+               */
+              amount: number;
+              min_quantity?: number | null;
+              max_quantity?: number | null;
+              id?: string | null;
+            }[]
+          | null;
+        options?:
+          | {
+              option_id: string;
+              value: string;
+              id?: string | null;
+            }[]
+          | null;
         id?: string | null;
       }[]
     | null;
-  specifications?: {
-    specs?:
+  options?: {
+    options?:
       | {
-          label: string;
+          title: string;
+          values?:
+            | {
+                value: string;
+                id?: string | null;
+              }[]
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+  };
+  specifications?: {
+    tags?:
+      | {
           value: string;
           id?: string | null;
         }[]
+      | null;
+    sales_channels?:
+      | {
+          id: string | null;
+        }[]
+      | null;
+    metadata?:
+      | {
+          [k: string]: unknown;
+        }
+      | unknown[]
+      | string
+      | number
+      | boolean
       | null;
   };
   meta?: {
@@ -3085,38 +3163,96 @@ export interface UsersSelect<T extends boolean = true> {
  * via the `definition` "products_select".
  */
 export interface ProductsSelect<T extends boolean = true> {
-  name?: T;
-  productType?: T;
+  title?: T;
+  subtitle?: T;
+  status?: T;
+  type?: T;
   slug?: T;
   slugLock?: T;
   url?: T;
   primaryCategory?: T;
   categories?: T;
-  introDescription?: T;
+  handle?: T;
+  discountable?: T;
   description?: T;
-  price?: T;
-  stock?: T;
+  thumbnail?: T;
   images?: T;
+  weight?: T;
+  length?: T;
+  width?: T;
+  height?: T;
+  hs_code?: T;
+  origin_country?: T;
+  mid_code?: T;
+  material?: T;
   variants?:
     | T
     | {
-        variantName?: T;
+        title?: T;
         sku?: T;
-        price?: T;
-        stock?: T;
-        image?: T;
+        ean?: T;
+        upc?: T;
+        barcode?: T;
+        inventory_quantity?: T;
+        allow_backorder?: T;
+        manage_inventory?: T;
+        weight?: T;
+        length?: T;
+        width?: T;
+        height?: T;
+        origin_country?: T;
+        mid_code?: T;
+        material?: T;
+        metadata?: T;
+        prices?:
+          | T
+          | {
+              currency_code?: T;
+              amount?: T;
+              min_quantity?: T;
+              max_quantity?: T;
+              id?: T;
+            };
+        options?:
+          | T
+          | {
+              option_id?: T;
+              value?: T;
+              id?: T;
+            };
         id?: T;
+      };
+  options?:
+    | T
+    | {
+        options?:
+          | T
+          | {
+              title?: T;
+              values?:
+                | T
+                | {
+                    value?: T;
+                    id?: T;
+                  };
+              id?: T;
+            };
       };
   specifications?:
     | T
     | {
-        specs?:
+        tags?:
           | T
           | {
-              label?: T;
               value?: T;
               id?: T;
             };
+        sales_channels?:
+          | T
+          | {
+              id?: T;
+            };
+        metadata?: T;
       };
   meta?:
     | T

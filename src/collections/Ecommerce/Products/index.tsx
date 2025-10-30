@@ -16,8 +16,8 @@ import { Content } from '@/blocks/Content/config'
 export const Products: CollectionConfig = {
   slug: 'products',
   admin: {
-    useAsTitle: 'name',
-    defaultColumns: ['name', 'productType', 'price', 'stock'],
+    useAsTitle: 'title',
+    defaultColumns: ['title', 'type', 'status', 'inventory_quantity'],
     group: 'Ecommerce',
   },
   access: {
@@ -31,26 +31,56 @@ export const Products: CollectionConfig = {
           label: 'General',
           fields: [
             {
-              name: 'name',
+              name: 'title',
               type: 'text',
-              label: 'Product Name',
+              label: 'Product Title',
               required: true,
             },
             {
-              name: 'productType',
+              name: 'subtitle',
+              type: 'text',
+              label: 'Product Subtitle',
+            },
+            {
+              name: 'status',
+              type: 'select',
+              label: 'Status',
+              options: [
+                {
+                  label: 'Draft',
+                  value: 'draft',
+                },
+                {
+                  label: 'Proposed',
+                  value: 'proposed',
+                },
+                {
+                  label: 'Published',
+                  value: 'published',
+                },
+                {
+                  label: 'Rejected',
+                  value: 'rejected',
+                },
+              ],
+              defaultValue: 'draft',
+              required: true,
+            },
+            {
+              name: 'type',
               type: 'select',
               label: 'Product Type',
               options: [
                 {
-                  label: 'Standard',
-                  value: 'standard',
+                  label: 'Regular',
+                  value: 'regular',
                 },
                 {
-                  label: 'Variable',
-                  value: 'variable',
+                  label: 'Giftcard',
+                  value: 'giftcard',
                 },
               ],
-              defaultValue: 'standard',
+              defaultValue: 'regular',
               required: true,
             },
             ...slugField('name'),
@@ -95,22 +125,25 @@ export const Products: CollectionConfig = {
             },
 
             {
-              name: 'introDescription',
-              type: 'textarea',
-              required: false,
+              name: 'handle',
+              type: 'text',
+              required: true,
               admin: {
-                description:
-                  'This is the small product description, this will be used on category pages and below the "Add to Cart" button.',
+                description: 'URL-friendly identifier that can be used in storefront',
               },
             },
-
+            {
+              name: 'discountable',
+              type: 'checkbox',
+              label: 'Discountable',
+              defaultValue: true,
+            },
             {
               name: 'description',
               type: 'richText',
               required: true,
               admin: {
-                description:
-                  'This is the main product description, this will be below the product.',
+                description: 'A description of the Product',
               },
               editor: lexicalEditor({
                 features: ({ rootFeatures }) => {
@@ -131,25 +164,11 @@ export const Products: CollectionConfig = {
               }),
             },
 
-            // Standard product fields: only visible when productType is standard
             {
-              name: 'price',
-              type: 'number',
-              label: 'Price (£)',
-              required: true,
-              admin: {
-                step: 0.01,
-                condition: (data) => data?.productType === 'standard',
-              },
-            },
-            {
-              name: 'stock',
-              type: 'number',
-              label: 'Stock',
-              required: true,
-              admin: {
-                condition: (data) => data?.productType === 'standard',
-              },
+              name: 'thumbnail',
+              type: 'upload',
+              relationTo: 'product-images',
+              label: 'Thumbnail',
             },
             {
               name: 'images',
@@ -157,26 +176,59 @@ export const Products: CollectionConfig = {
               relationTo: 'product-images',
               label: 'Product Images',
               hasMany: true,
+            },
+            {
+              name: 'weight',
+              type: 'number',
+              label: 'Weight (in grams)',
+            },
+            {
+              name: 'length',
+              type: 'number',
+              label: 'Length (cm)',
+            },
+            {
+              name: 'width',
+              type: 'number',
+              label: 'Width (cm)',
+            },
+            {
+              name: 'height',
+              type: 'number',
+              label: 'Height (cm)',
+            },
+            {
+              name: 'hs_code',
+              type: 'text',
+              label: 'HS Code',
               admin: {
-                condition: (data) => data?.productType === 'standard',
+                description: 'Harmonized System code for customs',
               },
             },
-            // Variable product fields: only visible when productType is variable
+            {
+              name: 'origin_country',
+              type: 'text',
+              label: 'Origin Country',
+            },
+            {
+              name: 'mid_code',
+              type: 'text',
+              label: 'MID Code',
+            },
+            {
+              name: 'material',
+              type: 'text',
+              label: 'Material',
+            },
             {
               name: 'variants',
               type: 'array',
               label: 'Variants',
-              admin: {
-                condition: (data) => data?.productType === 'variable',
-                components: {
-                  RowLabel: '@/collections/Ecommerce/Products/RowLabel#RowLabel',
-                },
-              },
               fields: [
                 {
-                  name: 'variantName',
+                  name: 'title',
                   type: 'text',
-                  label: 'Variant Name',
+                  label: 'Title',
                   required: true,
                 },
                 {
@@ -186,26 +238,157 @@ export const Products: CollectionConfig = {
                   required: true,
                 },
                 {
-                  name: 'price',
-                  type: 'number',
-                  label: 'Variant Price (£)',
-                  required: true,
-                  admin: {
-                    step: 0.01,
-                  },
+                  name: 'ean',
+                  type: 'text',
+                  label: 'EAN',
                 },
                 {
-                  name: 'stock',
+                  name: 'upc',
+                  type: 'text',
+                  label: 'UPC',
+                },
+                {
+                  name: 'barcode',
+                  type: 'text',
+                  label: 'Barcode',
+                },
+                {
+                  name: 'inventory_quantity',
                   type: 'number',
-                  label: 'Variant Stock',
+                  label: 'Inventory Quantity',
                   required: true,
                 },
                 {
-                  name: 'image',
-                  type: 'upload',
-                  relationTo: 'product-images',
-                  label: 'Variant Image',
-                  required: false,
+                  name: 'allow_backorder',
+                  type: 'checkbox',
+                  label: 'Allow Backorder',
+                },
+                {
+                  name: 'manage_inventory',
+                  type: 'checkbox',
+                  label: 'Manage Inventory',
+                  defaultValue: true,
+                },
+                {
+                  name: 'weight',
+                  type: 'number',
+                  label: 'Weight (in grams)',
+                },
+                {
+                  name: 'length',
+                  type: 'number',
+                  label: 'Length (cm)',
+                },
+                {
+                  name: 'width',
+                  type: 'number',
+                  label: 'Width (cm)',
+                },
+                {
+                  name: 'height',
+                  type: 'number',
+                  label: 'Height (cm)',
+                },
+                {
+                  name: 'origin_country',
+                  type: 'text',
+                  label: 'Origin Country',
+                },
+                {
+                  name: 'mid_code',
+                  type: 'text',
+                  label: 'MID Code',
+                },
+                {
+                  name: 'material',
+                  type: 'text',
+                  label: 'Material',
+                },
+                {
+                  name: 'metadata',
+                  type: 'json',
+                  label: 'Metadata',
+                },
+                {
+                  name: 'prices',
+                  type: 'array',
+                  label: 'Prices',
+                  fields: [
+                    {
+                      name: 'currency_code',
+                      type: 'select',
+                      options: [
+                        { label: 'USD', value: 'usd' },
+                        { label: 'EUR', value: 'eur' },
+                        { label: 'GBP', value: 'gbp' },
+                        { label: 'IRR', value: 'irr' },
+                      ],
+                      required: true,
+                    },
+                    {
+                      name: 'amount',
+                      type: 'number',
+                      required: true,
+                      admin: {
+                        step: 1,
+                        description: 'Amount in smallest currency unit (e.g., cents)',
+                      },
+                    },
+                    {
+                      name: 'min_quantity',
+                      type: 'number',
+                    },
+                    {
+                      name: 'max_quantity',
+                      type: 'number',
+                    },
+                  ],
+                },
+                {
+                  name: 'options',
+                  type: 'array',
+                  label: 'Options',
+                  fields: [
+                    {
+                      name: 'option_id',
+                      type: 'text',
+                      required: true,
+                    },
+                    {
+                      name: 'value',
+                      type: 'text',
+                      required: true,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+        {
+          name: 'options',
+          label: 'Product Options',
+          fields: [
+            {
+              name: 'options',
+              type: 'array',
+              label: 'Options',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                },
+                {
+                  name: 'values',
+                  type: 'array',
+                  fields: [
+                    {
+                      name: 'value',
+                      type: 'text',
+                      required: true,
+                    },
+                  ],
                 },
               ],
             },
@@ -213,26 +396,40 @@ export const Products: CollectionConfig = {
         },
         {
           name: 'specifications',
-          label: 'Specifications',
+          label: 'Additional Details',
           fields: [
+            // {
+            //   name: 'collection_id',
+            //   type: 'relationship',
+            //   relationTo: 'product-collections',
+            //   label: 'Collection',
+            // },
             {
-              name: 'specs',
-              label: 'Specifications',
-              type: 'array', // This makes it an array field
+              name: 'tags',
+              type: 'array',
               fields: [
                 {
-                  name: 'label',
-                  label: 'Label',
-                  type: 'text', // You can allow users to enter any key
-                  required: true,
-                },
-                {
                   name: 'value',
-                  label: 'Value',
-                  type: 'text', // You can allow users to enter any value
+                  type: 'text',
                   required: true,
                 },
               ],
+            },
+            {
+              name: 'sales_channels',
+              type: 'array',
+              fields: [
+                {
+                  name: 'id',
+                  type: 'text',
+                  required: true,
+                },
+              ],
+            },
+            {
+              name: 'metadata',
+              type: 'json',
+              label: 'Metadata',
             },
           ],
         },

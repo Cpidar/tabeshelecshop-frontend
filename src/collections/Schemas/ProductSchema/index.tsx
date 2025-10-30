@@ -1,41 +1,71 @@
 import React from 'react'
+import { Product } from '@/types/product'
 
 interface ProductSchemaProps {
-  product: any // You can type this more strictly as needed.
+  product: Product
 }
 
 const ProductSchema: React.FC<ProductSchemaProps> = ({ product }) => {
-  // If variable, compute aggregate pricing; otherwise, use product.price.
+  // Calculate offers from variants and their prices
   let offers
-  if (product.productType === 'variable' && product.variants?.length) {
-    const prices = product.variants.map((v: any) => v.price)
-    const lowPrice = Math.min(...prices)
-    const highPrice = Math.max(...prices)
+  if (product.variants?.length) {
+    const allPrices = product.variants.flatMap(variant => 
+      variant.prices.map(price => ({
+        amount: price.amount,
+        currency: price.currency_code
+      }))
+    )
+
+    const pricesInIRR = allPrices.filter(p => p.currency === 'irr')
+    const lowestPrice = Math.min(...pricesInIRR.map(p => p.amount))
+    const highestPrice = Math.max(...pricesInIRR.map(p => p.amount))
+
     offers = {
       '@type': 'AggregateOffer',
-      lowPrice: lowPrice,
-      highPrice: highPrice,
+      lowPrice: lowestPrice / 100, // Convert from cents to whole currency
+      highPrice: highestPrice / 100,
       offerCount: product.variants.length,
-      priceCurrency: 'GBP',
+      priceCurrency: 'IRR',
     }
   } else {
+    // Fallback for products without variants (should not happen in MedusaJS v2)
     offers = {
       '@type': 'Offer',
-      price: product.price,
-      priceCurrency: 'GBP',
-      availability:
-        product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+      price: 0,
+      priceCurrency: 'IRR',
+      availability: 'https://schema.org/OutOfStock',
     }
   }
 
   const schemaData = {
     '@context': 'https://schema.org/',
     '@type': 'Product',
-    name: product.name,
-    image: product.images ? product.images.map((img: any) => img.url) : undefined,
-    description: product.introDescription || product.description,
-    sku: product.sku || undefined, // if applicable
+    name: product.title,
+    description: product.description,
+    image: product.images ? product.images.map(img => img.url) : undefined,
+    sku: product.variants?.[0]?.sku || undefined,
     offers: offers,
+    // Additional MedusaJS v2 specific fields
+    weight: product.weight ? {
+      '@type': 'QuantitativeValue',
+      value: product.weight,
+      unitText: 'g'
+    } : undefined,
+    height: product.height ? {
+      '@type': 'QuantitativeValue',
+      value: product.height,
+      unitText: 'cm'
+    } : undefined,
+    width: product.width ? {
+      '@type': 'QuantitativeValue',
+      value: product.width,
+      unitText: 'cm'
+    } : undefined,
+    depth: product.length ? {
+      '@type': 'QuantitativeValue',
+      value: product.length,
+      unitText: 'cm'
+    } : undefined,
   }
 
   return (
