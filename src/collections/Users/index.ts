@@ -1,6 +1,6 @@
 import type { CollectionConfig } from 'payload'
-import { authenticated } from '../../access/authenticated'
-import { admin } from '@/access/admin'
+import { authenticated } from '../../payloadcms/access/authenticated'
+import { admin } from '@/payloadcms/access/admin'
 import { getSettings } from '@/Globals/Settings/Component'
 import { Media } from '@/payload-types'
 import { emailSettings } from '@payload-config'
@@ -16,10 +16,11 @@ export const Users: CollectionConfig = {
   },
   admin: {
     defaultColumns: ['name', 'email', 'role'],
-    useAsTitle: 'name',
+    useAsTitle: 'email',
     group: 'Admin',
   },
   auth: {
+    // disableLocalStrategy: true,
     forgotPassword: {
       generateEmailHTML: async ({ req, token, user }: any) => {
         const resetPasswordURL = `${process.env.NEXT_PUBLIC_SERVER_URL}/reset-password?token=${token}`
@@ -59,6 +60,7 @@ export const Users: CollectionConfig = {
       `
       },
     },
+    useAPIKey: true
   },
   // hooks: {
   //   afterChange: [
@@ -124,6 +126,10 @@ export const Users: CollectionConfig = {
   //   ],
   // },
   fields: [
+    {
+      name: 'medusa_id',
+      type: "text"
+    },
     {
       name: 'name',
       type: 'text',

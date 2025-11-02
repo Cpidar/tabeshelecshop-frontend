@@ -11,6 +11,7 @@ import { InitTheme } from "@/providers/Theme/InitTheme"
 import Script from "next/script"
 import Favicon from "@/components/Favicon"
 import { Providers } from "@/providers"
+import { ServerThemeInjector } from '@kilivi/payloadcms-theme-management/server'
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || "https://localhost:8000"
 const { TWITTER_CREATOR, TWITTER_SITE, SITE_NAME } = process.env
@@ -31,6 +32,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
+
 export default async function RootLayout(props: { children: React.ReactNode }) {
   const settings = await getSettings()
 
@@ -43,6 +45,7 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
     >
       <head>
         <InitTheme />
+        {/* <ServerThemeInjector themeConfiguration={settings?.themeConfiguration} /> */}
 
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <link

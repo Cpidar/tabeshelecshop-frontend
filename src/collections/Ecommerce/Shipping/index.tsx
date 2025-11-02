@@ -1,4 +1,4 @@
-import { admin } from '@/access/admin'
+import { admin } from '@/payloadcms/access/admin'
 // import stripe from '@/lib/stripe'
 import type { CollectionConfig } from 'payload'
 

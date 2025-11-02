@@ -45,7 +45,7 @@ const CategoryShowcase: React.FC<CategoryShowcaseProps> = ({
       }
 
       const data = await res.json()
-      setProducts(data.docs || [])
+      setProducts(data.docs as Product[]|| [])
       setLoading(false)
     }
 

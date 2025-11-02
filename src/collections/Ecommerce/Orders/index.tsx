@@ -1,4 +1,4 @@
-import { ownerOrRelevant } from '@/access/ownerOrRelevant'
+import { ownerOrRelevant } from '@/payloadcms/access/ownerOrRelevant'
 import type { CollectionConfig } from 'payload'
 // import sendTrackingEmail from '@/emails/sendTrackingEmail'
 

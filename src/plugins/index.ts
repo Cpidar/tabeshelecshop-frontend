@@ -10,9 +10,11 @@ import { GenerateTitle, GenerateURL } from '@payloadcms/plugin-seo/types'
 import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/richtext-lexical'
 import { searchFields } from '@/search/fieldOverrides'
 import { beforeSyncWithSearch } from '@/search/beforeSync'
+import { themeManagementPlugin } from '@kilivi/payloadcms-theme-management'
 
 import { Page, Post } from '@/payload-types'
 import { getServerSideURL } from '@/utils/getURL'
+import { Settings } from '@/Globals/Settings/config'
 
 const generateTitle: GenerateTitle<Post | Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
@@ -104,6 +106,13 @@ export const plugins: Plugin[] = [
         return [...defaultFields, ...searchFields]
       },
     },
+  }),
+  themeManagementPlugin({
+    enabled: true,
+    targetCollection: 'settings',
+    defaultTheme: 'cool',
+    includeColorModeToggle: true,
+    enableLogging: true,
   }),
   // payloadCloudPlugin(),
 ]

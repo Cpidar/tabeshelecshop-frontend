@@ -1,5 +1,5 @@
-import { anyone } from '@/access/anyone'
-import { authenticated } from '@/access/authenticated'
+import { anyone } from '@/payloadcms/access/anyone'
+import { authenticated } from '@/payloadcms/access/authenticated'
 import {
   FixedToolbarFeature,
   HeadingFeature,
